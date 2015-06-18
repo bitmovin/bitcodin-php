@@ -1,0 +1,21 @@
+{
+  "name": "bitmovin/bitcodin-php",
+  "description": "Bitcodin PHP Library",
+  "keywords": [
+    "bitmovin",
+    "bitcodin",
+    "api"
+  ],
+  "homepage": "https://bitcodin.com/",
+
+  "require": {
+    "php": ">=5.5.3",
+    "guzzlehttp/guzzle": "~5.2"
+
+  },
+
+  "autoload": {
+    "psr-4": { "bitcodin\\" : "lib/" }
+  }
+
+}
