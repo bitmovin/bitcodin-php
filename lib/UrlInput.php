@@ -8,17 +8,32 @@
 
 namespace bitcodin;
 
-
-use bitcodin\exceptions\BitcodinException;
-
+/**
+ * Class UrlInput
+ * @package bitcodin
+ */
 class UrlInput extends Input {
 
     const TYPE = 'url';
 
-    public static function create($inputUrl)
+    /**
+     * @param \stdClass $class
+     */
+    public function __construct(\stdClass $class)
     {
-        $response = self::_postRequest(self::URL_CREATE, array('url' => $inputUrl, 'type' => self::TYPE ));
-        self::_checkExpectedStatus($response, 201);
-        return json_decode($response->getBody()->getContents());
+        parent::__construct($class);
+    }
+
+    /**
+     * @param array $config
+     * @return UrlInput
+     */
+    public static function create($config = array())
+    {
+        $config['url'] = str_replace('?dl=0','?dl=1', $config['url']);
+        $config['type'] = self::TYPE;
+
+        $response = self::_postRequest(self::URL_CREATE, $config, 201);
+        return new self(json_decode($response->getBody()->getContents()));
     }
 }

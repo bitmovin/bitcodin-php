@@ -10,25 +10,37 @@ namespace bitcodin;
 
 use bitcodin\exceptions\BitcodinException;
 
-class Bitcodin {
-
-    static private $apiKey = null;
-
+/**
+ * Class Bitcodin
+ * @package bitcodin
+ */
+class Bitcodin
+{
     const BASE_URL = 'http://portal.bitcodin.com/api';
     const API_KEY_FIELD_NAME = 'bitcodin-api-key';
 
+    /**
+     * @var string|null
+     */
+    static private $apiKey = NULL;
+
+    /**
+     * @param $token
+     */
     public static function setApiToken($token)
     {
         self::$apiKey = $token;
     }
 
+    /**
+     * @return null|string
+     * @throws BitcodinException
+     */
     public static function getApiToken()
     {
-        if (self::$apiKey === null)
+        if (self::$apiKey === NULL)
             throw new BitcodinException('Api token is not set!');
 
         return self::$apiKey;
     }
-
-
 }

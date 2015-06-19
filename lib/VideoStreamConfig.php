@@ -8,11 +8,20 @@
 
 namespace bitcodin;
 
-
+/**
+ * Class VideoStreamConfig
+ * @package bitcodin
+ */
 class VideoStreamConfig
 {
+    /**
+     * @var array|null
+     */
     private $config = null;
 
+    /**
+     * @return array
+     */
     public static function getDefaultConfig()
     {
         return array(
@@ -22,11 +31,17 @@ class VideoStreamConfig
         );
     }
 
+    /**
+     * @param array $config
+     */
     public function __construct($config = array())
     {
         $this->config = array_merge(self::getDefaultConfig(), $config);
     }
 
+    /**
+     * @return array|null
+     */
     public function getConfig()
     {
         return $this->config;

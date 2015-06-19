@@ -8,17 +8,30 @@
 
 namespace bitcodin;
 
-
-class FtpInput extends Input {
+/**
+ * Class FtpInput
+ * @package bitcodin
+ */
+class FtpInput extends Input
+{
 
     const TYPE = 'url';
 
+    /**
+     * @param \stdClass $class
+     */
+    public function __construct(\stdClass $class)
+    {
+        parent::__construct($class);
+    }
 
+    /**
+     * @param array $config
+     * @return FtpInput
+     */
     public static function create($config = array())
     {
-        $config['isSaving'] = true;
-        $response = self::_postRequest(self::URL_CREATE, $config);
-        self::_checkExpectedStatus($response, 201);
-        return json_decode($response->getBody()->getContents());
+        $response = self::_postRequest(self::URL_CREATE, $config, 201);
+        return new self(json_decode($response->getBody()->getContents()));
     }
 }
