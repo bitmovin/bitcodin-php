@@ -1,0 +1,21 @@
+<phpunit backupGlobals="false">
+    <testsuites>
+        <testsuite name="API Integration Test">
+            <directory>test</directory>
+        </testsuite>
+
+    </testsuites>
+    <logging>
+        <log type="junit" target="reports/unit/phpunit.xml"/>
+        <log type="coverage-clover" target="reports/unit/phpunit.coverage.xml"/>
+    </logging>
+    <filter>
+        <blacklist>
+            <directory suffix=".php">test</directory>
+            <directory suffix=".php">vendor</directory>
+        </blacklist>
+        <whitelist>
+            <directory suffix=".php">lib</directory>
+        </whitelist>
+    </filter>
+</phpunit>
