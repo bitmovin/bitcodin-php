@@ -18,7 +18,7 @@ use bitcodin\ManifestTypes;
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('1d688e26c99280988c510c31d13c07305b51ec56a2946432ce6c77135aa7e8a7');
+Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 /* CREATE INPUT */
 $input = UrlInput::create(['url' => 'https://www.dropbox.com/s/velqx3q1han8boe/bla-16.avi?dl=0']);

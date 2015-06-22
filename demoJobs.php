@@ -17,7 +17,7 @@ use bitcodin\ManifestTypes;
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('3bf186b02a8cc7caf40b1dbad22ad5421f0390f685ca4dca88f31d28135b4709');
+Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 /* CREATE JOB */
 $job = Job::create(array('inputId'           => Input::getList()->inputs[0], //assumes that one input exists
