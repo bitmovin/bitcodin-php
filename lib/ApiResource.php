@@ -40,7 +40,7 @@ abstract class ApiResource extends \stdClass
     /**
      * @return Client|null
      */
-    protected function getClient()
+    protected static function getClient()
     {
         if (self::$client === NULL)
             self::$client = new Client(['base_uri' => Bitcodin::BASE_URL]);
@@ -52,7 +52,7 @@ abstract class ApiResource extends \stdClass
      * @return array|null
      * @throws BitcodinException
      */
-    protected function getHeaders()
+    protected static function getHeaders()
     {
         if (self::$headers === NULL)
             self::$headers = ['Content-type'               => 'application/json',
