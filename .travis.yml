@@ -9,3 +9,6 @@ env:
 
 before_install:
 - openssl enc -aes-256-cbc -d -in test/config.json.enc -out test/config.json -k $AES_KEY
+
+install:
+- composer update
