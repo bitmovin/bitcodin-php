@@ -95,11 +95,28 @@ class Input extends ApiResource
      */
     private static function deleteInput($id)
     {
-        if ($id instanceof \stdClass)
+        if ($id instanceof Input)
             $id = $id->inputId;
+
+        if ($id === NULL)
+            throw new \Exception(print_r($id));
 
         $response = self::_deleteRequest(str_replace('{id}', $id, self::URL_DELETE), 204);
 
         return json_decode($response->getBody()->getContents());
+    }
+
+    public static function deleteAll()
+    {
+        for ($page = 1; ; $page++) {
+            $inputList = Input::getList($page)->inputs;
+            if (sizeof($inputList) <= 0)
+                return;
+
+            foreach ($inputList as $input) {
+                $input->delete();
+            }
+
+        }
     }
 }

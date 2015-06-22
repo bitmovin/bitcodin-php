@@ -10,7 +10,8 @@
 
   "require": {
     "php": ">=5.5.3",
-    "guzzlehttp/guzzle": "~5.2"
+    "guzzlehttp/guzzle": "~5.2",
+    "phpunit/phpunit": "4.7.*"
 
   },
 

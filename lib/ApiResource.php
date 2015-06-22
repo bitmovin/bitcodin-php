@@ -9,6 +9,7 @@
 namespace bitcodin;
 
 use bitcodin\exceptions\BitcodinException;
+use bitcodin\exceptions\BitcodinResourceNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Message\Response;
@@ -156,7 +157,9 @@ abstract class ApiResource extends \stdClass
     {
         if ($response->getStatusCode() !== $status) {
             $responseDecoded = json_decode($response->getBody()->getContents());
-            if (isset($responseDecoded->message))
+            if($response->getStatusCode() == 404)
+                throw new BitcodinResourceNotFoundException($responseDecoded->message);
+            elseif (isset($responseDecoded->message))
                 throw new BitcodinException($responseDecoded->message);
             else
                 throw new BitcodinException('Something went wrong during api request: Response status[' . $response->getStatusCode() . '] does not match expected status [' . $status . ']! Response: ' . $response->getBody()->getContents());

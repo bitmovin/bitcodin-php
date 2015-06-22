@@ -11,8 +11,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 class BitcodinApiTestBaseClass extends PHPUnit_Framework_TestCase {
 
-    public function getApiKey()
+    protected function getApiKey()
     {
-        return json_decode(file_get_contents(__DIR__.'/config.json'))->apiKey;
+        return self::getKey('apiKey');
+    }
+
+    protected function getKey($key)
+    {
+        return json_decode(file_get_contents(__DIR__.'/config.json'))->{$key};
     }
 }
