@@ -64,19 +64,9 @@ class InputTest extends BitcodinApiTestBaseClass {
         $input->delete();
 
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        $inputGot = UrlInput::get($input->inputId);
-
+        UrlInput::get($input->inputId);
     }
 
-    /**
-     * @depends InputTest::testCreateUrlInput
-     */
-    public function testDeleteUrlInput()
-    {
-        Bitcodin::setApiToken($this->getApiKey());
-        $input = UrlInput::create(array('url' => self::URL_FILE));
-        $input->delete();
-    }
 
     /**
      * @depends InputTest::testCreateUrlInput

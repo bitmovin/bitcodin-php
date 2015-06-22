@@ -22,6 +22,7 @@ class Job extends ApiResource
     const STATUS_ENQUEUED       = 'Enqueued';
     const STATUS_IN_PROGRESS    = 'In Progress';
     const STATUS_FINISHED       = 'Finished';
+    const STATUS_ERROR          = 'Error';
 
     public function update() {
         self::_copy(self::get($this));
