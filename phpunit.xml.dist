@@ -6,8 +6,7 @@
 
     </testsuites>
     <logging>
-        <log type="junit" target="reports/unit/phpunit.xml"/>
-        <log type="coverage-clover" target="reports/unit/phpunit.coverage.xml"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
     <filter>
         <blacklist>
