@@ -54,6 +54,16 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
         return $encodingProfile;
     }
 
+    public function testCreateErrorEncodingProfile()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+    }
 
 
     /**
