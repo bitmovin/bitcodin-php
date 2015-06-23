@@ -12,7 +12,7 @@ require_once __DIR__ . '/BitcodinApiTestBaseClass.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\Input;
-use bitcodin\UrlInputConfig;
+use bitcodin\HttpInputConfig;
 use bitcodin\FtpInputConfig;
 
 class ConcreteApiResource extends \bitcodin\ApiResource
@@ -37,28 +37,25 @@ class ConcreteApiResource extends \bitcodin\ApiResource
 
 class ApiResourceTest extends BitcodinApiTestBaseClass
 {
-
-
     public function testErrorPostRequest()
     {
-        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        Bitcodin::setApiToken($this->getApiKey());
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         ConcreteApiResource::postRequest('/lkajljow/', '', 201);
-
     }
 
     public function testErrorDeleteRequest()
     {
-        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        Bitcodin::setApiToken($this->getApiKey());
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         ConcreteApiResource::deleteRequest('/lkajljow/', 201);
-
     }
 
     public function testErrorPatchRequest()
     {
-        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        Bitcodin::setApiToken($this->getApiKey());
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         ConcreteApiResource::patchRequest('/lkajljow/', 201);
-
     }
-
 
 }

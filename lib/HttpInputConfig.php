@@ -9,10 +9,10 @@
 namespace bitcodin;
 
 /**
- * Class UrlInputConfig
+ * Class HttpInputConfig
  * @package bitcodin
  */
-class UrlInputConfig extends AbstractInputConfig
+class HttpInputConfig extends AbstractInputConfig
 {
     /**
      * @var string

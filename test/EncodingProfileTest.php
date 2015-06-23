@@ -12,7 +12,7 @@ require_once __DIR__.'/BitcodinApiTestBaseClass.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\Input;
-use bitcodin\UrlInputConfig;
+use bitcodin\HttpInputConfig;
 use bitcodin\FtpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\VideoStreamConfig;
@@ -71,10 +71,10 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
      */
     public function testGetEncodingProfile(EncodingProfile $encodingProfile)
     {
-
-        $encodingProfile = EncodingProfile::get($encodingProfile);
-        $this->checkEncodingProfile($encodingProfile);   }
-
+        $encodingProfileNew = EncodingProfile::get($encodingProfile);
+        $this->checkEncodingProfile($encodingProfile);
+        $this->assertEquals($encodingProfileNew->encodingProfileId, $encodingProfile->encodingProfileId);
+    }
 
     public function testGetList()
     {
@@ -87,11 +87,9 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
     private function checkEncodingProfile(EncodingProfile $encodingProfile)
     {
         $this->assertInstanceOf('bitcodin\EncodingProfile', $encodingProfile);
-        $this->assertEquals($encodingProfile->encodingProfileId, $encodingProfile->encodingProfileId);
         $this->assertTrue(is_numeric($encodingProfile->encodingProfileId), 'encodingProfileId not set');
         $this->assertTrue(is_array($encodingProfile->videoStreamConfigs), 'videoStreamConfigs not set');
         $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
-
     }
 
 }

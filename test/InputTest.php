@@ -12,7 +12,7 @@ require_once __DIR__.'/BitcodinApiTestBaseClass.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\Input;
-use bitcodin\UrlInputConfig;
+use bitcodin\HttpInputConfig;
 use bitcodin\FtpInputConfig;
 
 
@@ -26,16 +26,17 @@ class InputTest extends BitcodinApiTestBaseClass {
     public function testCreateUrlInput()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $inputConfig = new UrlInputConfig();
+        $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
         $this->checkInput($input);
         return $input;
     }
 
+
+
     public function testCreateFtpInput()
     {
-
         $inputConfig = new FtpInputConfig();
         $inputConfig->url = $this->getKey('ftpServer').self::FTP_FILE;
         $inputConfig->username = $this->getKey('ftpUser');
@@ -43,6 +44,18 @@ class InputTest extends BitcodinApiTestBaseClass {
 
         $input = Input::create($inputConfig);
         $this->checkInput($input);
+
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testCreateFtpInput
+     */
+    public function testUpdateInput(Input $input)
+    {
+        $input->update();
+        $this->checkInput($input);
+        return $input;
     }
 
     /**
@@ -72,7 +85,7 @@ class InputTest extends BitcodinApiTestBaseClass {
      */
     public function testAnalyzeInput()
     {
-        $inputConfig = new UrlInputConfig();
+        $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
         $input->analyze();
@@ -93,7 +106,7 @@ class InputTest extends BitcodinApiTestBaseClass {
 
         for($num = 0; $num < $count; $num++)
         {
-            $inputConfig = new UrlInputConfig();
+            $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
         }

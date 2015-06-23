@@ -1,6 +1,7 @@
 # [![bitcodin](http://www.bitcodin.com/wp-content/uploads/2014/10/bitcodin-small.gif)](http://www.bitcodin.com)
 [![Build Status](https://travis-ci.org/bitmovin/bitcodin-php.svg?branch=master)](https://travis-ci.org/bitmovin/bitcodin-php)
 [![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-php/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-php?branch=master)
+
 The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
 
 Installation
@@ -40,37 +41,30 @@ Bitcodin::setApiToken('yourApiKey');
 
 Example
 -----
-The following example demonstrates how to create a simple transcoding job:
+The following example demonstrates how to create a simple transcoding job and transfer it to an S3 output location:
 ```php
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 18.06.15
- * Time: 13:59
- */
 
 use bitcodin\Bitcodin;
-
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
 use bitcodin\JobConfig;
 use bitcodin\Input;
-use bitcodin\UrlInputConfig;
+use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
-
+use bitcodin\Output;
+use bitcodin\FtpOutputConfig;
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('07496117095a0d330e9b37357a5e3ae980465ff222a02e21b38df264d1614a90'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-$inputConfig = new UrlInputConfig();
+$inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 $input = Input::create($inputConfig);
-
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
@@ -103,5 +97,17 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED);
+
+
+$outputConfig = new FtpOutputConfig();
+$outputConfig->name = "TestS3Output";
+$outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer'));
+$outputConfig->username = $this->getKey('ftpUser');
+$outputConfig->password = $this->getKey('ftpPassword');
+
+$output = Output::create($outputConfig);
+
+/* TRANSFER JOB OUTPUT */
+$job->transfer($output);
 
 ```

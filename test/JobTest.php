@@ -17,7 +17,7 @@ use bitcodin\AudioStreamConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\ManifestTypes;
 use bitcodin\Job;
-use bitcodin\UrlInputConfig;
+use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\JobConfig;
 use bitcodin\Output;
@@ -29,7 +29,7 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testCreateJob()
     {
-        $inputConfig = new UrlInputConfig();
+        $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
 
@@ -59,7 +59,7 @@ class JobTest extends BitcodinApiTestBaseClass {
         $jobConfig->input = $input;
         $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 
-                /* CREATE JOB */
+        /* CREATE JOB */
         $job = Job::create($jobConfig);
 
         $this->assertInstanceOf('bitcodin\Job', $job);

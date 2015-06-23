@@ -47,6 +47,19 @@ class OutputTest extends BitcodinApiTestBaseClass
 
         $output = Output::create($outputConfig);
         $this->checkOutput($output);
+
+        return $output;
+    }
+
+    /**
+     * @depends OutputTest::testCreateFtpOutput
+     */
+    public function testUpdateOutput(Output $output)
+    {
+        $output->update();
+        $this->checkOutput($output);
+
+        return $output;
     }
 
     /**
