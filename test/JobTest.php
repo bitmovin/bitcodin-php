@@ -27,7 +27,6 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testCreateJob()
     {
-        return;
         $inputConfig = new UrlInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
