@@ -97,6 +97,36 @@ class InputTest extends BitcodinApiTestBaseClass {
         $this->assertNotNull($input->inputId);
     }
 
+    public function testGetList()
+    {
+        foreach(Input::getListAll() as $input)
+        {
+            $this->assertInstanceOf('bitcodin\Input', $input);
+            $this->assertNotNull($input->inputId);
+            $this->assertTrue(is_numeric($input->inputId), 'inputId');
+            $this->assertTrue(is_string($input->filename), 'filename');
+            $this->assertTrue(is_string($input->thumbnailUrl), 'thumbnailUrl');
+            $this->assertTrue(is_string($input->inputType), 'inputType ');
+            $this->assertTrue(is_array($input->mediaConfigurations), 'mediaConfigurations');
+        }
+    }
+
+    public function testDeleteAll()
+    {
+        $count = 10;
+
+        for($num = 0; $num < $count; $num++)
+        {
+            $inputConfig = new UrlInputConfig();
+            $inputConfig->url = self::URL_FILE;
+            $input = Input::create($inputConfig);
+        }
+
+        Input::deleteAll();
+
+        $this->assertEquals(0, sizeof(Input::getListAll()));
+    }
+
 
     static public function tearDownAfterClass() {
         Input::deleteAll();

@@ -73,6 +73,33 @@ class EncodingProfile extends ApiResource
     public static function getList($page = 1)
     {
         $response = self::_getRequest(str_replace('{page}', $page, self::URL_GET_LIST), 200);
-        return json_decode($response->getBody()->getContents());
+        $responseDecode = json_decode($response->getBody()->getContents());
+        $count = 0;
+        foreach ($responseDecode->profiles as $profile)
+            $responseDecode->profiles[$count++] = new self($profile);
+
+        return $responseDecode;
+    }
+
+
+    /**
+     * @return array(EncodingProfile)
+     */
+    public static function getListAll()
+    {
+        $encProfilesTotal = 1;
+        $encodingProfiles = [];
+        for ($page = 1; sizeof($encodingProfiles) < $encProfilesTotal; $page++) {
+            $encProfileResponse = self::getList($page);
+            $encProfileList = $encProfileResponse->profiles;
+            $encProfilesTotal = $encProfileResponse->totalCount;
+
+            foreach ($encProfileList as $encP) {
+                $encodingProfiles[] = $encP;
+            }
+
+        }
+
+        return $encodingProfiles;
     }
 }
