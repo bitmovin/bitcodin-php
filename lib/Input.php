@@ -8,6 +8,7 @@
 
 namespace bitcodin;
 
+
 /**
  * Class Input
  * @package bitcodin
@@ -20,6 +21,45 @@ class Input extends ApiResource
     const URL_GET = '/input/{id}';
     const URL_DELETE = '/input/{id}';
     const URL_GET_LIST = '/inputs/{page}';
+
+    /**
+     * @var int
+     */
+    public $inputId;
+
+    /**
+     * @var string
+     */
+    public $filename;
+
+    /**
+     * @var string
+     */
+    public $thumbnailUrl;
+
+    /**
+     * @var string
+     */
+    public $inputType;
+
+    /**
+     * @var array
+     */
+    public $mediaConfigurations;
+
+
+    /**
+     * @param AbstractInputConfig $inputConfig
+     * @return Input
+     */
+    public static function create(AbstractInputConfig $inputConfig)
+    {
+        $inputConfig->url = str_replace('?dl=0', '?dl=1', $inputConfig->url);
+
+        $response = self::_postRequest(self::URL_CREATE, json_encode($inputConfig), 201);
+        return new self(json_decode($response->getBody()->getContents()));
+    }
+
 
     /**
      * @param \stdClass $class
@@ -46,7 +86,7 @@ class Input extends ApiResource
 
     /**
      * @param $id
-     * @return static
+     * @return Input
      */
     private static function analyzeInput($id)
     {
@@ -55,12 +95,12 @@ class Input extends ApiResource
 
         $response = self::_patchRequest(str_replace('{id}', $id, self::URL_ANALYZE), 200);
 
-        return new static(json_decode($response->getBody()->getContents()));
+        return new self(json_decode($response->getBody()->getContents()));
     }
 
     /**
      * @param $id
-     * @return static
+     * @return Input
      */
     public static function get($id)
     {
@@ -69,7 +109,7 @@ class Input extends ApiResource
 
         $response = self::_getRequest(str_replace('{id}', $id, self::URL_GET), 200);
 
-        return new static(json_decode($response->getBody()->getContents()));
+        return new self(json_decode($response->getBody()->getContents()));
     }
 
     /**
@@ -90,6 +130,27 @@ class Input extends ApiResource
     }
 
     /**
+     * @return array
+     */
+    public static function getListAll()
+    {
+        $inputsTotal = 1;
+        $inputs = [];
+        for ($page = 1; sizeof($inputs) < $inputsTotal; $page++) {
+            $inputResponse = Input::getList($page);
+            $inputList = $inputResponse->inputs;
+            $inputsTotal = $inputResponse->totalCount;
+
+            foreach ($inputList as $input) {
+                $inputs[] = $input;
+            }
+
+        }
+
+        return $inputs;
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -98,9 +159,6 @@ class Input extends ApiResource
         if ($id instanceof Input)
             $id = $id->inputId;
 
-        if ($id === NULL)
-            throw new \Exception(print_r($id));
-
         $response = self::_deleteRequest(str_replace('{id}', $id, self::URL_DELETE), 204);
 
         return json_decode($response->getBody()->getContents());
@@ -108,15 +166,9 @@ class Input extends ApiResource
 
     public static function deleteAll()
     {
-        for ($page = 1; ; $page++) {
-            $inputList = Input::getList($page)->inputs;
-            if (sizeof($inputList) <= 0)
-                return;
-
-            foreach ($inputList as $input) {
-                $input->delete();
-            }
-
+        foreach (self::getListAll() as $input) {
+            //  var_dump($input->inputId);
+            $input->delete();
         }
     }
 }

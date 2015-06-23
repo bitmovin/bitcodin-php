@@ -11,48 +11,54 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__.'/BitcodinApiTestBaseClass.php';
 
 use bitcodin\Bitcodin;
-use bitcodin\UrlInput;
 use bitcodin\Input;
-use bitcodin\FtpInput;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\ManifestTypes;
 use bitcodin\Job;
-
+use bitcodin\UrlInputConfig;
+use bitcodin\EncodingProfileConfig;
+use bitcodin\JobConfig;
 
 class JobTest extends BitcodinApiTestBaseClass {
 
     const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
-    /**
-     * @var null|Job
-     */
-    private $job = null;
-
     public function testCreateJob()
     {
-        /* CREATE INPUT */
-        $input = UrlInput::create(['url' => self::URL_FILE]);
+        $inputConfig = new UrlInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
 
         /* CREATE VIDEO STREAM CONFIG */
-        $videoStreamConfig = new VideoStreamConfig(
-            array("bitrate" => 1024000,
-                  "height"  => 480,
-                  "width"   => 204));
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 480;
+        $videoStreamConfig->width = 202;
+
 
         /* CREATE AUDIO STREAM CONFIGS */
-        $audioStreamConfig = new AudioStreamConfig(array("bitrate" => 320000));
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
 
         /* CREATE ENCODING PROFILE */
-        $encodingProfile = EncodingProfile::create('MyEncodingProfile', array($videoStreamConfig), $audioStreamConfig);
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-        /* CREATE JOB */
-        $job = Job::create(array('inputId'           => $input,
-                                 'encodingProfileId' => $encodingProfile,
-                                 'manifestTypes'     => [ManifestTypes::MPD]
-            )
-        );
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+
+                /* CREATE JOB */
+        $job = Job::create($jobConfig);
 
         $this->assertInstanceOf('bitcodin\Job', $job);
         $this->assertNotNull($job->jobId);
@@ -60,10 +66,11 @@ class JobTest extends BitcodinApiTestBaseClass {
         return $job;
     }
 
+
     /**
      * @depends JobTest::testCreateJob
      */
-    public function testUpdateJob($job)
+    public function testUpdateJob(Job $job)
     {
         /* WAIT TIL JOB IS FINISHED */
         do{
@@ -73,5 +80,19 @@ class JobTest extends BitcodinApiTestBaseClass {
         } while($job->status != Job::STATUS_FINISHED);
 
         $this->assertEquals($job->status, Job::STATUS_FINISHED);
+    }
+
+    public function testListAllJobs()
+    {
+
+        /* GET LIST OF JOBS */
+        foreach(Job::getListAll() as $job)
+        {
+            $this->assertNotNull($job->jobId);
+
+            $this->assertTrue(in_array($job->status,
+                [Job::STATUS_FINISHED, Job::STATUS_ENQUEUED, Job::STATUS_IN_PROGRESS, Job::STATUS_ERROR]
+            ), "Invalid job status: " . $job->status);
+        }
     }
 }

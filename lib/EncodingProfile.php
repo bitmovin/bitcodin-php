@@ -20,32 +20,41 @@ class EncodingProfile extends ApiResource
     const URL_GET_LIST = '/encoding-profiles/{page}';
 
     /**
-     * @param $name
-     * @param $videoStreamConfigs
-     * @param $audioStreamConfigs
-     * @return mixed
+     * @var int
      */
-    public static function create($name, $videoStreamConfigs, $audioStreamConfigs)
+    public $encodingProfileId;
+
+    /**
+     * @var array
+     */
+    public $videoStreamConfigs = array();
+
+    /**
+     * @var array
+     */
+    public $audioStreamConfigs = array();
+
+    /**
+     * @param \stdClass $class
+     */
+    public function __construct(\stdClass $class)
     {
-        $postData = array('name' => $name, 'videoStreamConfigs' => array(), 'audioStreamConfigs' => array());
-        foreach ($videoStreamConfigs as $config) {
-            /** @var VideoStreamConfig $config */
-            $postData['videoStreamConfigs'][] = $config->getConfig();
-        }
+        parent::__construct($class);
+    }
 
-        foreach ($audioStreamConfigs as $config) {
-            /** @var AudioStreamConfig $config */
-            $postData['audioStreamConfigs'][] = $config->getConfig();
-        }
-
-        $response = self::_postRequest(self::URL_CREATE, $postData, 200); //Todo change to 201
-
-        return json_decode($response->getBody()->getContents());
+    /**
+     * @param EncodingProfileConfig $encodingProfileConfig
+     * @return EncodingProfile
+     */
+    public static function create(EncodingProfileConfig $encodingProfileConfig)
+    {
+        $response = self::_postRequest(self::URL_CREATE, json_encode($encodingProfileConfig), 200); //Todo change to 201
+        return new self(json_decode($response->getBody()->getContents()));
     }
 
     /**
      * @param $id
-     * @return mixed
+     * @return EncodingProfile
      */
     public static function get($id)
     {
@@ -54,7 +63,7 @@ class EncodingProfile extends ApiResource
 
         $response = self::_getRequest(str_replace('{id}', $id, self::URL_GET), 200);
 
-        return json_decode($response->getBody()->getContents());
+        return new self(json_decode($response->getBody()->getContents()));
     }
 
     /**

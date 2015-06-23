@@ -15,34 +15,13 @@ namespace bitcodin;
 class AudioStreamConfig
 {
     /**
-     * @var array|null
+     * @var int
      */
-    private $config = NULL;
+    public $bitrate;
 
     /**
-     * @return array
+     * @var int
      */
-    public static function getDefaultConfig()
-    {
-        return array(
-            "defaultStreamId" => 0,
-            "bitrate"         => 256000
-        );
-    }
+    public $defaultStreamId = 0;
 
-    /**
-     * @param array $config
-     */
-    public function __construct($config = array())
-    {
-        $this->config = array_merge(self::getDefaultConfig(), $config);
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
 }

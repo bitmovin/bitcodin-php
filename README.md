@@ -42,46 +42,65 @@ Example
 -----
 The following example demonstrates how to create a simple transcoding job:
 ```php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cwioro
+ * Date: 18.06.15
+ * Time: 13:59
+ */
+
 use bitcodin\Bitcodin;
-use bitcodin\UrlInput;
-use bitcodin\EncodingProfile;
+
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
-use bitcodin\FtpInput;
+use bitcodin\JobConfig;
+use bitcodin\Input;
+use bitcodin\UrlInputConfig;
+use bitcodin\EncodingProfile;
+use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('07496117095a0d330e9b37357a5e3ae980465ff222a02e21b38df264d1614a90'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-/* CREATE INPUT */
-$input = UrlInput::create(['url' => 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv']);
+$inputConfig = new UrlInputConfig();
+$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+$input = Input::create($inputConfig);
+
 
 /* CREATE VIDEO STREAM CONFIG */
-$videoStreamConfig = new VideoStreamConfig(
-    array("bitrate" => 1024000,
-          "height"  => 480,
-          "width"   => 204));
+$videoStreamConfig = new VideoStreamConfig();
+$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->height = 480;
+$videoStreamConfig->width = 202;
 
 /* CREATE AUDIO STREAM CONFIGS */
-$audioStreamConfig = new AudioStreamConfig(array("bitrate" => 320000));
+$audioStreamConfig = new AudioStreamConfig();
+$audioStreamConfig->bitrate = 256000;
+
+$encodingProfileConfig = new EncodingProfileConfig();
+$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+$encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
 /* CREATE ENCODING PROFILE */
-$encodingProfile = EncodingProfile::create('MyEncodingProfile', array($videoStreamConfig), $audioStreamConfig);
+$encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+$jobConfig = new JobConfig();
+$jobConfig->encodingProfile = $encodingProfile;
+$jobConfig->input = $input;
+$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 
 /* CREATE JOB */
-$job = Job::create(array('inputId'           => $input,
-                         'encodingProfileId' => $encodingProfile,
-                         'manifestTypes'     => [ManifestTypes::MPD]
-                        )
-                    );
+$job = Job::create($jobConfig);
 
 /* WAIT TIL JOB IS FINISHED */
 do{
     $job->update();
-    echo 'Job ['.$job->jobId.']: Status['.$job->status."]\n";
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED);
 

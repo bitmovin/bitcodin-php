@@ -84,7 +84,7 @@ abstract class ApiResource extends \stdClass
         $httpClient = self::getClient();
         try {
             $res = $httpClient->post(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(),
-                                                                 'body'    => json_encode($body)]);
+                                                                 'body'    => $body]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }
@@ -157,7 +157,7 @@ abstract class ApiResource extends \stdClass
     {
         if ($response->getStatusCode() !== $status) {
             $responseDecoded = json_decode($response->getBody()->getContents());
-            if($response->getStatusCode() == 404)
+            if ($response->getStatusCode() == 404)
                 throw new BitcodinResourceNotFoundException($responseDecoded->message);
             elseif (isset($responseDecoded->message))
                 throw new BitcodinException($responseDecoded->message);

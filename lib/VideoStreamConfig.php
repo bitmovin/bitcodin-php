@@ -14,36 +14,34 @@ namespace bitcodin;
  */
 class VideoStreamConfig
 {
-    /**
-     * @var array|null
-     */
-    private $config = null;
 
     /**
-     * @return array
+     * @var int
      */
-    public static function getDefaultConfig()
-    {
-        return array(
-            "defaultStreamId" => 0,
-            "profile"         => "Main",
-            "preset"          => "Standard"
-        );
-    }
+    public $bitrate;
 
     /**
-     * @param array $config
+     * @var int
      */
-    public function __construct($config = array())
-    {
-        $this->config = array_merge(self::getDefaultConfig(), $config);
-    }
+    public $height;
 
     /**
-     * @return array|null
+     * @var int
      */
-    public function getConfig()
-    {
-        return $this->config;
-    }
+    public $width;
+
+    /**
+     * @var int
+     */
+    public $defaultStreamId = 0;
+
+    /**
+     * @var string
+     */
+    public $profile = 'Main';
+
+    /**
+     * @var string
+     */
+    public $preset = 'Standard';
 }

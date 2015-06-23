@@ -9,7 +9,11 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use bitcodin\Bitcodin;
+
 class BitcodinApiTestBaseClass extends PHPUnit_Framework_TestCase {
+
+
 
     protected function getApiKey()
     {
