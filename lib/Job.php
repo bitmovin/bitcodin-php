@@ -18,6 +18,7 @@ class Job extends ApiResource
     const URL_CREATE = '/job/create';
     const URL_GET = '/job/{id}';
     const URL_GET_LIST = '/jobs/{page}';
+    const URL_TRANSFER = '/job/transfer';
 
     const STATUS_ENQUEUED = 'Enqueued';
     const STATUS_IN_PROGRESS = 'In Progress';
@@ -47,6 +48,12 @@ class Job extends ApiResource
     public function update()
     {
         self::_copy(self::get($this));
+    }
+
+    public function transfer(Output $output)
+    {
+        $postData = json_encode(['jobId' => $this->jobId, 'outputId' => $output->outputId]);
+        $this->_postRequest(self::URL_TRANSFER, $postData, 201);
     }
 
     /**

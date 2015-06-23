@@ -47,15 +47,10 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
-
         /* CREATE ENCODING PROFILE */
         $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-        $this->assertInstanceOf('bitcodin\EncodingProfile', $encodingProfile);
-        $this->assertTrue(is_numeric($encodingProfile->encodingProfileId), 'encodingProfileId not set');
-        $this->assertTrue(is_array($encodingProfile->videoStreamConfigs), 'videoStreamConfigs not set');
-        $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
-
+        $this->checkEncodingProfile($encodingProfile);
         return $encodingProfile;
     }
 
@@ -68,25 +63,25 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
     {
 
         $encodingProfile = EncodingProfile::get($encodingProfile);
-        $this->assertInstanceOf('bitcodin\EncodingProfile', $encodingProfile);
-        $this->assertEquals($encodingProfile->encodingProfileId, $encodingProfile->encodingProfileId);
-        $this->assertTrue(is_numeric($encodingProfile->encodingProfileId), 'encodingProfileId not set');
-        $this->assertTrue(is_array($encodingProfile->videoStreamConfigs), 'videoStreamConfigs not set');
-        $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
-    }
+        $this->checkEncodingProfile($encodingProfile);   }
 
 
     public function testGetList()
     {
         foreach(EncodingProfile::getListAll() as $encodingProfile)
         {
-            $this->assertInstanceOf('bitcodin\EncodingProfile', $encodingProfile);
-            $this->assertEquals($encodingProfile->encodingProfileId, $encodingProfile->encodingProfileId);
-            $this->assertTrue(is_numeric($encodingProfile->encodingProfileId), 'encodingProfileId not set');
-            $this->assertTrue(is_array($encodingProfile->videoStreamConfigs), 'videoStreamConfigs not set');
-            $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
-
+            $this->checkEncodingProfile($encodingProfile);
         }
+    }
+
+    private function checkEncodingProfile(EncodingProfile $encodingProfile)
+    {
+        $this->assertInstanceOf('bitcodin\EncodingProfile', $encodingProfile);
+        $this->assertEquals($encodingProfile->encodingProfileId, $encodingProfile->encodingProfileId);
+        $this->assertTrue(is_numeric($encodingProfile->encodingProfileId), 'encodingProfileId not set');
+        $this->assertTrue(is_array($encodingProfile->videoStreamConfigs), 'videoStreamConfigs not set');
+        $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
+
     }
 
 }

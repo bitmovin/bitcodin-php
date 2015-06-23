@@ -20,6 +20,8 @@ use bitcodin\Job;
 use bitcodin\UrlInputConfig;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\JobConfig;
+use bitcodin\Output;
+use bitcodin\S3OutputConfig;
 
 class JobTest extends BitcodinApiTestBaseClass {
 
@@ -80,8 +82,35 @@ class JobTest extends BitcodinApiTestBaseClass {
         } while($job->status != Job::STATUS_FINISHED);
 
         $this->assertEquals($job->status, Job::STATUS_FINISHED);
+
+        return $job;
     }
 
+    /**
+     * @depends JobTest::testUpdateJob
+     */
+    public function testTransferJob(Job $job)
+    {
+        $s3Config = $this->getKey('s3');
+        $outputConfig = new S3OutputConfig();
+        $outputConfig->accessKey = $s3Config->accessKey;
+        $outputConfig->secretKey = $s3Config->secretKey;
+        $outputConfig->name = $s3Config->name;
+        $outputConfig->bucket = $s3Config->bucket;
+        $outputConfig->region = $s3Config->region;
+        $outputConfig->makePublic = false;
+
+        $output = Output::create($outputConfig);
+        /* WAIT TIL JOB IS FINISHED */
+        $job->transfer($output);
+    }
+
+    public function testGetNoneExistingJob()
+    {
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+        Job::get(0);
+
+    }
     public function testListAllJobs()
     {
 
