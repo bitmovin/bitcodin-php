@@ -1,4 +1,4 @@
-<phpunit backupGlobals="false">
+<phpunit>
     <testsuites>
         <testsuite name="API Integration Test">
             <directory>test</directory>

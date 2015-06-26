@@ -109,7 +109,6 @@ class JobTest extends BitcodinApiTestBaseClass {
     {
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         Job::get(0);
-
     }
     public function testListAllJobs()
     {

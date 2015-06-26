@@ -48,7 +48,7 @@ class EncodingProfile extends ApiResource
      */
     public static function create(EncodingProfileConfig $encodingProfileConfig)
     {
-        $response = self::_postRequest(self::URL_CREATE, json_encode($encodingProfileConfig), 200); //Todo change to 201
+        $response = self::_postRequest(self::URL_CREATE, json_encode($encodingProfileConfig), 201);
         return new self(json_decode($response->getBody()->getContents()));
     }
 
