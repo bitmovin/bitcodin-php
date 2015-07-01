@@ -14,7 +14,6 @@ namespace bitcodin;
  */
 class Job extends ApiResource
 {
-
     const URL_CREATE = '/job/create';
     const URL_GET = '/job/{id}';
     const URL_GET_LIST = '/jobs/{page}';
