@@ -42,10 +42,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         $inputConfig->username = $this->getKey('ftpUser');
         $inputConfig->password =  $this->getKey('ftpPassword');
 
-        print("\nCreating Input...\n");
-        print_r($inputConfig);
         $input = Input::create($inputConfig);
-        print("Checking Input...\n");
         $this->checkInput($input);
 
         return $input;
