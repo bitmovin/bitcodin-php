@@ -12,15 +12,17 @@ Installation
   
 To install with composer add the following to your `composer.json` file:
 ```js
+{
 "repositories": 
-	[{
-      "type": "git",
-      "url": "ssh://git@github.com/bitmovin/bitcodin-php.git"
-    }],
+  [{
+    "type": "git",
+    "url": "ssh://git@github.com/bitmovin/bitcodin-php.git"
+  }],
 "require": 
-	{
-	  "bitmovin/bitcodin-php": "dev-master"
-	}
+  {
+    "bitmovin/bitcodin-php": "dev-master"
+  }
+}
 ```
 Then run `php composer.phar install`
 
