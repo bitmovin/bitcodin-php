@@ -19,7 +19,7 @@ use bitcodin\FtpInputConfig;
 
 class InputTest extends BitcodinApiTestBaseClass {
 
-    const FTP_FILE = '/Homepage_Summer_v10.webm';
+    const FTP_FILE = '/input_test/Homepage_Summer_v10.webm';
     const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
 
@@ -42,7 +42,10 @@ class InputTest extends BitcodinApiTestBaseClass {
         $inputConfig->username = $this->getKey('ftpUser');
         $inputConfig->password =  $this->getKey('ftpPassword');
 
+        print("\nCreating Input...\n");
+        print_r($inputConfig);
         $input = Input::create($inputConfig);
+        print("Checking Input...\n");
         $this->checkInput($input);
 
         return $input;
