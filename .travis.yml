@@ -4,12 +4,8 @@ notifications:
   - guenther.cwioro@bitmovin.net
   - bitcodin-php@bitmovin.net
 
-env:
-  global:
-    secure: kc1pRprUi6iK2FCG/O5IX0W4XZ0ihl18syLDuyJKaT8HG6XLJLGBUqOFYz2n7uyI3qP3TjrPM1kOqNrYcETM1O4hyPt7fUv0+Wyd9tO0G+jMClueLnmHGmNpDncUga1VxlZZ/r9R/QMcr/CWdcxrTxX3mHcSk1Xy+qLnZGKglCHG6WBF/T1wDm/tUHz9rO1PJcNONR8OhfkSctd7nlzjuW/DWZCWD8WZaOE7XvkiGTaiXjWVHMJd8V4cjQlm4RS4uAuJxgx+ImRUaaMLyft91d5Sz7O/pKQGM83xuY10hfY7Mv4T7Di5Oweph1ZLtdQYGkn9vMZ21jmnrkL4ofIhjEuZYKsA0TExqlwAmwmb2XRA0uOw7E10hlJ53AptN3vXyar+/yZ1sabN1Q21UBMWIhv0GAroUea2C+C8k/s88V4kqyYl/t2l0t+xwn+jQcDXzTgtRPOm5Ecj2Oiej1BJWYIORKHwMz/kC6fL2nFJmnicRTj9IeLmuWPEgAd0EfhAO1VeVYA+o2TzgHmX3PPwj8LWu1at+/EMHDg99GCKyIT92qn5IjDjSIy+bH1/RG3eqwPe2N8ySGjpm9B1922nOVvINzoS0RwqlRRk5M05UDw6S10aEwcWOelGCWD3fcnIlhkrnNSTUvlFMCnEBIuZVuEOzHgTUI6qmM/ds0z5V+c=
-
 before_install:
-- openssl enc -aes-256-cbc -d -in test/config.json.enc -out test/config.json -k $AES_KEY
+- openssl aes-256-cbc -K $encrypted_2dbf7e7227fa_key -iv $encrypted_2dbf7e7227fa_iv -in test/config.json.enc -out test/config.json -d
 
 install:
 - composer update
