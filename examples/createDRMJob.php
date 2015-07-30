@@ -52,7 +52,7 @@ $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 /* CREATE DRM WIDEVINE CONFIG */
 $widevineDRMConfig = new WidevineDRMConfig();
-$widevineDRMConfig->requestUrl = 'http://wv-ref-eme-player.appspot.com/proxy';
+$widevineDRMConfig->requestUrl = 'http://license.uat.widevine.com/cenc/getcontentkey';
 $widevineDRMConfig->signingKey = '1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9';
 $widevineDRMConfig->signingIV = 'd58ce954203b7c9a9a9d467f59839249';
 $widevineDRMConfig->contentId = '746573745f69645f4639465043304e4f';
