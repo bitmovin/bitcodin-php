@@ -30,6 +30,16 @@ class JobConfig
     public $manifestTypes = array();
 
     /**
+     * @var DRMConfig
+     */
+    public $drmConfig = null;
+
+    /**
+     * @var string
+     */
+    public $speed = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()
@@ -40,6 +50,12 @@ class JobConfig
         $array['inputId'] = $this->input->inputId;
         $array['encodingProfileId'] = $this->encodingProfile->encodingProfileId;
         $array['manifestTypes'] = $this->manifestTypes;
+
+        if (!is_null($this->speed))
+            $array['speed'] = $this->speed;
+
+        if (!is_null($this->drmConfig))
+            $array['drmConfig'] = $this->drmConfig;
 
         return json_encode($array);
     }

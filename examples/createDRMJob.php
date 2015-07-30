@@ -1,51 +1,11 @@
-# [![bitcodin](http://www.bitcodin.com/wp-content/uploads/2014/10/bitcodin-small.gif)](http://www.bitcodin.com)
-[![Build Status](https://travis-ci.org/bitmovin/bitcodin-php.svg?branch=master)](https://travis-ci.org/bitmovin/bitcodin-php)
-[![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-php/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-php?branch=master)
-
-The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
-
-Installation
-------------
-
-### Composer ###
- 
-  
-To install with composer add the following to your `composer.json` file:
-```js
-{
-"repositories": 
-  [{
-    "type": "git",
-    "url": "ssh://git@github.com/bitmovin/bitcodin-php.git"
-  }],
-"require": 
-  {
-    "bitmovin/bitcodin-php": "dev-master"
-  }
-}
-```
-Then run `php composer.phar install`
-
-Usage
------
-
-Before you can start using the api you need to set your API key in the Bitcodin class. Your API key can be found in the settings of your bitcodin user account, as shown in the figure below.
-
-![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)
-
-An example how you can set the bitcodin API is shown in the following:
-
-```php
-use bitcodin\Bitcodin;
-
-Bitcodin::setApiToken('yourApiKey');
-```
-
-Example
------
-The following example demonstrates how to create a simple transcoding job and transfer it to an S3 output location:
-```php
 <?php
+/**
+ * Created by PhpStorm.
+ * User: doweinberger
+ * Date: 01.07.15
+ * Time: 15:31
+ */
+
 
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
@@ -59,7 +19,11 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-require_once __DIR__.'/vendor/autoload.php';
+use bitcodin\WidevineDRMConfig;
+use bitcodin\JobSpeedTypes;
+use bitcodin\DRMEncryptionMethods;
+
+require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
@@ -86,10 +50,22 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
+/* CREATE DRM WIDEVINE CONFIG */
+$widevineDRMConfig = new WidevineDRMConfig();
+$widevineDRMConfig->requestUrl = 'http://license.uat.widevine.com/cenc/getcontentkey';
+$widevineDRMConfig->signingKey = '1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9';
+$widevineDRMConfig->signingIV = 'd58ce954203b7c9a9a9d467f59839249';
+$widevineDRMConfig->contentId = '746573745f69645f4639465043304e4f';
+$widevineDRMConfig->provider = 'widevine_test';
+$widevineDRMConfig->method = DRMEncryptionMethods::MPEG_CENC;
+
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->speed = JobSpeedTypes::STANDARD;
+$jobConfig->drmConfig = $widevineDRMConfig;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -98,8 +74,7 @@ $job = Job::create($jobConfig);
 do{
     $job->update();
     sleep(1);
-} while($job->status != Job::STATUS_FINISHED);
-
+} while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
 $outputConfig = new FtpOutputConfig();
 $outputConfig->name = "TestS3Output";
@@ -111,5 +86,3 @@ $output = Output::create($outputConfig);
 
 /* TRANSFER JOB OUTPUT */
 $job->transfer($output);
-
-```
