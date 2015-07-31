@@ -19,4 +19,4 @@ script:
   - phpunit
 
 after_success:
-  - php vendor/bin/coveralls -v
+  - travis_wait 30 php vendor/bin/coveralls -v
