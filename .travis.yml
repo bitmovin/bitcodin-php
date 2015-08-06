@@ -16,7 +16,7 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - phpunit
+  - phpunit --verbose 
 
 after_success:
   - travis_wait 30 php vendor/bin/coveralls -v
