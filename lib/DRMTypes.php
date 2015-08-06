@@ -14,5 +14,7 @@ namespace bitcodin;
  */
 class DRMTypes
 {
-    const WIDEVINE  = 'widevine';
+    const WIDEVINE                      = 'widevine';
+    const PLAYREADY                     = 'playready';
+    const COMBINED_WIDEVINE_PLAYREADY   = 'widevine_playready';
 }
