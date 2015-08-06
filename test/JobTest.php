@@ -245,22 +245,6 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testCreateHLSEncryptionJob
-     */
-    public function testUpdateHLSEncryptionJob(Job $job)
-    {
-        return $this->updateJob($job);
-    }
-
-    /**
-     * @depends JobTest::testCreateHLSEncryptionJobWithoutIV
-     */
-    public function testUpdateHLSEncryptionJobWithoutIV(Job $job)
-    {
-        return $this->updateJob($job);
-    }
-
-    /**
      * @depends JobTest::testCreateJob
      */
     public function testUpdateJob(Job $job)
@@ -290,22 +274,6 @@ class JobTest extends BitcodinApiTestBaseClass {
      * @depends JobTest::testUpdateCombinedWidevinePlayreadyDRMJob
      */
     public function testTransferCombinedWidevinePlayreadyDRMJob(Job $job)
-    {
-        $this->transferJob($job);
-    }
-
-    /**
-     * @depends JobTest::testUpdateHLSEncryptionJob
-     */
-    public function testTransferHLSEncryptionJob(Job $job)
-    {
-        $this->transferJob($job);
-    }
-
-    /**
-     * @depends JobTest::testUpdateHLSEncryptionJobWithoutIV
-     */
-    public function testTransferHLSEncryptionJobWithoutIV(Job $job)
     {
         $this->transferJob($job);
     }
