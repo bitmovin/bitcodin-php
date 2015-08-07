@@ -52,7 +52,7 @@ $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 /* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
 $combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
-$combinedWidevinePlayreadyDRMConfig->pssh = '#CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
+$combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
 $combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
 $combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
 $combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
