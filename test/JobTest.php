@@ -29,7 +29,7 @@ use bitcodin\CombinedWidevinePlayreadyDRMConfig;
 
 class JobTest extends BitcodinApiTestBaseClass {
 
-    const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/h264_720p_mp_3.1_3mbps_aac_shrinkage.mp4';
+    const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
     /** TEST JOB CREATION */
 
