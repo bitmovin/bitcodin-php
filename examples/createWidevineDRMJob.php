@@ -90,5 +90,5 @@ $job->transfer($output);
 /* HELPER FUNCTION */
 function getKey($key)
 {
-    return json_decode(file_get_contents(__DIR__.'/test/config.json'))->{$key};
+    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
 }
