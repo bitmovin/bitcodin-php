@@ -73,6 +73,12 @@ abstract class ApiResource extends \stdClass
         }
     }
 
+    static function endsWith($haystack, $needle) {
+        // search forward starting from end minus needle length characters
+        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+    }
+
+
     /**
      * @param $url
      * @param $body
@@ -81,6 +87,8 @@ abstract class ApiResource extends \stdClass
      */
     protected static function _postRequest($url, $body, $expectedStatusCode)
     {
+        var_dump($body);
+       // exit(1);
         $httpClient = self::getClient();
         try {
             $res = $httpClient->post(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(),
