@@ -80,6 +80,7 @@ $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 $jobConfig->speed = JobSpeedTypes::STANDARD;
 $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
 $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
