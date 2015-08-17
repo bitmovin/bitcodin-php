@@ -2,6 +2,7 @@
     <testsuites>
         <testsuite name="API Integration Test">
             <directory>test</directory>
+            <directory>test/job</directory>
         </testsuite>
 
     </testsuites>

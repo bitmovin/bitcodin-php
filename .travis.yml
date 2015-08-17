@@ -5,6 +5,10 @@ notifications:
   - bitcodin-php@bitmovin.net
   - dominic.miglar@bitmovin.net
 
+branches:
+  only:
+    - master
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_2dbf7e7227fa_key -iv $encrypted_2dbf7e7227fa_iv -in test/config.json.enc -out test/config.json -d
 

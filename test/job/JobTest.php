@@ -6,10 +6,12 @@
  * Time: 13:57
  */
 
+namespace test\job;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__.'/BitcodinApiTestBaseClass.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
+
+use bitcodin\Bitcodin;
 use bitcodin\Input;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
@@ -19,22 +21,21 @@ use bitcodin\Job;
 use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\JobConfig;
-use bitcodin\Output;
-use bitcodin\S3OutputConfig;
 use bitcodin\WidevineDRMConfig;
 use bitcodin\DRMEncryptionMethods;
 use bitcodin\JobSpeedTypes;
 use bitcodin\PlayReadyDRMConfig;
 use bitcodin\CombinedWidevinePlayreadyDRMConfig;
 
-class JobTest extends BitcodinApiTestBaseClass {
 
-    const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+class JobTest extends AbstractJobTest {
+
+    const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/h264_720p_mp_3.1_3mbps_aac_shrinkage.mp4';
 
     /** TEST JOB CREATION */
-
     public function testCreateWidevineDRMJob()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
@@ -84,6 +85,7 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testCreatePlayreadyDRMJob()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
@@ -132,6 +134,7 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testCreateCombinedWidevinePlayreadyDRMJob()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
@@ -141,6 +144,7 @@ class JobTest extends BitcodinApiTestBaseClass {
         $videoStreamConfig->bitrate = 1024000;
         $videoStreamConfig->height = 480;
         $videoStreamConfig->width = 202;
+
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -180,6 +184,7 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testCreateJob()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
@@ -221,7 +226,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     /** TEST JOB PROGRESS*/
 
     /**
-     * @depends JobTest::testCreateWidevineDRMJob
+     * @depends testCreateWidevineDRMJob
      */
     public function testUpdateWidevineDRMJob(Job $job)
     {
@@ -229,7 +234,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testCreatePlayreadyDRMJob
+     * @depends testCreatePlayreadyDRMJob
      */
     public function testUpdatePlayreadyDRMJob(Job $job)
     {
@@ -237,15 +242,16 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testCreateCombinedWidevinePlayreadyDRMJob
+     * @depends testCreateCombinedWidevinePlayreadyDRMJob
      */
     public function testUpdateCombinedWidevinePlayreadyDRMJob(Job $job)
     {
         return $this->updateJob($job);
     }
 
+
     /**
-     * @depends JobTest::testCreateJob
+     * @depends testCreateJob
      */
     public function testUpdateJob(Job $job)
     {
@@ -255,7 +261,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     /** TEST JOB TRANSFER */
 
     /**
-     * @depends JobTest::testUpdateWidevineDRMJob
+     * @depends testUpdateWidevineDRMJob
      */
     public function testTransferWidevineDRMJob(Job $job)
     {
@@ -263,7 +269,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testUpdatePlayreadyDRMJob
+     * @depends testUpdatePlayreadyDRMJob
      */
     public function testTransferPlayreadyDRMJob(Job $job)
     {
@@ -271,7 +277,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testUpdateCombinedWidevinePlayreadyDRMJob
+     * @depends testUpdateCombinedWidevinePlayreadyDRMJob
      */
     public function testTransferCombinedWidevinePlayreadyDRMJob(Job $job)
     {
@@ -279,7 +285,7 @@ class JobTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends JobTest::testUpdateJob
+     * @depends testUpdateJob
      */
     public function testTransferJob(Job $job)
     {
@@ -288,6 +294,7 @@ class JobTest extends BitcodinApiTestBaseClass {
 
     public function testGetNoneExistingJob()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         Job::get(0);
     }
@@ -305,35 +312,4 @@ class JobTest extends BitcodinApiTestBaseClass {
         }
     }
 
-    /** HELPER METHODS **/
-
-    public function updateJob(Job $job)
-    {
-        /* WAIT TIL JOB IS FINISHED */
-        do{
-            $job->update();
-            $this->assertNotEquals($job->status, Job::STATUS_ERROR);
-            sleep(1);
-        } while($job->status != Job::STATUS_FINISHED);
-
-        $this->assertEquals($job->status, Job::STATUS_FINISHED);
-
-        return $job;
-    }
-
-    public function transferJob(Job $job)
-    {
-        $s3Config = $this->getKey('s3');
-        $outputConfig = new S3OutputConfig();
-        $outputConfig->accessKey = $s3Config->accessKey;
-        $outputConfig->secretKey = $s3Config->secretKey;
-        $outputConfig->name = $s3Config->name;
-        $outputConfig->bucket = $s3Config->bucket;
-        $outputConfig->region = $s3Config->region;
-        $outputConfig->makePublic = false;
-
-        $output = Output::create($outputConfig);
-        /* WAIT TIL JOB IS FINISHED */
-        $job->transfer($output);
-    }
 }
