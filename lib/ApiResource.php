@@ -87,8 +87,6 @@ abstract class ApiResource extends \stdClass
      */
     protected static function _postRequest($url, $body, $expectedStatusCode)
     {
-        var_dump($body);
-       // exit(1);
         $httpClient = self::getClient();
         try {
             $res = $httpClient->post(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(),
@@ -160,6 +158,7 @@ abstract class ApiResource extends \stdClass
      * @param Response $response
      * @param $status
      * @throws BitcodinException
+     * @throws BitcodinResourceNotFoundException
      */
     protected static function _checkExpectedStatus(Response $response, $status)
     {
