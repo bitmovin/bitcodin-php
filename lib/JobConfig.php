@@ -40,6 +40,8 @@ class JobConfig
      */
     public $drmConfig = null;
 
+    public $hlsEncryptionConfig = null;
+
     /**
      * @var AudioMetaData[]
      */
@@ -74,6 +76,8 @@ class JobConfig
         if(!empty($this->audioMetaData))
             $array['audioMetaData'] = $this->audioMetaData;
 
+        if (!is_null($this->hlsEncryptionConfig))
+            $array['hlsEncryptionConfig'] = $this->hlsEncryptionConfig;
 
 
         return json_encode($array);
