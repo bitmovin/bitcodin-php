@@ -30,16 +30,24 @@ class HLSEncryptionConfig
     public $iv = null;
 
     /**
+     * @var string
+     */
+    public $uri = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()
     {
         $array = [];
         $array['method'] = $this->method;
-        $array['key'] = $this->encryptionKey;
+        $array['key'] = $this->key;
 
-        if (!is_null($this->iv))
+        if (!is_null($this->iv) && $this->iv !== '')
             $array['iv'] = $this->iv;
+
+        if (!is_null($this->uri) && $this->uri !== '')
+            $array['uri'] = $this->uri;
 
         return json_encode($array);
     }
