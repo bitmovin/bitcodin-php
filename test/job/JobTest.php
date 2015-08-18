@@ -26,6 +26,8 @@ use bitcodin\DRMEncryptionMethods;
 use bitcodin\JobSpeedTypes;
 use bitcodin\PlayReadyDRMConfig;
 use bitcodin\CombinedWidevinePlayreadyDRMConfig;
+use bitcodin\HLSEncryptionConfig;
+use bitcodin\HLSEncryptionMethods;
 
 
 class JobTest extends AbstractJobTest {
@@ -172,6 +174,98 @@ class JobTest extends AbstractJobTest {
         $jobConfig->manifestTypes[] = ManifestTypes::MPD;
         $jobConfig->speed = JobSpeedTypes::STANDARD;
         $jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
+        $this->assertInstanceOf('bitcodin\Job', $job);
+        $this->assertNotNull($job->jobId);
+        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        return $job;
+    }
+
+    public function testCreateHLSEncryptionJob()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 480;
+        $videoStreamConfig->width = 202;
+
+        /* CREATE AUDIO STREAM CONFIGS */
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+        /* CREATE HLS ENCRYPTION CONFIG */
+        $hlsEncryptionConfig = new HLSEncryptionConfig();
+        $hlsEncryptionConfig->method = HLSEncryptionMethods::SAMPLE_AES;
+        $hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';  // must be 16 byte hexadecimal
+        $hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';   // must be 16 byte hexadecimal - will be created randomly if missing
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
+        $this->assertInstanceOf('bitcodin\Job', $job);
+        $this->assertNotNull($job->jobId);
+        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        return $job;
+    }
+
+    public function testCreateHLSEncryptionJobWithoutIV()
+    {
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 480;
+        $videoStreamConfig->width = 202;
+
+        /* CREATE AUDIO STREAM CONFIGS */
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+        /* CREATE HLS ENCRYPTION CONFIG */
+        $hlsEncryptionConfig = new HLSEncryptionConfig();
+        $hlsEncryptionConfig->method = HLSEncryptionMethods::SAMPLE_AES;
+        $hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';  // must be 16 byte hexadecimal
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
 
         /* CREATE JOB */
         $job = Job::create($jobConfig);
