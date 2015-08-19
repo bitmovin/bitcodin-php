@@ -48,9 +48,19 @@ class JobConfig
     public $audioMetaData = array();
 
     /**
+     * @var VideoMetaData[]
+     */
+    public $videoMetaData = array();
+
+    /**
      * @var string
      */
     public $speed = null;
+
+    /**
+     * @var boolean
+     */
+    public $extractClosedCaptions = false;
 
     /**
      * @return string
@@ -63,6 +73,7 @@ class JobConfig
         $array['inputId'] = $this->input->inputId;
         $array['encodingProfileId'] = $this->encodingProfile->encodingProfileId;
         $array['manifestTypes'] = $this->manifestTypes;
+        $array['extractClosedCaptions'] = $this->extractClosedCaptions;
 
         if($this->duration != null)
             $array['duration'] = $this->duration;
@@ -75,6 +86,9 @@ class JobConfig
 
         if(!empty($this->audioMetaData))
             $array['audioMetaData'] = $this->audioMetaData;
+
+        if(!empty($this->videoMetaData))
+            $array['videoMetaData'] = $this->videoMetaData;
 
         if (!is_null($this->hlsEncryptionConfig))
             $array['hlsEncryptionConfig'] = $this->hlsEncryptionConfig;
