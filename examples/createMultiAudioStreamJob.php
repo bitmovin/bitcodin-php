@@ -33,7 +33,7 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->bitrate = 512000;
 $videoStreamConfig->height = 480;
 $videoStreamConfig->width = 202;
 
@@ -43,7 +43,7 @@ $audioStreamConfigSoundHigh->bitrate = 256000;
 $audioStreamConfigSoundHigh->defaultStreamId = 0;
 
 $audioStreamConfigSoundLow = new AudioStreamConfig();
-$audioStreamConfigSoundLow->bitrate = 156000;
+$audioStreamConfigSoundLow->bitrate = 128000;
 $audioStreamConfigSoundLow->defaultStreamId = 0;
 
 $audioStreamConfigSoundAndVoiceHigh = new AudioStreamConfig();
@@ -51,14 +51,13 @@ $audioStreamConfigSoundAndVoiceHigh->bitrate = 256000;
 $audioStreamConfigSoundAndVoiceHigh->defaultStreamId = 1;
 
 $audioStreamConfigSoundAndVoiceLow = new AudioStreamConfig();
-$audioStreamConfigSoundAndVoiceLow->bitrate = 156000;
+$audioStreamConfigSoundAndVoiceLow->bitrate = 128000;
 $audioStreamConfigSoundAndVoiceLow->defaultStreamId = 1;
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'Multi Audio Stream Profile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
-$encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceLow;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceLow;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundHigh;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundLow;
