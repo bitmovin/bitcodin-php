@@ -24,6 +24,12 @@ class JobConfig
      */
     public $encodingProfile;
 
+
+    /**
+     * @var int
+     */
+    public $duration;
+
     /**
      * @var array
      */
@@ -33,6 +39,13 @@ class JobConfig
      * @var DRMConfig
      */
     public $drmConfig = null;
+
+    public $hlsEncryptionConfig = null;
+
+    /**
+     * @var AudioMetaData[]
+     */
+    public $audioMetaData = array();
 
     /**
      * @var string
@@ -51,11 +64,21 @@ class JobConfig
         $array['encodingProfileId'] = $this->encodingProfile->encodingProfileId;
         $array['manifestTypes'] = $this->manifestTypes;
 
+        if($this->duration != null)
+            $array['duration'] = $this->duration;
+
         if (!is_null($this->speed))
             $array['speed'] = $this->speed;
 
         if (!is_null($this->drmConfig))
             $array['drmConfig'] = $this->drmConfig;
+
+        if(!empty($this->audioMetaData))
+            $array['audioMetaData'] = $this->audioMetaData;
+
+        if (!is_null($this->hlsEncryptionConfig))
+            $array['hlsEncryptionConfig'] = $this->hlsEncryptionConfig;
+
 
         return json_encode($array);
     }

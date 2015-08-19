@@ -8,17 +8,14 @@
 
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__.'/BitcodinApiTestBaseClass.php';
+
 
 use bitcodin\Bitcodin;
-use bitcodin\Input;
-use bitcodin\HttpInputConfig;
-use bitcodin\FtpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\EncodingProfileConfig;
-
+use test\BitcodinApiTestBaseClass;
 
 
 class EncodingProfileTest extends BitcodinApiTestBaseClass {

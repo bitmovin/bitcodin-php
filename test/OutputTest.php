@@ -8,12 +8,14 @@
 
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/BitcodinApiTestBaseClass.php';
+
 
 use bitcodin\Bitcodin;
 use bitcodin\S3OutputConfig;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
+use test\BitcodinApiTestBaseClass;
+
 
 class OutputTest extends BitcodinApiTestBaseClass
 {
