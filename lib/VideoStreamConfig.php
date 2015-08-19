@@ -44,4 +44,9 @@ class VideoStreamConfig
      * @var string
      */
     public $preset = 'Standard';
+
+    /**
+     * @var float
+     */
+    public $framerate;
 }

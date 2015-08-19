@@ -24,4 +24,9 @@ class AudioStreamConfig
      */
     public $defaultStreamId = 0;
 
+    /**
+     * @var float
+     */
+    public $samplerate;
+
 }
