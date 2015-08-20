@@ -34,13 +34,13 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->bitrate = 512000;
 $videoStreamConfig->height = 202;
 $videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 256000;
+$audioStreamConfig->bitrate = 128000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
@@ -52,7 +52,7 @@ $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 /* CREATE HLS ENCRYPTION CONFIG */
 $hlsEncryptionConfig = new HLSEncryptionConfig();
-$hlsEncryptionConfig->method = HLSEncryptionMethods::SAMPLE_AES;
+$hlsEncryptionConfig->method = HLSEncryptionMethods::AES_128;
 $hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';
 $hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';
 
