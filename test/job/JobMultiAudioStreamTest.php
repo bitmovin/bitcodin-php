@@ -192,36 +192,38 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB PROGRESS*/
 
-    /**
-     * @depends testMultiLanguageJob
-     */
-    public function testUpdateMultiLanguageJob(Job $job)
+//    /**
+//     * @depends testMultiLanguageJob
+//     */
+/*    public function testUpdateMultiLanguageJob(Job $job)
     {
         return $this->updateJob($job);
     }
+*/
 
 
-
-    /**
-     * @depends testMultiLanguageJobWithWrongAudioMetaData
-     */
-    public function testUpdateMultiLanguageJobWithWrongAudioMetaData(Job $job)
+//    /**
+//     * @depends testMultiLanguageJobWithWrongAudioMetaData
+//     */
+/*    public function testUpdateMultiLanguageJobWithWrongAudioMetaData(Job $job)
     {
         return $this->updateJobError($job);
     }
+*/
 
-    /**
-     * @return EncodingProfile
-     */
+//    /**
+//     * @return EncodingProfile
+//     */
+/*
     private function getMultiLanguageEncodingProfile()
     {
-        /* CREATE VIDEO STREAM CONFIG */
+        // CREATE VIDEO STREAM CONFIG
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
         $videoStreamConfig->height = 480;
         $videoStreamConfig->width = 202;
 
-        /* CREATE AUDIO STREAM CONFIGS */
+        // CREATE AUDIO STREAM CONFIGS
         $audioStreamConfigSoundHigh = new AudioStreamConfig();
         $audioStreamConfigSoundHigh->bitrate = 256000;
         $audioStreamConfigSoundHigh->defaultStreamId = 0;
@@ -247,7 +249,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceLow;
 
-        /* CREATE ENCODING PROFILE */
+        // CREATE ENCODING PROFILE
          return EncodingProfile::create($encodingProfileConfig);
     }
+*/
 }

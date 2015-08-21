@@ -28,9 +28,12 @@ class JobAudioOnlyTest extends AbstractJobTest {
     const URL_FILE_AUDIO_ONLY   =  'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-audio-only-short.mkv';
 
 
-    public function dummyTest() {
+    public function testDummy() {
         $this->assertTrue(true);
+        return true;
     }
+
+
     /** TEST JOB CREATION */
 //    public function testAudioOnlyJob()
 //    {
@@ -204,9 +207,9 @@ class JobAudioOnlyTest extends AbstractJobTest {
 //        return $job;
 //    }
 
-    /**
-     * @depends testMultiAudioStreamAudioOnlyJob
-     */
+//    /**
+//     * @depends testMultiAudioStreamAudioOnlyJob
+//     */
 /*    public function testUpdateMultiAudioStreamAudioOnlyJob(Job $job)
     {
         return $this->updateJob($job);
@@ -214,9 +217,9 @@ class JobAudioOnlyTest extends AbstractJobTest {
 */
 
 
-    /**
-     * @return EncodingProfile
-     */
+//    /**
+//     * @return EncodingProfile
+//     */
 /*    private function getMultiLanguageEncodingProfile()
     {
         $audioStreamConfigGermanLow = new AudioStreamConfig();
