@@ -30,6 +30,11 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB CREATION */
 
+    public function testDummy() {
+        $this->assertTrue(true);
+        return true;
+    }
+
     /*
 
     public function testMultiLanguageJob()
