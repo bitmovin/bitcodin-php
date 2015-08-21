@@ -30,6 +30,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB CREATION */
 
+    /*
+
     public function testMultiLanguageJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -47,7 +49,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $audioMetaDataSoundAndVoice->label = 'Sound and Voice';
         $audioMetaDataSoundAndVoice->language = 'en';
 
-        /* CREATE ENCODING PROFILE */
+        // CREATE ENCODING PROFILE
         $encodingProfile = $this->getMultiLanguageEncodingProfile();
 
         $jobConfig = new JobConfig();
@@ -59,7 +61,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
         $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
 
-        /* CREATE JOB */
+        // CREATE JOB
         $job = Job::create($jobConfig);
 
         $this->assertInstanceOf('bitcodin\Job', $job);
@@ -90,7 +92,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $audioMetaDataWrong->label = 'Not existing';
         $audioMetaDataWrong->language = 'ex';
 
-        /* CREATE ENCODING PROFILE */
+        // CREATE ENCODING PROFILE
         $encodingProfile = $this->getMultiLanguageEncodingProfile();
 
         $jobConfig = new JobConfig();
@@ -103,15 +105,14 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
         $jobConfig->audioMetaData[] = $audioMetaDataWrong;
 
-        /* CREATE JOB */
+        // CREATE JOB
         $this->setExpectedException('bitcodin\exceptions\BitcodinException');
         $job = Job::create($jobConfig);
 
         return $job;
     }
 
-
-
+    */
 
 
 
@@ -119,6 +120,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
     /**
      * @return Job
      */
+
+    /*
     public function testMultiLanguageJobWithWrongSpeedParameter()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -182,6 +185,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
         return $job;
     }
+
+    */
 
 
 
