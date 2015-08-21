@@ -57,7 +57,7 @@ $encodingProfileConfig->audioStreamConfigs[] = $englishAudio;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $videoMeta = new VideoMetaData();
-$videoMeta->label = 'Spanish Subtitle';
+$videoMeta->label = 'Spanish';
 $videoMeta->language = 'es';
 $videoMeta->defaultStreamId = 0;
 
