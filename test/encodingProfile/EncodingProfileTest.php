@@ -7,7 +7,7 @@
  */
 
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 
 use bitcodin\Bitcodin;
@@ -40,7 +40,7 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -58,13 +58,13 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
         $encodingProfileConfig = new EncodingProfileConfig();
         $this->setExpectedException('bitcodin\exceptions\BitcodinException');
         /* CREATE ENCODING PROFILE */
-        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+        EncodingProfile::create($encodingProfileConfig);
 
     }
 
 
     /**
-     * @depends EncodingProfileTest::testCreateEncodingProfile
+     * @depends testCreateEncodingProfile
      */
     public function testGetEncodingProfile(EncodingProfile $encodingProfile)
     {

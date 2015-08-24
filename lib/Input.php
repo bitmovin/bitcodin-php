@@ -84,6 +84,17 @@ class Input extends ApiResource
         return self::deleteInput($this);
     }
 
+    public function getVideoMediaConfigurations()
+    {
+        $videoMediaConfigurations = [];
+        foreach($this->mediaConfigurations as $mediaConfig)
+        {
+            if($mediaConfig->type == 'video')
+                $videoMediaConfigurations[] = $mediaConfig;
+        }
+        return $videoMediaConfigurations;
+    }
+
     /**
      * @param $id
      * @return Input
@@ -130,7 +141,7 @@ class Input extends ApiResource
     }
 
     /**
-     * @return array
+     * @return Input[]|array
      */
     public static function getListAll()
     {
@@ -171,4 +182,6 @@ class Input extends ApiResource
             $input->delete();
         }
     }
+
+
 }

@@ -30,13 +30,6 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB CREATION */
 
-    public function testDummy() {
-        $this->assertTrue(true);
-        return true;
-    }
-
-    /*
-
     public function testMultiLanguageJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -54,7 +47,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $audioMetaDataSoundAndVoice->label = 'Sound and Voice';
         $audioMetaDataSoundAndVoice->language = 'en';
 
-        // CREATE ENCODING PROFILE
+        /* CREATE ENCODING PROFILE */
         $encodingProfile = $this->getMultiLanguageEncodingProfile();
 
         $jobConfig = new JobConfig();
@@ -66,7 +59,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
         $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
 
-        // CREATE JOB
+        /* CREATE JOB */
         $job = Job::create($jobConfig);
 
         $this->assertInstanceOf('bitcodin\Job', $job);
@@ -97,7 +90,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $audioMetaDataWrong->label = 'Not existing';
         $audioMetaDataWrong->language = 'ex';
 
-        // CREATE ENCODING PROFILE
+        /* CREATE ENCODING PROFILE */
         $encodingProfile = $this->getMultiLanguageEncodingProfile();
 
         $jobConfig = new JobConfig();
@@ -110,23 +103,16 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
         $jobConfig->audioMetaData[] = $audioMetaDataWrong;
 
-        // CREATE JOB
+        /* CREATE JOB */
         $this->setExpectedException('bitcodin\exceptions\BitcodinException');
         $job = Job::create($jobConfig);
 
         return $job;
     }
 
-    */
-
-
-
-
     /**
      * @return Job
      */
-
-    /*
     public function testMultiLanguageJobWithWrongSpeedParameter()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -191,44 +177,28 @@ class JobMultiLanguageTest extends AbstractJobTest {
         return $job;
     }
 
-    */
-
-
-
     /** TEST JOB PROGRESS*/
 
-//    /**
-//     * @depends testMultiLanguageJob
-//     */
-/*    public function testUpdateMultiLanguageJob(Job $job)
+    /**
+     * @depends testMultiLanguageJob
+     */
+    public function testUpdateMultiLanguageJob(Job $job)
     {
         return $this->updateJob($job);
     }
-*/
 
-
-//    /**
-//     * @depends testMultiLanguageJobWithWrongAudioMetaData
-//     */
-/*    public function testUpdateMultiLanguageJobWithWrongAudioMetaData(Job $job)
-    {
-        return $this->updateJobError($job);
-    }
-*/
-
-//    /**
-//     * @return EncodingProfile
-//     */
-/*
+    /**
+     * @return EncodingProfile
+     */
     private function getMultiLanguageEncodingProfile()
     {
-        // CREATE VIDEO STREAM CONFIG
+        /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
         $videoStreamConfig->height = 480;
         $videoStreamConfig->width = 202;
 
-        // CREATE AUDIO STREAM CONFIGS
+        /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfigSoundHigh = new AudioStreamConfig();
         $audioStreamConfigSoundHigh->bitrate = 256000;
         $audioStreamConfigSoundHigh->defaultStreamId = 0;
@@ -254,8 +224,7 @@ class JobMultiLanguageTest extends AbstractJobTest {
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceLow;
 
-        // CREATE ENCODING PROFILE
+        /* CREATE ENCODING PROFILE */
          return EncodingProfile::create($encodingProfileConfig);
     }
-*/
 }

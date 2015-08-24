@@ -49,7 +49,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testCreateFtpInput
+     * @depends testCreateFtpInput
      */
     public function testUpdateInput(Input $input)
     {
@@ -59,7 +59,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testCreateUrlInput
+     * @depends testCreateUrlInput
      */
     public function testGetInput(Input $input)
     {
@@ -70,7 +70,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testGetInput
+     * @depends testGetInput
      */
     public function testDeleteInput(Input $input)
     {
@@ -81,7 +81,7 @@ class InputTest extends BitcodinApiTestBaseClass {
 
 
     /**
-     * @depends InputTest::testCreateUrlInput
+     * @depends testCreateUrlInput
      */
     public function testAnalyzeInput()
     {
@@ -108,7 +108,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         {
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
-            $input = Input::create($inputConfig);
+            Input::create($inputConfig);
         }
 
         Input::deleteAll();
