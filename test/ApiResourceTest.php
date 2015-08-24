@@ -19,15 +19,14 @@ class ConcreteApiResource extends \bitcodin\ApiResource
         return self::_postRequest($url, $body, $expectedCode);
     }
 
-    public static function patchRequest($url, $expectedCode)
+    public static function patchRequest($url, $body, $expectedCode)
     {
-        return self::_patchRequest($url, $expectedCode);
+        return self::_patchRequest($url, $body, $expectedCode);
     }
-
 
     public static function deleteRequest($url, $expectedCode)
     {
-        return self::_patchRequest($url, $expectedCode);
+        return self::_patchRequest($url, null, $expectedCode);
     }
 }
 
@@ -52,7 +51,7 @@ class ApiResourceTest extends BitcodinApiTestBaseClass
     {
         Bitcodin::setApiToken($this->getApiKey());
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::patchRequest('/lkajljow/', 201);
+        ConcreteApiResource::patchRequest('/lkajljow/', null, 201);
     }
 
 }

@@ -44,7 +44,7 @@ abstract class ApiResource extends \stdClass
     protected static function getClient()
     {
         if (self::$client === NULL)
-            self::$client = new Client(['base_uri' => Bitcodin::BASE_URL]);
+            self::$client = new Client(['base_uri' => Bitcodin::getBaseUrl()]);
 
         return self::$client;
     }
@@ -89,8 +89,8 @@ abstract class ApiResource extends \stdClass
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->post(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(),
-                                                                 'body'    => $body]);
+            $res = $httpClient->post(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
+                                                                     'body'    => $body]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }
@@ -101,15 +101,18 @@ abstract class ApiResource extends \stdClass
 
     /**
      * @param $url
+     * @param $body
      * @param $expectedStatusCode
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws BitcodinException
+     * @throws BitcodinResourceNotFoundException
      */
-    protected static function _patchRequest($url, $expectedStatusCode)
+    protected static function _patchRequest($url, $body = null, $expectedStatusCode)
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->patch(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
+            $res = $httpClient->patch(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
+                                                                      'body'    => $body]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }
@@ -128,7 +131,7 @@ abstract class ApiResource extends \stdClass
     {
         try {
             $client = self::getClient();
-            $res = $client->get(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
+            $res = $client->get(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders()]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }
@@ -146,7 +149,7 @@ abstract class ApiResource extends \stdClass
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->delete(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
+            $res = $httpClient->delete(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders()]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }

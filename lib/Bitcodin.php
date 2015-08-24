@@ -16,13 +16,18 @@ use bitcodin\exceptions\BitcodinException;
  */
 class Bitcodin
 {
-    const BASE_URL = 'http://portal.bitcodin.com/api';
+    const DEFAULT_BASE_URL = 'http://portal.bitcodin.com/api';
     const API_KEY_FIELD_NAME = 'bitcodin-api-key';
 
     /**
      * @var string|null
      */
     static private $apiKey = NULL;
+
+    /**
+     * @var string
+     */
+    static private $baseUrl = self::DEFAULT_BASE_URL;
 
     /**
      * @param $token
@@ -42,5 +47,25 @@ class Bitcodin
             throw new BitcodinException('Api token is not set!');
 
         return self::$apiKey;
+    }
+
+    /**
+     * @param $baseUrl
+     */
+    public static function setBaseUrl($baseUrl)
+    {
+        self::$baseUrl = $baseUrl;
+    }
+
+    /**
+     * @return string
+     * @throws BitcodinException
+     */
+    public static function getBaseUrl()
+    {
+        if (self::$baseUrl === NULL)
+            throw new BitcodinException('Base url is not set!');
+
+        return self::$baseUrl;
     }
 }
