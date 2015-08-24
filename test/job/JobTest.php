@@ -32,10 +32,14 @@ use bitcodin\HLSEncryptionMethods;
 
 class JobTest extends AbstractJobTest {
 
-    const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/h264_720p_mp_3.1_3mbps_aac_shrinkage.mp4';
+    const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 
     /** TEST JOB CREATION */
-    public function testCreateWidevineDRMJob()
+
+    /**
+     * @test
+     */
+    public function createWidevineDRMJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -53,7 +57,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = 'WidevineDRMJobEncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -85,7 +89,10 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreatePlayreadyDRMJob()
+    /**
+     *@test
+     */
+    public function createPlayreadyDRMJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -103,7 +110,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = 'PlayreadyDRMEncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -134,7 +141,10 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateCombinedWidevinePlayreadyDRMJob()
+    /**
+     * @test
+     */
+    public function createCombinedWidevinePlayreadyDRMJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -153,7 +163,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = 'CombinedWidevinePlayready';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -184,7 +194,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateSampleAESHLSEncryptionJob()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createHLSEncryptionJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -202,7 +216,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = 'HLSEncryption';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -231,7 +245,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateSampleAESHLSEncryptionJobWithoutIV()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createHLSEncryptionJobWithoutIV()
     {
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
@@ -248,7 +266,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = 'HLSEncryptionJobWithoutIVEncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -368,7 +386,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateJob()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -386,7 +408,7 @@ class JobTest extends AbstractJobTest {
         $audioStreamConfig->bitrate = 256000;
 
         $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -412,7 +434,7 @@ class JobTest extends AbstractJobTest {
     /** TEST JOB PROGRESS*/
 
     /**
-     * @depends testCreateWidevineDRMJob
+     * @depends createWidevineDRMJob
      */
     public function testUpdateWidevineDRMJob(Job $job)
     {
@@ -420,7 +442,7 @@ class JobTest extends AbstractJobTest {
     }
 
     /**
-     * @depends testCreatePlayreadyDRMJob
+     * @depends createPlayreadyDRMJob
      */
     public function testUpdatePlayreadyDRMJob(Job $job)
     {
@@ -428,7 +450,7 @@ class JobTest extends AbstractJobTest {
     }
 
     /**
-     * @depends testCreateCombinedWidevinePlayreadyDRMJob
+     * @depends createCombinedWidevinePlayreadyDRMJob
      */
     public function testUpdateCombinedWidevinePlayreadyDRMJob(Job $job)
     {
@@ -437,7 +459,7 @@ class JobTest extends AbstractJobTest {
 
 
     /**
-     * @depends testCreateJob
+     * @depends createJob
      */
     public function testUpdateJob(Job $job)
     {

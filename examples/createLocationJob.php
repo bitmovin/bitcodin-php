@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: doweinberger
- * Date: 01.07.15
- * Time: 15:31
- */
-
 
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
@@ -19,9 +12,6 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-use bitcodin\HLSEncryptionConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\HLSEncryptionMethods;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -34,13 +24,13 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 512000;
-$videoStreamConfig->height = 202;
-$videoStreamConfig->width = 480;
+$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->height = 480;
+$videoStreamConfig->width = 202;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 128000;
+$audioStreamConfig->bitrate = 256000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
@@ -50,18 +40,11 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE HLS ENCRYPTION CONFIG */
-$hlsEncryptionConfig = new HLSEncryptionConfig();
-$hlsEncryptionConfig->method = HLSEncryptionMethods::AES_128;
-$hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';
-$hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';
-
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
-$jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
+$jobConfig->location = "europe";
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -71,6 +54,7 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
+
 
 $outputConfig = new FtpOutputConfig();
 $outputConfig->name = "TestS3Output";

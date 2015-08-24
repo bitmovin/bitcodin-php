@@ -54,7 +54,7 @@ class OutputTest extends BitcodinApiTestBaseClass
     }
 
     /**
-     * @depends OutputTest::testCreateFtpOutput
+     * @depends testCreateFtpOutput
      */
     public function testUpdateOutput(Output $output)
     {
@@ -65,7 +65,7 @@ class OutputTest extends BitcodinApiTestBaseClass
     }
 
     /**
-     * @depends OutputTest::testCreateS3Output
+     * @depends testCreateS3Output
      */
     public function testGetOutput(Output $output)
     {
@@ -76,7 +76,7 @@ class OutputTest extends BitcodinApiTestBaseClass
     }
 
     /**
-     * @depends OutputTest::testGetOutput
+     * @depends testGetOutput
      */
     public function testDeleteOutput(Output $output)
     {

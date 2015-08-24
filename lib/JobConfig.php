@@ -63,6 +63,11 @@ class JobConfig
     public $extractClosedCaptions = false;
 
     /**
+     * @var string
+     */
+    public $location = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()
@@ -93,6 +98,8 @@ class JobConfig
         if (!is_null($this->hlsEncryptionConfig))
             $array['hlsEncryptionConfig'] = $this->hlsEncryptionConfig;
 
+        if(!is_null($this->location))
+            $array['location'] = $this->location;
 
         return json_encode($array);
     }

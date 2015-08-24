@@ -110,12 +110,6 @@ class JobMultiLanguageTest extends AbstractJobTest {
         return $job;
     }
 
-
-
-
-
-
-
     /**
      * @return Job
      */
@@ -183,8 +177,6 @@ class JobMultiLanguageTest extends AbstractJobTest {
         return $job;
     }
 
-
-
     /** TEST JOB PROGRESS*/
 
     /**
@@ -193,16 +185,6 @@ class JobMultiLanguageTest extends AbstractJobTest {
     public function testUpdateMultiLanguageJob(Job $job)
     {
         return $this->updateJob($job);
-    }
-
-
-
-    /**
-     * @depends testMultiLanguageJobWithWrongAudioMetaData
-     */
-    public function testUpdateMultiLanguageJobWithWrongAudioMetaData(Job $job)
-    {
-        return $this->updateJobError($job);
     }
 
     /**
