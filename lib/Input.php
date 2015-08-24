@@ -104,7 +104,7 @@ class Input extends ApiResource
         if ($id instanceof \stdClass)
             $id = $id->inputId;
 
-        $response = self::_patchRequest(str_replace('{id}', $id, self::URL_ANALYZE), 200);
+        $response = self::_patchRequest(str_replace('{id}', $id, self::URL_ANALYZE), null, 200);
 
         return new self(json_decode($response->getBody()->getContents()));
     }
