@@ -14,6 +14,12 @@ class LiveInstance extends ApiResource
     const URL_GET = '/live-instance/{id}';
     const URL_DELETE = '/live-instance/{id}';
 
+    const STATUS_RUNNING = 'RUNNING';
+    const STATUS_STARTING = 'STARTING';
+    const STATUS_STOPPING = 'STOPPING';
+    const STATUS_TERMINATED = 'TERMINATED';
+    const STATUS_ERROR = 'ERROR';
+
     public $id;
     public $label;
     public $status;

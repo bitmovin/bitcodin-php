@@ -11,8 +11,6 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use bitcodin\Bitcodin;
 use bitcodin\LiveInstance;
 
-Bitcodin::setApiToken('de93f6610ef1e8f5389b038f74946e2d0bda5d79f54d2e36b6af57618e696681');
-
 class LiveInstanceTest extends AbstractLiveInstanceTest
 {
     /**
@@ -20,32 +18,25 @@ class LiveInstanceTest extends AbstractLiveInstanceTest
      */
     public function createAndDeleteLiveInstance()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $liveInstance = LiveInstance::create("testliveinstance");
 
-        $first  = new \DateTime();
-        echo "Waiting until live stream is RUNNING...\n";
-        while($liveInstance->status != "RUNNING")
+        while($liveInstance->status != LiveInstance::STATUS_RUNNING)
         {
             sleep(2);
             $liveInstance->update();
-            if($liveInstance->status == "ERROR")
+            if($liveInstance->status == LiveInstance::STATUS_ERROR)
             {
-                echo "ERROR occurred!";
-                throw new \Exception("Error occured during Live stream creation");
+                throw new \Exception("Error occurred during Live stream creation");
             }
         }
-        $second = new \DateTime();
-        $diff = $first->diff( $second );
-        echo "Time elapsed until RUNNING: ".$diff->format( '%H:%I:%S' )."\n";
 
-        echo "Livestream RTMP push URL: ".$liveInstance->rtmp_push_url."\n";
-        echo "MPD URL: ".$liveInstance->mpd_url."\n";
-        echo "HLS URL: ".$liveInstance->hls_url."\n";
-
+        $this->assertNotEquals($liveInstance->status, LiveInstance::STATUS_ERROR);
+        $this->assertInstanceOf('bitcodin\LiveInstance', $liveInstance);
+        $this->assertNotNull($liveInstance->id);
 
         $liveInstance = LiveInstance::delete($liveInstance->id);
 
-        $first  = new \DateTime();
         echo "Waiting until live stream is TERMINATED...\n";
         while($liveInstance->status != "TERMINATED")
         {
@@ -54,15 +45,11 @@ class LiveInstanceTest extends AbstractLiveInstanceTest
             if($liveInstance->status == "ERROR")
             {
                 echo "ERROR occurred!";
-                throw new \Exception("Error occured during Live stream deletion");
+                throw new \Exception("Error occurred during Live stream deletion");
             }
         }
-        $second = new \DateTime();
-        $diff = $first->diff( $second );
-        echo "Time elapsed until TERMINATED: ".$diff->format( '%H:%I:%S' )."\n";
 
+        $this->assertNotEquals($liveInstance->status, LiveInstance::STATUS_ERROR);
+        $this->assertNotNull($liveInstance->terminated_at);
     }
 }
-
-$test = new LiveInstanceTest();
-$test->createAndDeleteLiveInstance();
