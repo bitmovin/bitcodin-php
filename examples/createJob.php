@@ -51,6 +51,7 @@ $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
