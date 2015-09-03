@@ -9,34 +9,33 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 use bitcodin\Bitcodin;
 use bitcodin\Input;
 use bitcodin\HttpInputConfig;
 use bitcodin\FtpInputConfig;
+use bitcodin\S3InputConfig;
 use test\BitcodinApiTestBaseClass;
-
 
 class InputTest extends BitcodinApiTestBaseClass {
 
-    const FTP_FILE = '/input_test/Homepage_Summer_v10.webm';
-    const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
-
+    const FTP_FILE      = '/input_test/Homepage_Summer_v10.webm';
+    const URL_FILE      = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+    const S3_FILE       = 'inputs/Sintel.2010.720p.mkv';
 
     public function testCreateUrlInput()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
+
         $input = Input::create($inputConfig);
         $this->checkInput($input);
         return $input;
     }
 
-
-
     public function testCreateFtpInput()
     {
+        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new FtpInputConfig();
         $inputConfig->url = $this->getKey('ftpServer').self::FTP_FILE;
         $inputConfig->username = $this->getKey('ftpUser');
@@ -44,14 +43,30 @@ class InputTest extends BitcodinApiTestBaseClass {
 
         $input = Input::create($inputConfig);
         $this->checkInput($input);
+        return $input;
+    }
 
+    public function testCreateS3Input()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $s3Config = $this->getKey('s3');
+
+        $inputConfig = new S3InputConfig();
+        $inputConfig->accessKey = $s3Config->accessKey;
+        $inputConfig->secretKey = $s3Config->secretKey;;
+        $inputConfig->region = $s3Config->region;
+        $inputConfig->bucket = $s3Config->bucket;
+        $inputConfig->objectKey = self::S3_FILE;
+
+        $input = Input::create($inputConfig);
+        $this->checkInput($input);
         return $input;
     }
 
     /**
-     * @depends testCreateFtpInput
+     * @depends InputTest::testCreateUrlInput
      */
-    public function testUpdateInput(Input $input)
+    public function testUpdateUrlInput(Input $input)
     {
         $input->update();
         $this->checkInput($input);
@@ -59,9 +74,29 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends testCreateUrlInput
+     * @depends InputTest::testCreateFtpInput
      */
-    public function testGetInput(Input $input)
+    public function testUpdateFtpInput(Input $input)
+    {
+        $input->update();
+        $this->checkInput($input);
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testCreateS3Input
+     */
+    public function testUpdateS3Input(Input $input)
+    {
+        $input->update();
+        $this->checkInput($input);
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testUpdateUrlInput
+     */
+    public function testGetUrlInput(Input $input)
     {
         $inputGot = Input::get($input->inputId);
         $this->checkInput($inputGot);
@@ -70,26 +105,88 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends testGetInput
+     * @depends InputTest::testUpdateFtpInput
      */
-    public function testDeleteInput(Input $input)
+    public function testGetFtpInput(Input $input)
+    {
+        $inputGot = Input::get($input->inputId);
+        $this->checkInput($inputGot);
+
+        return $inputGot;
+    }
+
+    /**
+     * @depends InputTest::testUpdateS3Input
+     */
+    public function testGetS3Input(Input $input)
+    {
+        $inputGot = Input::get($input->inputId);
+        $this->checkInput($inputGot);
+
+        return $inputGot;
+    }
+
+    /**
+     * @depends InputTest::testGetUrlInput
+     */
+    public function testAnalyzeUrlInput(Input $input)
+    {
+        $input->analyze();
+        $this->checkInput($input);
+
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testGetFtpInput
+     */
+    public function testAnalyzeFtpInput(Input $input)
+    {
+        $input->analyze();
+        $this->checkInput($input);
+
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testGetS3Input
+     */
+    public function testAnalyzeS3Input(Input $input)
+    {
+        $input->analyze();
+        $this->checkInput($input);
+
+        return $input;
+    }
+
+    /**
+     * @depends InputTest::testAnalyzeUrlInput
+     */
+    public function testDeleteUrlInput(Input $input)
     {
         $input->delete();
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
         Input::get($input->inputId);
     }
 
+    /**
+     * @depends InputTest::testAnalyzeFtpInput
+     */
+    public function testDeleteFtpInput(Input $input)
+    {
+        $input->delete();
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+        Input::get($input->inputId);
+    }
 
     /**
-     * @depends testCreateUrlInput
+     * @depends InputTest::testAnalyzeS3Input
      */
-    public function testAnalyzeInput()
+    public function testDeleteS3Input(Input $input)
     {
-        $inputConfig = new HttpInputConfig();
-        $inputConfig->url = self::URL_FILE;
-        $input = Input::create($inputConfig);
-        $input->analyze();
-        $this->checkInput($input);
+        $input->delete();
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+        Input::get($input->inputId);
     }
 
     public function testGetList()
@@ -108,7 +205,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         {
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
-            Input::create($inputConfig);
+            $input = Input::create($inputConfig);
         }
 
         Input::deleteAll();

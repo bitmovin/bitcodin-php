@@ -17,10 +17,38 @@ class FtpInputConfig extends AbstractInputConfig
     /**
      * @var string
      */
+    public $url;
+
+    /**
+     * @var string
+     */
     public $username;
 
     /**
      * @var string
      */
     public $password;
+
+    public function __construct()
+    {
+        $this->type = InputType::FTP;
+    }
+
+    /**
+     * @return string
+     */
+    public function toRequestJson()
+    {
+        $configObj = array();
+
+        $configObj['url'] = $this->url;
+
+        if (!is_null($this->username) && $this->username !== '')
+            $configObj['username'] = $this->username;
+
+        if (!is_null($this->password) && $this->password !== '')
+            $configObj['password'] = $this->password;
+
+        return json_encode($configObj);
+    }
 }
