@@ -34,7 +34,6 @@ class OutputTest extends BitcodinApiTestBaseClass
 
         $output = Output::create($outputConfig);
         $this->checkOutput($output);
-
         return $output;
     }
 
