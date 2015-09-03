@@ -18,7 +18,7 @@ use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
-use bitcodin\FtpOutputConfig;
+use bitcodin\S3OutputConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -36,13 +36,13 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 480;
-$videoStreamConfig->width = 202;
+$videoStreamConfig->bitrate = 512000;
+$videoStreamConfig->height = 202;
+$videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 256000;
+$audioStreamConfig->bitrate = 128000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
@@ -67,19 +67,17 @@ do{
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
 
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
-$outputConfig->username = getKey('ftpUser');
-$outputConfig->password = getKey('ftpPassword');
+$outputConfig = new S3OutputConfig();
+$outputConfig->name         = "TestS3Output";
+$outputConfig->accessKey    = "yourAWSAccessKey";
+$outputConfig->secretKey    = "yourAWSSecretKey";
+$outputConfig->bucket       = "yourBucketName";
+$outputConfig->region       = AwsRegion::EU_WEST_1;
+$outputConfig->prefix       = "path/to/your/outputDirectory";
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
+$outputConfig->host         = "s3-eu-west-1.amazonaws.com";     // OPTIONAL
 
 $output = Output::create($outputConfig);
 
 /* TRANSFER JOB OUTPUT */
 $job->transfer($output);
-
-/* HELPER FUNCTION */
-function getKey($key)
-{
-    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
-}
