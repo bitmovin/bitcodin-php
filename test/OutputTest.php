@@ -23,7 +23,7 @@ class OutputTest extends BitcodinApiTestBaseClass
     public function testCreateS3Output()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $s3Config = $this->getKey('s3');
+        $s3Config = $this->getKey('s3output');
         $outputConfig = new S3OutputConfig();
         $outputConfig->accessKey = $s3Config->accessKey;
         $outputConfig->secretKey = $s3Config->secretKey;
@@ -98,7 +98,7 @@ class OutputTest extends BitcodinApiTestBaseClass
 
         for ($num = 0; $num < $count; $num++) {
             Bitcodin::setApiToken($this->getApiKey());
-            $s3Config = $this->getKey('s3');
+            $s3Config = $this->getKey('s3output');
             $outputConfig = new S3OutputConfig();
             $outputConfig->accessKey = $s3Config->accessKey;
             $outputConfig->secretKey = $s3Config->secretKey;

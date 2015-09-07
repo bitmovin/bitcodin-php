@@ -20,7 +20,7 @@ class InputTest extends BitcodinApiTestBaseClass {
 
     const FTP_FILE      = '/input_test/Homepage_Summer_v10.webm';
     const URL_FILE      = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
-    const S3_FILE       = 'inputs/Sintel.2010.720p.mkv';
+    const S3_FILE       = 'Sintel-original-short.mkv';
 
     public function testCreateUrlInput()
     {
@@ -49,7 +49,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     public function testCreateS3Input()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $s3Config = $this->getKey('s3');
+        $s3Config = $this->getKey('s3input');
 
         $inputConfig = new S3InputConfig();
         $inputConfig->accessKey = $s3Config->accessKey;
