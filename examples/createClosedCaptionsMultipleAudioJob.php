@@ -34,21 +34,17 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 480;
-$videoStreamConfig->width = 202;
+$videoStreamConfig->bitrate = 512000;
+$videoStreamConfig->height = 202;
+$videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
-$audioStreamConfigSoundHigh = new AudioStreamConfig();
-$audioStreamConfigSoundHigh->bitrate = 256000;
-$audioStreamConfigSoundHigh->defaultStreamId = 0;
-
 $spanishAudio = new AudioStreamConfig();
-$spanishAudio->bitrate = 44100;
+$spanishAudio->bitrate = 128000;
 $spanishAudio->defaultStreamId = 0;
 
 $englishAudio = new AudioStreamConfig();
-$englishAudio->bitrate = 44100;
+$englishAudio->bitrate = 128000;
 $englishAudio->defaultStreamId= 1;
 
 $encodingProfileConfig = new EncodingProfileConfig();
@@ -61,7 +57,7 @@ $encodingProfileConfig->audioStreamConfigs[] = $englishAudio;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $videoMeta = new VideoMetaData();
-$videoMeta->label = 'Spanish Subtitle';
+$videoMeta->label = 'Spanish';
 $videoMeta->language = 'es';
 $videoMeta->defaultStreamId = 0;
 
@@ -70,10 +66,10 @@ $englishAudioMeta->defaultStreamId = 0;
 $englishAudioMeta->label = 'English';
 $englishAudioMeta->language = 'en';
 
-$audioMetaDataSoundAndVoice = new AudioMetaData();
-$audioMetaDataSoundAndVoice->defaultStreamId = 1;
-$audioMetaDataSoundAndVoice->label = 'Spanish';
-$audioMetaDataSoundAndVoice->language = 'es';
+$spanishAudioMeta = new AudioMetaData();
+$spanishAudioMeta->defaultStreamId = 1;
+$spanishAudioMeta->label = 'Spanish';
+$spanishAudioMeta->language = 'es';
 
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
@@ -81,8 +77,9 @@ $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 $jobConfig->manifestTypes[] = ManifestTypes::MPD;
 $jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->audioMetaData[] = $audioMetaDataJustSound;
-$jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
+$jobConfig->videoMetaData[] = $videoMeta;
+$jobConfig->audioMetaData[] = $englishAudioMeta;
+$jobConfig->audioMetaData[] = $spanishAudioMeta;
 $jobConfig->extractClosedCaptions = true;
 
 

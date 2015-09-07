@@ -83,7 +83,7 @@ class Output extends ApiResource
 
     /**
      * @param $id
-     * @return Input
+     * @return Output
      */
     public static function get($id)
     {

@@ -21,40 +21,49 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\JobConfig;
 use bitcodin\JobSpeedTypes;
 use test\job\AbstractJobTest;
+use bitcodin\VideoStreamConfig;
 
 class JobAudioOnlyTest extends AbstractJobTest {
 
     const URL_FILE =  'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-short.mkv';
     const URL_FILE_AUDIO_ONLY   =  'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-audio-only-short.mkv';
 
+
+    /*public function testDummy() {
+        $this->assertTrue(true);
+        return true;
+    }*/
+
+
     /** TEST JOB CREATION */
-//    public function testAudioOnlyJob()
-//    {
-//        Bitcodin::setApiToken($this->getApiKey());
-//        $inputConfig = new HttpInputConfig();
-//        $inputConfig->url = self::URL_FILE;
-//        $input = Input::create($inputConfig);
-//
-//
-//
-//        /* CREATE ENCODING PROFILE */
-//        $encodingProfile = $this->getMultiLanguageEncodingProfile();
-//
-//        $jobConfig = new JobConfig();
-//        $jobConfig->encodingProfile = $encodingProfile;
-//        $jobConfig->input = $input;
-//        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-//        $jobConfig->speed = JobSpeedTypes::STANDARD;
-//
-//
-//        /* CREATE JOB */
-//        $job = Job::create($jobConfig);
-//
-//        $this->assertInstanceOf('bitcodin\Job', $job);
-//        $this->assertNotNull($job->jobId);
-//        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
-//        return $job;
-//    }
+    public function testAudioOnlyJob()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = $this->getMultiLanguageEncodingProfile();
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+        $jobConfig->speed = JobSpeedTypes::STANDARD;
+
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
+        $this->assertInstanceOf('bitcodin\Job', $job);
+        $this->assertNotNull($job->jobId);
+        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        return $job;
+    }
+
 
     public function testMultiAudioStreamAudioOnlyInputJob()
     {
@@ -74,7 +83,7 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $audioMetaDataSoundAndVoice->label = 'Sound and Voice';
         $audioMetaDataSoundAndVoice->language = 'en';
 
-        /* CREATE AUDIO STREAM CONFIGS */
+        // CREATE AUDIO STREAM CONFIGS
         $audioStreamConfigSoundHigh = new AudioStreamConfig();
         $audioStreamConfigSoundHigh->bitrate = 256000;
         $audioStreamConfigSoundHigh->defaultStreamId = 0;
@@ -88,7 +97,7 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundHigh;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
 
-        /* CREATE ENCODING PROFILE */
+        // CREATE ENCODING PROFILE
         $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
         $jobConfig = new JobConfig();
@@ -100,7 +109,7 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
         $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
 
-        /* CREATE JOB */
+        // CREATE JOB
         $job = Job::create($jobConfig);
 
         $this->assertInstanceOf('bitcodin\Job', $job);
@@ -127,7 +136,7 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $audioMetaDataSoundAndVoice->label = 'Sound and Voice';
         $audioMetaDataSoundAndVoice->language = 'en';
 
-        /* CREATE AUDIO STREAM CONFIGS */
+        // CREATE AUDIO STREAM CONFIGS
         $audioStreamConfigSoundHigh = new AudioStreamConfig();
         $audioStreamConfigSoundHigh->bitrate = 256000;
         $audioStreamConfigSoundHigh->defaultStreamId = 0;
@@ -141,6 +150,45 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundHigh;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
 
+        // CREATE ENCODING PROFILE
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+        //$jobConfig->manifestTypes[] = ManifestTypes::M3U8; // TODO
+        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
+        $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
+
+        // CREATE JOB
+        $job = Job::create($jobConfig);
+
+        $this->assertInstanceOf('bitcodin\Job', $job);
+        $this->assertNotNull($job->jobId);
+        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        return $job;
+    }
+
+
+    public function testVideoOnlyJob()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 480;
+        $videoStreamConfig->width = 202;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name =  'TestEncodingProfile_'.$this->getName().'@JobMultiLanguageTest';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+
         /* CREATE ENCODING PROFILE */
         $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
@@ -150,8 +198,6 @@ class JobAudioOnlyTest extends AbstractJobTest {
         $jobConfig->manifestTypes[] = ManifestTypes::MPD;
         $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
         $jobConfig->speed = JobSpeedTypes::STANDARD;
-        $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
-        $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
 
         /* CREATE JOB */
         $job = Job::create($jobConfig);
@@ -162,42 +208,6 @@ class JobAudioOnlyTest extends AbstractJobTest {
         return $job;
     }
 
-//    public function testVideoOnlyJob()
-//    {
-//        Bitcodin::setApiToken($this->getApiKey());
-//        $inputConfig = new HttpInputConfig();
-//        $inputConfig->url = self::URL_FILE;
-//        $input = Input::create($inputConfig);
-//
-//        /* CREATE VIDEO STREAM CONFIG */
-//        $videoStreamConfig = new VideoStreamConfig();
-//        $videoStreamConfig->bitrate = 1024000;
-//        $videoStreamConfig->height = 480;
-//        $videoStreamConfig->width = 202;
-//
-//        $encodingProfileConfig = new EncodingProfileConfig();
-//        $encodingProfileConfig->name =  'TestEncodingProfile_'.$this->getName().'@JobMultiLanguageTest';
-//        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-//
-//        /* CREATE ENCODING PROFILE */
-//        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
-//
-//        $jobConfig = new JobConfig();
-//        $jobConfig->encodingProfile = $encodingProfile;
-//        $jobConfig->input = $input;
-//        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-//        $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
-//        $jobConfig->speed = JobSpeedTypes::STANDARD;
-//
-//        /* CREATE JOB */
-//        $job = Job::create($jobConfig);
-//
-//        $this->assertInstanceOf('bitcodin\Job', $job);
-//        $this->assertNotNull($job->jobId);
-//        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
-//        return $job;
-//    }
-
     /**
      * @depends testMultiAudioStreamAudioOnlyJob
      */
@@ -205,6 +215,8 @@ class JobAudioOnlyTest extends AbstractJobTest {
     {
         return $this->updateJob($job);
     }
+
+
 
     /**
      * @return EncodingProfile
@@ -220,7 +232,8 @@ class JobAudioOnlyTest extends AbstractJobTest {
 
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigGermanLow;
 
-        /* CREATE ENCODING PROFILE */
+        // CREATE ENCODING PROFILE
         return EncodingProfile::create($encodingProfileConfig);
     }
+
 }
