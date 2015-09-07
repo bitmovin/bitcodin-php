@@ -18,7 +18,7 @@ use test\BitcodinApiTestBaseClass;
 
 class InputTest extends BitcodinApiTestBaseClass {
 
-    const FTP_FILE      = '/input_test/Homepage_Summer_v10.webm';
+    const FTP_FILE      = '/content/input_test/Homepage_Summer_v10.webm';
     const URL_FILE      = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
     const S3_FILE       = 'Sintel-original-short.mkv';
 
