@@ -41,6 +41,7 @@ class FtpInputConfig extends AbstractInputConfig
     {
         $configObj = array();
 
+        $configObj['type'] = $this->type;
         $configObj['url'] = $this->url;
 
         if (!is_null($this->username) && $this->username !== '')
