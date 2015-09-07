@@ -42,7 +42,7 @@ class OutputTest extends BitcodinApiTestBaseClass
         Bitcodin::setApiToken($this->getApiKey());
         $outputConfig = new FtpOutputConfig();
         $outputConfig->name = "TestS3Output";
-        $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer'));
+        $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer')) . '/content';
         $outputConfig->username = $this->getKey('ftpUser');
         $outputConfig->password = $this->getKey('ftpPassword');
 
