@@ -11,6 +11,7 @@ branches:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_16f5d2e61cc6_key -iv $encrypted_16f5d2e61cc6_iv -in test/config.json.enc -out test/config.json -d
+
 install:
 - composer update
 - composer require satooshi/php-coveralls:~0.6@stable
