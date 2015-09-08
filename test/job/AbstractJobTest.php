@@ -42,9 +42,9 @@ abstract class AbstractJobTest extends BitcodinApiTestBaseClass {
     {
         $expireTime = (new DateTime())->add(new \DateInterval('PT'.$timeOutSeconds.'S'));
         do{
+            sleep(2);
             $job->update();
             $this->assertNotEquals($job->status, $notExpectedStatus);
-            sleep(1);
             $this->assertTrue($expireTime >= new DateTime(), 'Timeout during job update!');
 
         } while($job->status != $expectedStatus);
