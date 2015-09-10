@@ -67,7 +67,7 @@ class LiveInstance extends ApiResource
     public static function getAll()
     {
         $response = self::_getRequest(self::URL_ALL, 200);
-        return new self(json_decode($response->getBody()->getContents()));
+        return json_decode($response->getBody()->getContents());
     }
 
 }
