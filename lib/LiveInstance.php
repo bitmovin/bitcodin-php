@@ -23,11 +23,11 @@ class LiveInstance extends ApiResource
     public $id;
     public $label;
     public $status;
-    public $created_at;
-    public $terminated_at;
-    public $rtmp_push_url;
-    public $mpd_url;
-    public $hls_url;
+    public $createdAt;
+    public $terminatedAt;
+    public $rtmpPushUrl;
+    public $mpdUrl;
+    public $hlsUrl;
 
     /**
      * @param string $label

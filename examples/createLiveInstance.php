@@ -22,13 +22,13 @@ while($liveInstance->status != $liveInstance::STATUS_RUNNING)
     if($liveInstance->status == $liveInstance::STATUS_ERROR)
     {
         echo "ERROR occurred!";
-        throw new \Exception("Error occured during Live stream creation");
+        throw new \Exception("Error occurred during Live stream creation");
     }
 }
 
-echo "Livestream RTMP push URL: ".$liveInstance->rtmp_push_url."\n";
-echo "MPD URL: ".$liveInstance->mpd_url."\n";
-echo "HLS URL: ".$liveInstance->hls_url."\n";
+echo "Livestream RTMP push URL: ".$liveInstance->rtmpPushUrl."\n";
+echo "MPD URL: ".$liveInstance->mpdUrl."\n";
+echo "HLS URL: ".$liveInstance->hlsUrl."\n";
 
 $liveInstance = LiveInstance::delete($liveInstance->id);
 
@@ -40,7 +40,7 @@ while($liveInstance->status != $liveInstance::STATUS_TERMINATED)
     if($liveInstance->status == $liveInstance::STATUS_ERROR)
     {
         echo "ERROR occurred!";
-        throw new \Exception("Error occured during Live stream deletion");
+        throw new \Exception("Error occurred during Live stream deletion");
     }
 }
 

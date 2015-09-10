@@ -50,6 +50,6 @@ class LiveInstanceTest extends AbstractLiveInstanceTest
         }
 
         $this->assertNotEquals($liveInstance->status, LiveInstance::STATUS_ERROR);
-        $this->assertNotNull($liveInstance->terminated_at);
+        $this->assertNotNull($liveInstance->terminatedAt);
     }
 }
