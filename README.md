@@ -16,7 +16,7 @@ To install with composer add the following to your `composer.json` file:
 "repositories": 
   [{
     "type": "git",
-    "url": "ssh://git@github.com/bitmovin/bitcodin-php.git"
+    "url": "https://github.com/bitmovin/bitcodin-php.git"
   }],
 "require": 
   {
