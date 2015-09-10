@@ -15,11 +15,11 @@ Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the 
 $liveInstance = LiveInstance::create("live stream test");
 
 echo "Waiting until live stream is RUNNING...\n";
-while($liveInstance->status != "RUNNING")
+while($liveInstance->status != $liveInstance::STATUS_RUNNING)
 {
     sleep(2);
     $liveInstance->update();
-    if($liveInstance->status == "ERROR")
+    if($liveInstance->status == $liveInstance::STATUS_ERROR)
     {
         echo "ERROR occurred!";
         throw new \Exception("Error occured during Live stream creation");
@@ -33,11 +33,11 @@ echo "HLS URL: ".$liveInstance->hls_url."\n";
 $liveInstance = LiveInstance::delete($liveInstance->id);
 
 echo "Waiting until live stream is TERMINATED...\n";
-while($liveInstance->status != "TERMINATED")
+while($liveInstance->status != $liveInstance::STATUS_TERMINATED)
 {
     sleep(2);
     $liveInstance->update();
-    if($liveInstance->status == "ERROR")
+    if($liveInstance->status == $liveInstance::STATUS_ERROR)
     {
         echo "ERROR occurred!";
         throw new \Exception("Error occured during Live stream deletion");
