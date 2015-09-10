@@ -11,6 +11,7 @@ namespace bitcodin;
 class LiveInstance extends ApiResource
 {
     const URL_CREATE = '/live-instance';
+    const URL_ALL = '/live-instance';
     const URL_GET = '/live-instance/{id}';
     const URL_DELETE = '/live-instance/{id}';
 
@@ -60,6 +61,12 @@ class LiveInstance extends ApiResource
     public static function get($id)
     {
         $response = self::_getRequest(str_replace('{id}', $id, self::URL_GET), 200);
+        return new self(json_decode($response->getBody()->getContents()));
+    }
+
+    public static function getAll()
+    {
+        $response = self::_getRequest(self::URL_ALL, 200);
         return new self(json_decode($response->getBody()->getContents()));
     }
 
