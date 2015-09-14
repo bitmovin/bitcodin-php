@@ -65,7 +65,7 @@ class LiveInstance extends ApiResource
         return new self(json_decode($response->getBody()->getContents()));
     }
 
-    public static function getAll($limit=null, $offset=null)
+    public static function getAll($status=null, $limit=null, $offset=null)
     {
         $query = array();
 
@@ -73,6 +73,8 @@ class LiveInstance extends ApiResource
             $query['limit'] = $limit;
         if(is_numeric($offset))
             $query['offset'] = $offset;
+        if(!is_null($status))
+            $query['status'] = $status;
 
         $response = self::_getRequest(self::URL_ALL, 200, $query);
         return json_decode($response->getBody()->getContents());
