@@ -121,14 +121,15 @@ abstract class ApiResource extends \stdClass
     /**
      * @param $url
      * @param $expectedStatusCode
+     * @param $query
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws BitcodinException
      */
-    protected static function _getRequest($url, $expectedStatusCode)
+    protected static function _getRequest($url, $expectedStatusCode, $query=array())
     {
         try {
             $client = self::getClient();
-            $res = $client->get(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
+            $res = $client->get(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(), 'query' => $query]);
         } catch (ClientException $ex) {
             $res = $ex->getResponse();
         }
