@@ -17,4 +17,5 @@ class InputType
     const HTTP = 'url';
     const FTP = 'ftp';
     const S3 = 's3';
+    const ABS = 'abs';
 }

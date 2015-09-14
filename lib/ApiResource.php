@@ -11,7 +11,7 @@ namespace bitcodin;
 use bitcodin\exceptions\BitcodinException;
 use bitcodin\exceptions\BitcodinResourceNotFoundException;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Message\Response;
 
 /**
@@ -91,7 +91,7 @@ abstract class ApiResource extends \stdClass
         try {
             $res = $httpClient->post(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
                                                                      'body'    => $body]);
-        } catch (ClientException $ex) {
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
@@ -113,7 +113,7 @@ abstract class ApiResource extends \stdClass
         try {
             $res = $httpClient->patch(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
                                                                       'body'    => $body]);
-        } catch (ClientException $ex) {
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
 
@@ -132,7 +132,7 @@ abstract class ApiResource extends \stdClass
         try {
             $client = self::getClient();
             $res = $client->get(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders()]);
-        } catch (ClientException $ex) {
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
@@ -150,7 +150,7 @@ abstract class ApiResource extends \stdClass
         $httpClient = self::getClient();
         try {
             $res = $httpClient->delete(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders()]);
-        } catch (ClientException $ex) {
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
