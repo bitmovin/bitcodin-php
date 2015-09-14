@@ -39,7 +39,8 @@ class LiveInstance extends ApiResource
         $requestBody = json_encode(array(
             "label" => $label
         ));
-        $response = self::_postRequest(self::URL_CREATE, $requestBody, 201);
+
+        $response = self::_postRequest(self::URL_CREATE, $requestBody, 200);
         return new self(json_decode($response->getBody()->getContents()));
     }
 
