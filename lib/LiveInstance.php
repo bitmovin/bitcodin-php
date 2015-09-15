@@ -80,4 +80,10 @@ class LiveInstance extends ApiResource
         return json_decode($response->getBody()->getContents());
     }
 
+    public static function getCount()
+    {
+        $resposne = self::_getRequest(self::URL_GET.'/information/count', 200);
+        return json_decode($resposne->getBody()->getContents());
+    }
+
 }
