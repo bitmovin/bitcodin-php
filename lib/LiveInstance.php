@@ -74,7 +74,21 @@ class LiveInstance extends ApiResource
         if(is_numeric($offset))
             $query['offset'] = $offset;
         if(!is_null($status))
-            $query['status'] = $status;
+        {
+            if(is_array($status))
+            {
+                $index = 0;
+                foreach($status as $s)
+                {
+                    $query['status['.$index.']'] = $s;
+                    $index++;
+                }
+            }
+            else
+            {
+                $query['status'] = $status;
+            }
+        }
 
         $response = self::_getRequest(self::URL_ALL, 200, $query);
         return json_decode($response->getBody()->getContents());

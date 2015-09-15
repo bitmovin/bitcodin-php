@@ -16,7 +16,7 @@ use bitcodin\exceptions\BitcodinException;
  */
 class Bitcodin
 {
-    const BASE_URL = 'http://localhost/bitcodin-php-api/index.php';
+    const BASE_URL = 'http://104.155.55.220/api';
     const API_KEY_FIELD_NAME = 'bitcodin-api-key';
 
     /**
