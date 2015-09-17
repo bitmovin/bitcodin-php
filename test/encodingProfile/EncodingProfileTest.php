@@ -23,10 +23,13 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
     const FTP_FILE = '/Homepage_Summer_v10.webm';
     const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
+    protected function setUp()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+    }
 
     public function testCreateEncodingProfile()
     {
-        Bitcodin::setApiToken($this->getApiKey());
 
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
@@ -53,8 +56,6 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
 
     public function testCreateErrorEncodingProfile()
     {
-        Bitcodin::setApiToken($this->getApiKey());
-
         $encodingProfileConfig = new EncodingProfileConfig();
         $this->setExpectedException('bitcodin\exceptions\BitcodinException');
         /* CREATE ENCODING PROFILE */
