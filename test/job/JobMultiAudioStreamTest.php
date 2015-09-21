@@ -195,8 +195,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfigSoundHigh = new AudioStreamConfig();

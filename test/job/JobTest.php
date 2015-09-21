@@ -50,8 +50,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->width = 480;
+        $videoStreamConfig->height = 202;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -104,8 +104,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
         $videoStreamConfig->rate = 12;
 
         /* CREATE AUDIO STREAM CONFIGS */
@@ -146,8 +146,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -198,8 +198,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
 
         /* CREATE AUDIO STREAM CONFIGS */
@@ -252,8 +252,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -302,8 +302,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -352,8 +352,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -402,8 +402,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -452,8 +452,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
