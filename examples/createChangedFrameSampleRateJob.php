@@ -34,7 +34,7 @@ $videoStreamConfig = new VideoStreamConfig();
 $videoStreamConfig->bitrate = 512000;
 $videoStreamConfig->height = 202;
 $videoStreamConfig->width = 480;
-$videoStreamConfig->framerate = 24;
+$videoStreamConfig->rate = 24;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();

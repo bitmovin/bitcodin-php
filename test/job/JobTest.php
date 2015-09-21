@@ -28,6 +28,7 @@ use bitcodin\PlayReadyDRMConfig;
 use bitcodin\CombinedWidevinePlayreadyDRMConfig;
 use bitcodin\HLSEncryptionConfig;
 use bitcodin\HLSEncryptionMethods;
+use bitcodin\exceptions\BitcodinException;
 
 
 class JobTest extends AbstractJobTest {
@@ -86,6 +87,49 @@ class JobTest extends AbstractJobTest {
         $this->assertInstanceOf('bitcodin\Job', $job);
         $this->assertNotNull($job->jobId);
         $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        return $job;
+    }
+
+    /**
+     * @test
+     * @expectedException               bitcodin\exceptions\BitcodinException
+     */
+    public function createFramerateJobTest()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 480;
+        $videoStreamConfig->width = 202;
+        $videoStreamConfig->rate = 12;
+
+        /* CREATE AUDIO STREAM CONFIGS */
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+        $jobConfig->speed = JobSpeedTypes::PREMIUM;
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
         return $job;
     }
 
@@ -294,7 +338,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateAES128HLSEncryptionJob()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createAES128HLSEncryptionJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -341,7 +389,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateAES128HLSEncryptionJobWithoutIV()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createAES128HLSEncryptionJobWithoutIV()
     {
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
@@ -411,7 +463,6 @@ class JobTest extends AbstractJobTest {
         $encodingProfileConfig->name = $this->getName().'EncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-
 
         /* CREATE ENCODING PROFILE */
         $encodingProfile = EncodingProfile::create($encodingProfileConfig);
