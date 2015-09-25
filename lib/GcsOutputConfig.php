@@ -14,5 +14,6 @@ class GcsOutputConfig extends AbstractOutputConfig
     public function __construct()
     {
         $this->type = 'gcs';
+        $this->host = "";
     }
 }
