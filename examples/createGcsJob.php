@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: doweinberger
- * Date: 03.09.15
- * Time: 14:59
- */
 
-use bitcodin\AwsRegion;
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
@@ -25,7 +18,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 /* CONFIGURATION */
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-$inputConfig = new \bitcodin\HttpInputConfig();
+$inputConfig = new HttpInputConfig();
 $inputConfig->url = "http://eu-storage.bitcodin.com/inputs/Sample-Input-Video.mkv";
 $input = Input::create($inputConfig);
 
@@ -36,7 +29,7 @@ $outputConfig->accessKey    = "yourGcsAccessKey";
 $outputConfig->secretKey    = "yourGcsSecretKey";
 $outputConfig->bucket       = "yourBucketName";
 $outputConfig->prefix       = "path/to/your/outputDirectory";
-$outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on GCS will be publicly accessible via HTTP Url or not
 
 $output = Output::create($outputConfig);
 
