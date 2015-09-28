@@ -45,6 +45,7 @@ class AzureBlobStorageInputConfig extends AbstractInputConfig
     {
         $configObj = array();
 
+        $configObj['type'] = $this->type;
         $configObj['accountName'] = $this->accountName;
         $configObj['accountKey'] = $this->accountKey;
         $configObj['container'] = $this->container;
