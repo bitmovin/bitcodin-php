@@ -18,6 +18,7 @@ class Job extends ApiResource
     const URL_GET = '/job/{id}';
     const URL_GET_LIST = '/jobs/{page}';
     const URL_TRANSFER = '/job/transfer';
+    const URL_TRANSFER_GET = '/job/{id}/transfers';
 
     const STATUS_ENQUEUED = 'Enqueued';
     const STATUS_IN_PROGRESS = 'In Progress';
@@ -53,6 +54,24 @@ class Job extends ApiResource
     {
         $postData = json_encode(['jobId' => $this->jobId, 'outputId' => $output->outputId]);
         $this->_postRequest(self::URL_TRANSFER, $postData, 201);
+    }
+
+
+    /**
+     * @return Transfer[]
+     */
+    public function getTransfers()
+    {
+        $response = $this->_getRequest(str_replace('{id}', $this->jobId, self::URL_TRANSFER_GET), 200);
+        $transfers = [];
+        $response = json_decode($response->getBody()->getContents());
+
+        foreach($response as $transferRaw  )
+        {
+            $transfers[] = new Transfer($transferRaw);
+        }
+
+        return $transfers;
     }
 
     /**
