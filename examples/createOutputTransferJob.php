@@ -58,7 +58,7 @@ $audioStreamConfig->bitrate = 128000;
 
 /* CREATE ENCODING PROFILE */
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'ftp Test Profile ' . time();
+$encodingProfileConfig->name = 'Your EncodingProfile';
 $encodingProfileConfig->videoStreamConfigs = [$videoStreamConfig1, $videoStreamConfig2, $videoStreamConfig3, $videoStreamConfig4];
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -68,7 +68,7 @@ echo json_encode($encodingProfile) . "\n";
 /* CREATE OUTPUT */
 
 $outputConfig = new FtpOutputConfig();
-$outputConfig->name = "FTP Campus Test " . time();
+$outputConfig->name = "FTP Output Destination";
 $outputConfig->host = getKey('ftpServer');
 $outputConfig->username = getKey('ftpUser');
 $outputConfig->password = getKey('ftpPassword');
@@ -111,7 +111,7 @@ do {
         }
         sleep(2);
     } catch (\bitcodin\exceptions\BitcodinResourceNotFoundException $e) {
-        echo $date . " - Transfer: Waiting for Transfer...\n";
+        echo $date . " - Transfer: Waiting for Transfer...";
         $transfers = array();
         sleep(2);
     } catch (\Exception $e) {
