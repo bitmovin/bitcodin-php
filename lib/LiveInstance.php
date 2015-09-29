@@ -29,18 +29,25 @@ class LiveInstance extends ApiResource
     public $rtmpPushUrl;
     public $mpdUrl;
     public $hlsUrl;
+    public $streamKey;
 
     /**
      * @param string $label
+     * @param string $streamKey
+     * @param EncodingProfile $encodingProfile
+     * @param int $timeshift
      * @return LiveInstance
      */
-    public static function create($label)
+    public static function create($label, $streamKey, $encodingProfile, $timeshift=30)
     {
         $requestBody = json_encode(array(
-            "label" => $label
+            "label" => $label,
+            "encodingProfileId" => $encodingProfile->encodingProfileId,
+            "streamKey" => $streamKey,
+            "timeshift" => $timeshift
         ));
 
-        $response = self::_postRequest(self::URL_CREATE, $requestBody, 200);
+        $response = self::_postRequest(self::URL_CREATE, $requestBody, 201);
         return new self(json_decode($response->getBody()->getContents()));
     }
 

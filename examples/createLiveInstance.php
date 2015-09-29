@@ -7,12 +7,16 @@
 
 use bitcodin\Bitcodin;
 use bitcodin\LiveInstance;
+use bitcodin\EncodingProfile;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('f55b1f2c650398d2beb69a086b9541e4dd3e23ac61105b82b4c14f91b458f688'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-$liveInstance = LiveInstance::create("live stream test");
+$encodingProfiles = EncodingProfile::getListAll();
+var_dump($encodingProfiles);
+$liveInstance = LiveInstance::create("live-stream-test", $streamKey, $encodingProfiles[0], 30);
+
 
 echo "Waiting until live stream is RUNNING...\n";
 while($liveInstance->status != $liveInstance::STATUS_RUNNING)
