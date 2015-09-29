@@ -82,6 +82,7 @@ abstract class ApiResource extends \stdClass
     /**
      * @param $url
      * @param $body
+     * @param $expectedStatusCode
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws exceptions\BitcodinException
      */
