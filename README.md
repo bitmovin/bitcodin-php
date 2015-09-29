@@ -10,7 +10,7 @@ Installation
 ### Composer ###
  
   
-To install with composer add the following to your `composer.json` file:
+To install with composer add the following to your `composer.json` file:  
 ```js
 {
 "repositories": 
