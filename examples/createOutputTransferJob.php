@@ -23,7 +23,7 @@ use bitcodin\FtpOutputConfig;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('566a1bc718ecd0deacbea17d4cb2cf9fdf3a57cc19498e90a06c77d44d28104d'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('YOURAPIKEYHERE'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel-original-short.mkv';
