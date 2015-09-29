@@ -23,6 +23,12 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
     const FTP_FILE = '/Homepage_Summer_v10.webm';
     const URL_FILE = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     protected function setUp()
     {
         Bitcodin::setApiToken($this->getApiKey());

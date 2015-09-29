@@ -30,9 +30,15 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB CREATION */
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testMultiLanguageJob()
     {
-        Bitcodin::setApiToken($this->getApiKey());
+
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);

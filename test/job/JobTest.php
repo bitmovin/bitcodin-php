@@ -35,6 +35,12 @@ class JobTest extends AbstractJobTest {
 
     const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     /** TEST JOB CREATION */
 
     /**

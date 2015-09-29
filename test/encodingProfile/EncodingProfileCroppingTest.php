@@ -21,6 +21,12 @@ use test\BitcodinApiTestBaseClass;
 
 class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     /**
      * @test
      * @expectedException               bitcodin\exceptions\BitcodinException

@@ -20,6 +20,12 @@ use test\BitcodinApiTestBaseClass;
 class OutputTest extends BitcodinApiTestBaseClass
 {
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testCreateS3Output()
     {
         Bitcodin::setApiToken($this->getApiKey());

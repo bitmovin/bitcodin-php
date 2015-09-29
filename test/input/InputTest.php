@@ -22,9 +22,14 @@ class InputTest extends BitcodinApiTestBaseClass {
     const URL_FILE      = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
     const S3_FILE       = 'Sintel-original-short.mkv';
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testCreateUrlInput()
     {
-        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
 
@@ -35,7 +40,6 @@ class InputTest extends BitcodinApiTestBaseClass {
 
     public function testCreateFtpInput()
     {
-        Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new FtpInputConfig();
         $inputConfig->url = $this->getKey('ftpServer').self::FTP_FILE;
         $inputConfig->username = $this->getKey('ftpUser');
@@ -48,7 +52,6 @@ class InputTest extends BitcodinApiTestBaseClass {
 
     public function testCreateS3Input()
     {
-        Bitcodin::setApiToken($this->getApiKey());
         $s3Config = $this->getKey('s3input');
 
         $inputConfig = new S3InputConfig();

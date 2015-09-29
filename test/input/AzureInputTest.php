@@ -17,9 +17,14 @@ class AzureInputTest extends BitcodinApiTestBaseClass {
 
     const AZURE_FILE    = 'http://bitblobstorage.blob.core.windows.net/php-api-wrapper/Sintel-original-short.mkv';
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testCreateAzureInput()
     {
-        Bitcodin::setApiToken($this->getApiKey());
 
         $inputConfig = new AzureBlobStorageInputConfig();
         $inputConfig->url = self::AZURE_FILE;
@@ -76,7 +81,6 @@ class AzureInputTest extends BitcodinApiTestBaseClass {
 
     public function testCreateInvalidFileAzureInput()
     {
-        Bitcodin::setApiToken($this->getApiKey());
 
         $inputConfig = new AzureBlobStorageInputConfig();
         $inputConfig->url = 'www.invalidazureinput.com/invalid/input.mkv';

@@ -29,11 +29,11 @@ class JobAudioOnlyTest extends AbstractJobTest {
     const URL_FILE_AUDIO_ONLY   =  'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-audio-only-short.mkv';
 
 
-    /*public function testDummy() {
-        $this->assertTrue(true);
-        return true;
-    }*/
+    public function __construct() {
+        parent::__construct();
 
+        Bitcodin::setApiToken($this->getApiKey());
+    }
 
     /** TEST JOB CREATION */
     public function testAudioOnlyJob()

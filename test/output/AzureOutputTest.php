@@ -15,6 +15,13 @@ use test\BitcodinApiTestBaseClass;
 
 class AzureOutputTest extends BitcodinApiTestBaseClass
 {
+
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testCreateAzureOutput()
     {
         Bitcodin::setApiToken($this->getApiKey());
