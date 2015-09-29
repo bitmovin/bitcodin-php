@@ -23,11 +23,13 @@ use bitcodin\FtpOutputConfig;
 require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('apiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('566a1bc718ecd0deacbea17d4cb2cf9fdf3a57cc19498e90a06c77d44d28104d'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 $input = Input::create($inputConfig);
+echo "Input successfully created! \n";
+echo json_encode($input)."\n";
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig1 = new VideoStreamConfig();
@@ -56,20 +58,24 @@ $audioStreamConfig->bitrate = 128000;
 
 /* CREATE ENCODING PROFILE */
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'HD Profile';
+$encodingProfileConfig->name = 'ftp Test Profile '.time();
 $encodingProfileConfig->videoStreamConfigs = [$videoStreamConfig1, $videoStreamConfig2, $videoStreamConfig3, $videoStreamConfig4];
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+echo "Encoding-Profile successfully created! \n";
+echo json_encode($encodingProfile)."\n";
 
 /* CREATE OUTPUT */
 
 $outputConfig = new FtpOutputConfig();
-$outputConfig->name = "123";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
+$outputConfig->name = "FTP Campus Test ".time();
+$outputConfig->host = getKey('ftpServer');
 $outputConfig->username = getKey('ftpUser');
 $outputConfig->password = getKey('ftpPassword');
 
 $output = Output::create($outputConfig);
+echo "Output successfully created! \n";
+echo json_encode($output)."\n";
 
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
@@ -81,26 +87,42 @@ $jobConfig->manifestTypes[] = ManifestTypes::MPD;
 /* CREATE JOB */
 $job = Job::create($jobConfig);
 
+echo "\n\nCreate Encoding...\n\n";
+
 /* WAIT TIL JOB IS FINISHED */
 do{
     $job->update();
-    echo 'Job: ' . $job->jobId . ' Status[' . $job->status . "]\n";
-    sleep(1);
+    echo "\r" . date_create()->format('d.m.Y H:i:s') . ' - Job: ' . $job->jobId . ' Status[' . $job->status . "]";
+    sleep(2);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
+echo "\n\nWait for Transfer...\n\n";
 
 /* WAIT TIL TRANSFER IS FINISHED */
-do{
-    $transfers = $job->getTransfers();
-    $finishedTransfer = 0;
-    foreach($transfers as $transfer)
-    {
-        echo 'Transfer: JobID ' . $transfer->id . ' Progress[' . $transfer->progress . "]\n";
-        if($transfer->progress == 100)
-            $finishedTransfer++;
+do {
+    $date = "\r" . date_create()->format('d.m.Y H:i:s');
+    try {
+        $transfers = $job->getTransfers();
+        $finishedTransfer = 0;
+        foreach($transfers as $transfer)
+        {
+            echo $date . ' - Transfer: JobID ' . $transfer->id . ' Progress[' . $transfer->progress . "] Status[".$transfer->status."]";
+            if($transfer->progress == 100)
+                $finishedTransfer++;
+        }
+        sleep(2);
+    } catch (\bitcodin\exceptions\BitcodinResourceNotFoundException $e) {
+        echo $date . " - Transfer: Waiting for Transfer...\n";
+        $transfers = array();
+        sleep(2);
+    } catch (\Exception $e) {
+        echo "Unexpected Error\n";
     }
-    sleep(1);
-} while($finishedTransfer < sizeof($transfers));
+} while(empty($transfers) || $finishedTransfer < count($transfers));
+
+echo "\n\nTransfer finished...\n\n";
+
+var_dump($transfers);
 
 /* HELPER FUNCTION */
 function getKey($key)
