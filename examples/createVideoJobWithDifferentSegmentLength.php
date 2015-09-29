@@ -45,7 +45,7 @@ $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-$encodingProfileConfig->segmentLength = 0;
+$encodingProfileConfig->segmentLength = 2;
 
 
 /* CREATE ENCODING PROFILE */
