@@ -37,22 +37,22 @@ class ApiResourceTest extends BitcodinApiTestBaseClass
     public function testErrorPostRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        //$this->setExpectedException('bitcodin\exceptions\BitcodinException');
-        ConcreteApiResource::postRequest('/lkajljow/', '', 400);
+        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        ConcreteApiResource::postRequest('/lkajljow/', '', 404);
     }
 
     public function testErrorDeleteRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        //$this->setExpectedException('bitcodin\exceptions\BitcodinException');
-        ConcreteApiResource::deleteRequest('/lkajljow/', 400);
+        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        ConcreteApiResource::deleteRequest('/lkajljow/', 404);
     }
 
     public function testErrorPatchRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        //$this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::patchRequest('/lkajljow/', null, 400);
+        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+        ConcreteApiResource::patchRequest('/lkajljow/', null, 404);
     }
 
 }
