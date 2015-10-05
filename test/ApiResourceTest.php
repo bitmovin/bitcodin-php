@@ -6,6 +6,7 @@
  * Time: 13:57
  */
 
+namespace test;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -36,22 +37,22 @@ class ApiResourceTest extends BitcodinApiTestBaseClass
     public function testErrorPostRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::postRequest('/lkajljow/', '', 201);
+        //$this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        ConcreteApiResource::postRequest('/lkajljow/', '', 400);
     }
 
     public function testErrorDeleteRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::deleteRequest('/lkajljow/', 201);
+        //$this->setExpectedException('bitcodin\exceptions\BitcodinException');
+        ConcreteApiResource::deleteRequest('/lkajljow/', 400);
     }
 
     public function testErrorPatchRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::patchRequest('/lkajljow/', null, 201);
+        //$this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+        ConcreteApiResource::patchRequest('/lkajljow/', null, 400);
     }
 
 }
