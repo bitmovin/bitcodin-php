@@ -6,6 +6,7 @@
  * Time: 13:57
  */
 
+namespace test\encodingprofile;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -29,7 +30,7 @@ class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createCroppingConfigWithNegativeTop()
     {
@@ -49,7 +50,7 @@ class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createCroppingConfigWithNegativeRightValue()
     {
@@ -69,7 +70,7 @@ class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createCroppingConfigWithNegativeLeftValue()
     {
@@ -89,7 +90,7 @@ class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createCroppingConfigWithNegativeBottom()
     {

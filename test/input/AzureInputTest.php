@@ -6,6 +6,8 @@
  * Time: 13:57
  */
 
+namespace test\input;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\AzureBlobStorageInputConfig;

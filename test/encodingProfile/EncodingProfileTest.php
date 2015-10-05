@@ -6,6 +6,7 @@
  * Time: 13:57
  */
 
+namespace test\encodingprofile;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -16,7 +17,7 @@ use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\EncodingProfileConfig;
 use test\BitcodinApiTestBaseClass;
-
+use bitcodin\exceptions\BitcodinException;
 
 class EncodingProfileTest extends BitcodinApiTestBaseClass {
 

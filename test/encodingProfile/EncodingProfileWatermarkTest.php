@@ -6,9 +6,9 @@
  * Time: 13:57
  */
 
+namespace test\encodingprofile;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-
 
 use bitcodin\Bitcodin;
 use bitcodin\EncodingProfile;
@@ -17,7 +17,7 @@ use bitcodin\AudioStreamConfig;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\WatermarkConfig;
 use test\BitcodinApiTestBaseClass;
-
+use bitcodin\exceptions\BitcodinException;
 
 class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
@@ -29,7 +29,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithNegativeTop()
     {
@@ -46,7 +46,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithNegativeRightValue()
     {
@@ -63,7 +63,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithNegativeLeftValue()
     {
@@ -80,7 +80,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithNegativeBottom()
     {
@@ -97,7 +97,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithBottomAndTop()
     {
@@ -115,7 +115,7 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
     /**
      * @test
-     * @expectedException               bitcodin\exceptions\BitcodinException
+     * @expectedException               \bitcodin\exceptions\BitcodinException
      */
     public function createWatermarkConfigWithNoImage()
     {
@@ -151,7 +151,4 @@ class EncodingProfileWatermarkTest extends BitcodinApiTestBaseClass {
 
         return $encodingProfileConfig;
     }
-
-
 }
-
