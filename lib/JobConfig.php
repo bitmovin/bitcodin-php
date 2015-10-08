@@ -22,8 +22,12 @@ class JobConfig
     /**
      * @var EncodingProfile
      */
-    public $encodingProfile;
+    public $encodingProfile = null;
 
+    /**
+     * @var Output
+     */
+    public $output  = null;
 
     /**
      * @var int
@@ -36,7 +40,7 @@ class JobConfig
     public $manifestTypes = array();
 
     /**
-     * @var DRMConfig
+     * @var AbstractDRMConfig
      */
     public $drmConfig = null;
 
@@ -79,6 +83,9 @@ class JobConfig
         $array['encodingProfileId'] = $this->encodingProfile->encodingProfileId;
         $array['manifestTypes'] = $this->manifestTypes;
         $array['extractClosedCaptions'] = $this->extractClosedCaptions;
+
+        if(!is_null($this->output))
+            $array['outputId'] = $this->output->outputId;
 
         if($this->duration != null)
             $array['duration'] = $this->duration;

@@ -20,6 +20,10 @@ use DateTime;
 
 abstract class AbstractJobTest extends BitcodinApiTestBaseClass {
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     /** HELPER METHODS **/
     protected function updateJob(Job $job)
     {
@@ -42,9 +46,9 @@ abstract class AbstractJobTest extends BitcodinApiTestBaseClass {
     {
         $expireTime = (new DateTime())->add(new \DateInterval('PT'.$timeOutSeconds.'S'));
         do{
+            sleep(2);
             $job->update();
             $this->assertNotEquals($job->status, $notExpectedStatus);
-            sleep(1);
             $this->assertTrue($expireTime >= new DateTime(), 'Timeout during job update!');
 
         } while($job->status != $expectedStatus);
@@ -52,7 +56,7 @@ abstract class AbstractJobTest extends BitcodinApiTestBaseClass {
 
     protected function transferJob(Job $job)
     {
-        $s3Config = $this->getKey('s3');
+        $s3Config = $this->getKey('s3output');
         $outputConfig = new S3OutputConfig();
         $outputConfig->accessKey = $s3Config->accessKey;
         $outputConfig->secretKey = $s3Config->secretKey;

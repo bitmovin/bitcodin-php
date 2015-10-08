@@ -1,8 +1,9 @@
 <?php
 /**
- * User: msmole
- * Date: 19.08.15
- * Time: 20:20
+ * Created by PhpStorm.
+ * User: cwioro
+ * Date: 01.07.15
+ * Time: 15:31
  */
 
 
@@ -18,11 +19,7 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-use bitcodin\CombinedWidevinePlayreadyDRMConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\DRMEncryptionMethods;
-use bitcodin\HLSEncryptionConfig;
-use bitcodin\HLSEncryptionMethods;
+use bitcodin\WatermarkConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -35,43 +32,35 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 512000;
+$videoStreamConfig->bitrate = 1024000;
 $videoStreamConfig->height = 202;
 $videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 128000;
+$audioStreamConfig->bitrate = 256000;
+
+/* CREATE CROP CONFIG */
+$croppingConfig = new \bitcodin\CroppingConfig();
+$croppingConfig->bottom = 100;  // 100 pixel of the bottom from the input video will be cropped, before encoding starts.
+$croppingConfig->top    = 100;  // 100 pixel of the top from the input video will be cropped, before encoding starts.
+$croppingConfig->right  = 5;    // 5 pixel of the right side from the input video will be cropped, before encoding starts.
+$croppingConfig->left   = 5;    // 5 pixel of the left side from the input video will be cropped, before encoding starts.
+
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+$encodingProfileConfig->croppingConfig = $croppingConfig;
 
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
-$combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
-$combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
-$combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
-$combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
-$combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
-$combinedWidevinePlayreadyDRMConfig->method =  DRMEncryptionMethods::MPEG_CENC;
-
-$hlsEncryptionConfig = new HLSEncryptionConfig();
-$hlsEncryptionConfig->method = HLSEncryptionMethods::AES_128;
-$hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';
-$hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';
-
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
-$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
-$jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
-$jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -81,6 +70,7 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
+
 
 $outputConfig = new FtpOutputConfig();
 $outputConfig->name = "TestS3Output";

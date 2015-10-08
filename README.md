@@ -10,13 +10,13 @@ Installation
 ### Composer ###
  
   
-To install with composer add the following to your `composer.json` file:
+To install with composer add the following to your `composer.json` file:  
 ```js
 {
 "repositories": 
   [{
     "type": "git",
-    "url": "ssh://git@github.com/bitmovin/bitcodin-php.git"
+    "url": "https://github.com/bitmovin/bitcodin-php.git"
   }],
 "require": 
   {
@@ -71,8 +71,8 @@ $input = Input::create($inputConfig);
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
 $videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 480;
-$videoStreamConfig->width = 202;
+$videoStreamConfig->height = 204;
+$videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();

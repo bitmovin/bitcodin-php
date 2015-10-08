@@ -12,9 +12,14 @@ namespace bitcodin;
  * Class VideoStreamConfig
  * @package bitcodin
  */
-class VideoStreamConfig
+class VideoStreamConfig implements \JsonSerializable
 {
-
+    const PROFILE_BASELINE = 'baseline';
+    const PROFILE_MAIN = 'main';
+    const PROFILE_HIGH = 'high';
+    const PRESET_STANDARD = 'standard';
+    const PRESET_PROFESSIONAL = 'professional';
+    const PRESET_PREMIUM = 'premium';
     /**
      * @var int
      */
@@ -48,5 +53,14 @@ class VideoStreamConfig
     /**
      * @var float
      */
-    public $framerate;
+    public $rate = null;
+
+    public function jsonSerialize()
+    {
+        $array = get_object_vars($this);
+        if($array['rate'] == null)
+            unset($array['rate']);
+
+        return $array;
+    }
 }

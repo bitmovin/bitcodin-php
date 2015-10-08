@@ -25,4 +25,24 @@ class EncodingProfileConfig
      * @var array
      */
     public $videoStreamConfigs = array();
+
+    /**
+     * @var integer
+     */
+    public $rotation = 0;
+
+    /**
+     * @var WatermarkConfig
+     */
+    public $watermarkConfig = null;
+
+    /**
+     * @var CroppingConfig
+     */
+    public $croppingConfig = null;
+
+    /**
+     * @var integer
+     */
+   public $segmentLength = 4;
 }

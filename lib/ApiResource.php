@@ -11,7 +11,7 @@ namespace bitcodin;
 use bitcodin\exceptions\BitcodinException;
 use bitcodin\exceptions\BitcodinResourceNotFoundException;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Message\Response;
 
 /**
@@ -44,7 +44,7 @@ abstract class ApiResource extends \stdClass
     protected static function getClient()
     {
         if (self::$client === NULL)
-            self::$client = new Client(['base_uri' => Bitcodin::BASE_URL]);
+            self::$client = new Client(['base_uri' => Bitcodin::getBaseUrl()]);
 
         return self::$client;
     }
@@ -82,6 +82,7 @@ abstract class ApiResource extends \stdClass
     /**
      * @param $url
      * @param $body
+     * @param $expectedStatusCode
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws exceptions\BitcodinException
      */
@@ -89,9 +90,9 @@ abstract class ApiResource extends \stdClass
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->post(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders(),
-                                                                 'body'    => $body]);
-        } catch (ClientException $ex) {
+            $res = $httpClient->post(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
+                                                                     'body'    => $body]);
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
@@ -101,16 +102,19 @@ abstract class ApiResource extends \stdClass
 
     /**
      * @param $url
+     * @param $body
      * @param $expectedStatusCode
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws BitcodinException
+     * @throws BitcodinResourceNotFoundException
      */
-    protected static function _patchRequest($url, $expectedStatusCode)
+    protected static function _patchRequest($url, $body = null, $expectedStatusCode)
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->patch(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
-        } catch (ClientException $ex) {
+            $res = $httpClient->patch(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(),
+                                                                      'body'    => $body]);
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
 
@@ -121,15 +125,16 @@ abstract class ApiResource extends \stdClass
     /**
      * @param $url
      * @param $expectedStatusCode
+     * @param $query
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      * @throws BitcodinException
      */
-    protected static function _getRequest($url, $expectedStatusCode)
+    protected static function _getRequest($url, $expectedStatusCode, $query=array())
     {
         try {
             $client = self::getClient();
-            $res = $client->get(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
-        } catch (ClientException $ex) {
+            $res = $client->get(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders(), 'query' => $query]);
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
@@ -146,8 +151,8 @@ abstract class ApiResource extends \stdClass
     {
         $httpClient = self::getClient();
         try {
-            $res = $httpClient->delete(Bitcodin::BASE_URL . $url, ['headers' => self::getHeaders()]);
-        } catch (ClientException $ex) {
+            $res = $httpClient->delete(Bitcodin::getBaseUrl() . $url, ['headers' => self::getHeaders()]);
+        } catch (BadResponseException $ex) {
             $res = $ex->getResponse();
         }
         self::_checkExpectedStatus($res, $expectedStatusCode);
