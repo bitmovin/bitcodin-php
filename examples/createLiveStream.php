@@ -6,17 +6,22 @@
  */
 
 use bitcodin\Bitcodin;
-use bitcodin\LiveInstance;
+use bitcodin\LiveStream;
 use bitcodin\EncodingProfile;
+use bitcodin\Output;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 Bitcodin::setApiToken('f55b1f2c650398d2beb69a086b9541e4dd3e23ac61105b82b4c14f91b458f688'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $encodingProfiles = EncodingProfile::getListAll();
-var_dump($encodingProfiles);
-$liveInstance = LiveInstance::create("live-stream-test", $streamKey, $encodingProfiles[0], 30);
+$outputs = Output::getListAll();
+$streamKey = "stream";
 
+var_dump($encodingProfiles);
+var_dump($outputs);
+
+$liveInstance = LiveStream::create("live-stream-test", $streamKey, $encodingProfiles[0], $outputs[0], 30);
 
 echo "Waiting until live stream is RUNNING...\n";
 while($liveInstance->status != $liveInstance::STATUS_RUNNING)
@@ -31,10 +36,11 @@ while($liveInstance->status != $liveInstance::STATUS_RUNNING)
 }
 
 echo "Livestream RTMP push URL: ".$liveInstance->rtmpPushUrl."\n";
+echo "Stream Key: ".$liveInstance->streamKey."\n";
 echo "MPD URL: ".$liveInstance->mpdUrl."\n";
 echo "HLS URL: ".$liveInstance->hlsUrl."\n";
 
-$liveInstance = LiveInstance::delete($liveInstance->id);
+$liveInstance = LiveStream::delete($liveInstance->id);
 
 echo "Waiting until live stream is TERMINATED...\n";
 while($liveInstance->status != $liveInstance::STATUS_TERMINATED)

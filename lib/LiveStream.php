@@ -8,12 +8,12 @@
 namespace bitcodin;
 
 
-class LiveInstance extends ApiResource
+class LiveStream extends ApiResource
 {
-    const URL_CREATE = '/live-instance';
-    const URL_ALL = '/live-instance';
-    const URL_GET = '/live-instance/{id}';
-    const URL_DELETE = '/live-instance/{id}';
+    const URL_CREATE = '/livestream';
+    const URL_ALL = '/livestream';
+    const URL_GET = '/livestream/{id}';
+    const URL_DELETE = '/livestream/{id}';
 
     const STATUS_RUNNING = 'RUNNING';
     const STATUS_STARTING = 'STARTING';
@@ -30,21 +30,24 @@ class LiveInstance extends ApiResource
     public $mpdUrl;
     public $hlsUrl;
     public $streamKey;
+    public $timeshift;
 
     /**
      * @param string $label
      * @param string $streamKey
      * @param EncodingProfile $encodingProfile
+     * @param Output $output
      * @param int $timeshift
-     * @return LiveInstance
+     * @return LiveStream
      */
-    public static function create($label, $streamKey, $encodingProfile, $timeshift=30)
+    public static function create($label, $streamKey, $encodingProfile, $output, $timeshift=30)
     {
         $requestBody = json_encode(array(
             "label" => $label,
             "encodingProfileId" => $encodingProfile->encodingProfileId,
             "streamKey" => $streamKey,
-            "timeshift" => $timeshift
+            "timeshift" => $timeshift,
+            "outputId" => $output->outputId
         ));
 
         $response = self::_postRequest(self::URL_CREATE, $requestBody, 201);
@@ -64,7 +67,7 @@ class LiveInstance extends ApiResource
 
     /**
      * @param $id
-     * @return LiveInstance
+     * @return LiveStream
      */
     public static function get($id)
     {

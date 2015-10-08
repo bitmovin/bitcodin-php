@@ -9,7 +9,9 @@ namespace test\liveInstance;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\Bitcodin;
-use bitcodin\LiveInstance;
+use bitcodin\EncodingProfile;
+use bitcodin\LiveStream;
+use bitcodin\Output;
 
 class LiveInstanceTest extends AbstractLiveInstanceTest
 {
@@ -19,23 +21,39 @@ class LiveInstanceTest extends AbstractLiveInstanceTest
     public function createAndDeleteLiveInstance()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $liveInstance = LiveInstance::create("testliveinstance");
 
-        while($liveInstance->status != LiveInstance::STATUS_RUNNING)
+        $encodingProfiles = EncodingProfile::getListAll();
+        $this->assertGreaterThan(0, count($encodingProfiles));
+
+        $outputs = Output::getListAll();
+        $this->assertGreaterThan(0, count($outputs));
+
+        $output = null;
+        foreach($outputs as $o)
+        {
+            if($o->type == "gcs")
+                $output = $o;
+        }
+
+        $this->assertNotNull($output);
+
+        $liveInstance = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
+
+        while($liveInstance->status != LiveStream::STATUS_RUNNING)
         {
             sleep(2);
             $liveInstance->update();
-            if($liveInstance->status == LiveInstance::STATUS_ERROR)
+            if($liveInstance->status == LiveStream::STATUS_ERROR)
             {
                 throw new \Exception("Error occurred during Live stream creation");
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveInstance::STATUS_ERROR);
+        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
         $this->assertInstanceOf('bitcodin\LiveInstance', $liveInstance);
         $this->assertNotNull($liveInstance->id);
 
-        $liveInstance = LiveInstance::delete($liveInstance->id);
+        $liveInstance = LiveStream::delete($liveInstance->id);
 
         echo "Waiting until live stream is TERMINATED...\n";
         while($liveInstance->status != "TERMINATED")
@@ -49,7 +67,7 @@ class LiveInstanceTest extends AbstractLiveInstanceTest
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveInstance::STATUS_ERROR);
+        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
         $this->assertNotNull($liveInstance->terminatedAt);
     }
 }
