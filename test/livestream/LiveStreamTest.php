@@ -1,23 +1,20 @@
 <?php
-/**
- * Created by David Moser <david.moser@bitmovin.net>
- * Date: 31.08.15
- * Time: 15:45
- */
-
-namespace test\liveInstance;
+/*
+namespace test\livestream;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\EncodingProfile;
 use bitcodin\LiveStream;
 use bitcodin\Output;
+use test\BitcodinApiTestBaseClass;
 
-class LiveStreamTest extends AbstractLiveStreamTest
+
+class LiveStreamTest extends BitcodinApiTestBaseClass
 {
     /**
      * @test
-     */
+     *//*
     public function createAndDeleteLiveInstance()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -70,4 +67,4 @@ class LiveStreamTest extends AbstractLiveStreamTest
         $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
         $this->assertNotNull($liveInstance->terminatedAt);
     }
-}
+}*/
