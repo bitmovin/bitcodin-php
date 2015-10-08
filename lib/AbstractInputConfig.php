@@ -12,10 +12,12 @@ namespace bitcodin;
  * Class AbstractInputConfig
  * @package bitcodin
  */
-class AbstractInputConfig
+abstract class AbstractInputConfig
 {
     /**
      * @var string
      */
-    public $url;
+    public $type;
+
+    public abstract function toRequestJson();
 }

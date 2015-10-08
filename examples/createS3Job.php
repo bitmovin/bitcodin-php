@@ -2,34 +2,36 @@
 /**
  * Created by PhpStorm.
  * User: doweinberger
- * Date: 01.07.15
- * Time: 15:31
+ * Date: 03.09.15
+ * Time: 14:59
  */
 
-
+use bitcodin\AwsRegion;
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
 use bitcodin\JobConfig;
 use bitcodin\Input;
-use bitcodin\HttpInputConfig;
+use bitcodin\S3InputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
-use bitcodin\FtpOutputConfig;
-use bitcodin\CombinedWidevinePlayreadyDRMConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\DRMEncryptionMethods;
+use bitcodin\S3OutputConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-$inputConfig = new HttpInputConfig();
-$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+$inputConfig = new S3InputConfig();
+$inputConfig->accessKey = 'yourAWSAccessKey';
+$inputConfig->secretKey = 'yourAWSSecretKey';
+$inputConfig->bucket    = 'yourBucketName';
+$inputConfig->region    = AwsRegion::EU_WEST_1;             // bucket region
+$inputConfig->objectKey = 'path/to/your/fileonbucket.mp4';
+$inputConfig->host      = 's3-eu-west-1.amazonaws.com';      // OPTIONAL
 $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
@@ -50,20 +52,11 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
-$combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
-$combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
-$combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
-$combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
-$combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
-$combinedWidevinePlayreadyDRMConfig->method =  DRMEncryptionMethods::MPEG_CENC;
-
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
+$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-$jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -74,19 +67,18 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
-$outputConfig->username = getKey('ftpUser');
-$outputConfig->password = getKey('ftpPassword');
+
+$outputConfig = new S3OutputConfig();
+$outputConfig->name         = "TestS3Output";
+$outputConfig->accessKey    = "yourAWSAccessKey";
+$outputConfig->secretKey    = "yourAWSSecretKey";
+$outputConfig->bucket       = "yourBucketName";
+$outputConfig->region       = AwsRegion::EU_WEST_1;
+$outputConfig->prefix       = "path/to/your/outputDirectory";
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
+$outputConfig->host         = "s3-eu-west-1.amazonaws.com";     // OPTIONAL
 
 $output = Output::create($outputConfig);
 
 /* TRANSFER JOB OUTPUT */
 $job->transfer($output);
-
-/* HELPER FUNCTION */
-function getKey($key)
-{
-    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
-}

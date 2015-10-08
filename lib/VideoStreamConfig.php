@@ -12,7 +12,7 @@ namespace bitcodin;
  * Class VideoStreamConfig
  * @package bitcodin
  */
-class VideoStreamConfig
+class VideoStreamConfig implements \JsonSerializable
 {
 
     /**
@@ -48,5 +48,14 @@ class VideoStreamConfig
     /**
      * @var float
      */
-    public $framerate;
+    public $rate = null;
+
+    public function jsonSerialize()
+    {
+        $array = get_object_vars($this);
+        if($array['rate'] == null)
+            unset($array['rate']);
+
+        return $array;
+    }
 }

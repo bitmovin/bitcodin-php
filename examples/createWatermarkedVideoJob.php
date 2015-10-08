@@ -1,12 +1,14 @@
 <?php
 /**
- * User: msmole
- * Date: 19.08.15
- * Time: 20:20
+ * Created by PhpStorm.
+ * User: cwioro
+ * Date: 01.07.15
+ * Time: 15:31
  */
 
 
 use bitcodin\Bitcodin;
+use bitcodin\JobSpeedTypes;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
@@ -18,11 +20,7 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-use bitcodin\CombinedWidevinePlayreadyDRMConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\DRMEncryptionMethods;
-use bitcodin\HLSEncryptionConfig;
-use bitcodin\HLSEncryptionMethods;
+use bitcodin\WatermarkConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -31,47 +29,42 @@ Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the 
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+
 $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 512000;
-$videoStreamConfig->height = 202;
-$videoStreamConfig->width = 480;
+$videoStreamConfig->bitrate = 2024000;
+$videoStreamConfig->height = 818;
+$videoStreamConfig->width = 1920;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 128000;
+$audioStreamConfig->bitrate = 156000;
+$audioStreamConfig->defaultStreamId = 0;
+
+/* CREATE WATERMARK */
+$watermarkConfig = new WatermarkConfig();
+$watermarkConfig->bottom = 200; // Watermark will be placed with a distance of 200 pixel to the bottom of the input video
+$watermarkConfig->right = 100;  // Watermark will be placed with a distance of 100 pixel to the right of the input video
+$watermarkConfig->image = 'http://bitdash-a.akamaihd.net/webpages/bitcodin/images/bitcodin-bitmovin-logo-small.png';
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+$encodingProfileConfig->watermarkConfig = $watermarkConfig;
 
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
-$combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
-$combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
-$combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
-$combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
-$combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
-$combinedWidevinePlayreadyDRMConfig->method =  DRMEncryptionMethods::MPEG_CENC;
-
-$hlsEncryptionConfig = new HLSEncryptionConfig();
-$hlsEncryptionConfig->method = HLSEncryptionMethods::AES_128;
-$hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';
-$hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';
-
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
-$jobConfig->input = $input;
-$jobConfig->manifestTypes[] = ManifestTypes::MPD;
-$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 $jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
-$jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
+$jobConfig->input = $input;
+$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
+
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -81,6 +74,7 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
+
 
 $outputConfig = new FtpOutputConfig();
 $outputConfig->name = "TestS3Output";

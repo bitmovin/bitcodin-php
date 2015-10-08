@@ -54,9 +54,7 @@ class Input extends ApiResource
      */
     public static function create(AbstractInputConfig $inputConfig)
     {
-        $inputConfig->url = str_replace('?dl=0', '?dl=1', $inputConfig->url);
-
-        $response = self::_postRequest(self::URL_CREATE, json_encode($inputConfig), 201);
+        $response = self::_postRequest(self::URL_CREATE, $inputConfig->toRequestJson(), 201);
         return new self(json_decode($response->getBody()->getContents()));
     }
 
@@ -104,7 +102,7 @@ class Input extends ApiResource
         if ($id instanceof \stdClass)
             $id = $id->inputId;
 
-        $response = self::_patchRequest(str_replace('{id}', $id, self::URL_ANALYZE), 200);
+        $response = self::_patchRequest(str_replace('{id}', $id, self::URL_ANALYZE), null, 200);
 
         return new self(json_decode($response->getBody()->getContents()));
     }

@@ -31,14 +31,14 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 480;
-$videoStreamConfig->width = 202;
-$videoStreamConfig->framerate = 24;
+$videoStreamConfig->bitrate = 512000;
+$videoStreamConfig->height = 202;
+$videoStreamConfig->width = 480;
+$videoStreamConfig->rate = 24;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 256000;
+$audioStreamConfig->bitrate = 128000;
 $audioStreamConfig->samplerate = 44100;
 
 $encodingProfileConfig = new EncodingProfileConfig();

@@ -6,8 +6,9 @@
  * Time: 13:57
  */
 
+namespace test\output;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 
 use bitcodin\Bitcodin;
@@ -20,10 +21,16 @@ use test\BitcodinApiTestBaseClass;
 class OutputTest extends BitcodinApiTestBaseClass
 {
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testCreateS3Output()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $s3Config = $this->getKey('s3');
+        $s3Config = $this->getKey('s3output');
         $outputConfig = new S3OutputConfig();
         $outputConfig->accessKey = $s3Config->accessKey;
         $outputConfig->secretKey = $s3Config->secretKey;
@@ -34,7 +41,6 @@ class OutputTest extends BitcodinApiTestBaseClass
 
         $output = Output::create($outputConfig);
         $this->checkOutput($output);
-
         return $output;
     }
 
@@ -43,7 +49,7 @@ class OutputTest extends BitcodinApiTestBaseClass
         Bitcodin::setApiToken($this->getApiKey());
         $outputConfig = new FtpOutputConfig();
         $outputConfig->name = "TestS3Output";
-        $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer'));
+        $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer')) . '/content';
         $outputConfig->username = $this->getKey('ftpUser');
         $outputConfig->password = $this->getKey('ftpPassword');
 
@@ -99,7 +105,7 @@ class OutputTest extends BitcodinApiTestBaseClass
 
         for ($num = 0; $num < $count; $num++) {
             Bitcodin::setApiToken($this->getApiKey());
-            $s3Config = $this->getKey('s3');
+            $s3Config = $this->getKey('s3output');
             $outputConfig = new S3OutputConfig();
             $outputConfig->accessKey = $s3Config->accessKey;
             $outputConfig->secretKey = $s3Config->secretKey;

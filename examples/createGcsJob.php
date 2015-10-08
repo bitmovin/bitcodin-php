@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: doweinberger
- * Date: 01.07.15
- * Time: 15:31
- */
-
 
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
@@ -13,15 +6,12 @@ use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
 use bitcodin\JobConfig;
 use bitcodin\Input;
-use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
-use bitcodin\FtpOutputConfig;
-use bitcodin\CombinedWidevinePlayreadyDRMConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\DRMEncryptionMethods;
+use bitcodin\GcsOutputConfig;
+use bitcodin\HttpInputConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -29,8 +19,19 @@ require_once __DIR__.'/../vendor/autoload.php';
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
-$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+$inputConfig->url = "http://eu-storage.bitcodin.com/inputs/Sample-Input-Video.mkv";
 $input = Input::create($inputConfig);
+
+/* CREATE OUTPUT CONFIG  */
+$outputConfig = new GcsOutputConfig();
+$outputConfig->name         = "TestGcsOutput";
+$outputConfig->accessKey    = "yourGcsAccessKey";
+$outputConfig->secretKey    = "yourGcsSecretKey";
+$outputConfig->bucket       = "yourBucketName";
+$outputConfig->prefix       = "path/to/your/outputDirectory";
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on GCS will be publicly accessible via HTTP Url or not
+
+$output = Output::create($outputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
@@ -50,20 +51,12 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
-$combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
-$combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
-$combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
-$combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
-$combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
-$combinedWidevinePlayreadyDRMConfig->method =  DRMEncryptionMethods::MPEG_CENC;
-
 $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
+$jobConfig->output = $output;
+$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-$jobConfig->speed = JobSpeedTypes::STANDARD;
-$jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -73,20 +66,3 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
-
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
-$outputConfig->username = getKey('ftpUser');
-$outputConfig->password = getKey('ftpPassword');
-
-$output = Output::create($outputConfig);
-
-/* TRANSFER JOB OUTPUT */
-$job->transfer($output);
-
-/* HELPER FUNCTION */
-function getKey($key)
-{
-    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
-}

@@ -34,12 +34,49 @@ class JobTest extends AbstractJobTest {
 
     const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
+    /** TEST FAST-JOB CREATION */
+
+    /**
+     * @return Job
+     * @test
+     */
+    public function createFastWidevineDRMJob()
+    {
+        return $this->createWidevineDRMJob(JobSpeedTypes::PREMIUM);
+    }
+
+    /**
+     * @return Job
+     * @test
+     */
+    public function createFastPlayreadyDRMJob()
+    {
+        return $this->createPlayreadyDRMJob(JobSpeedTypes::PREMIUM);
+    }
+
+    /**
+     * @return Job
+     * @test
+     */
+    public function createFastCombinedWidevinePlayreadyDRMJob()
+    {
+        return $this->createCombinedWidevinePlayreadyDRMJob(JobSpeedTypes::PREMIUM);
+    }
+
     /** TEST JOB CREATION */
 
     /**
+     * @param string $speed
+     * @return Job
      * @test
      */
-    public function createWidevineDRMJob()
+    public function createWidevineDRMJob($speed = JobSpeedTypes::STANDARD)
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -49,8 +86,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->width = 480;
+        $videoStreamConfig->height = 202;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -77,7 +114,7 @@ class JobTest extends AbstractJobTest {
         $jobConfig->encodingProfile = $encodingProfile;
         $jobConfig->input = $input;
         $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->speed = $speed;
         $jobConfig->drmConfig = $widevineDRMConfig;
 
         /* CREATE JOB */
@@ -86,13 +123,16 @@ class JobTest extends AbstractJobTest {
         $this->assertInstanceOf('bitcodin\Job', $job);
         $this->assertNotNull($job->jobId);
         $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+
         return $job;
     }
 
     /**
+     * @param string $speed
+     * @return Job
      *@test
      */
-    public function createPlayreadyDRMJob()
+    public function createPlayreadyDRMJob($speed = JobSpeedTypes::STANDARD)
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -102,8 +142,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -129,7 +169,7 @@ class JobTest extends AbstractJobTest {
         $jobConfig->encodingProfile = $encodingProfile;
         $jobConfig->input = $input;
         $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->speed = $speed;
         $jobConfig->drmConfig = $playreadyDRMConfig;
 
         /* CREATE JOB */
@@ -142,9 +182,11 @@ class JobTest extends AbstractJobTest {
     }
 
     /**
+     * @param string $speed
+     * @return Job
      * @test
      */
-    public function createCombinedWidevinePlayreadyDRMJob()
+    public function createCombinedWidevinePlayreadyDRMJob($speed = JobSpeedTypes::STANDARD)
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -154,8 +196,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
 
         /* CREATE AUDIO STREAM CONFIGS */
@@ -182,7 +224,7 @@ class JobTest extends AbstractJobTest {
         $jobConfig->encodingProfile = $encodingProfile;
         $jobConfig->input = $input;
         $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-        $jobConfig->speed = JobSpeedTypes::STANDARD;
+        $jobConfig->speed = $speed;
         $jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
 
         /* CREATE JOB */
@@ -208,8 +250,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -258,8 +300,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -294,7 +336,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateAES128HLSEncryptionJob()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createAES128HLSEncryptionJob()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $inputConfig = new HttpInputConfig();
@@ -304,8 +350,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -341,7 +387,11 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
-    public function testCreateAES128HLSEncryptionJobWithoutIV()
+    /**
+     * @test
+     * @return Job
+     */
+    public function createAES128HLSEncryptionJobWithoutIV()
     {
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
@@ -350,8 +400,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -388,6 +438,49 @@ class JobTest extends AbstractJobTest {
 
     /**
      * @test
+     * @expectedException \bitcodin\exceptions\BitcodinException
+     */
+    public function createFramerateJobTest()
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
+        $videoStreamConfig->rate = 12;
+
+        /* CREATE AUDIO STREAM CONFIGS */
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+        $jobConfig->speed = JobSpeedTypes::PREMIUM;
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
+        return $job;
+    }
+
+    /**
+     * @test
      * @return Job
      */
     public function createJob()
@@ -400,8 +493,8 @@ class JobTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfig = new AudioStreamConfig();
@@ -411,7 +504,6 @@ class JobTest extends AbstractJobTest {
         $encodingProfileConfig->name = $this->getName().'EncodingProfile';
         $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
         $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-
 
         /* CREATE ENCODING PROFILE */
         $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -429,6 +521,32 @@ class JobTest extends AbstractJobTest {
         $this->assertNotNull($job->jobId);
         $this->assertNotEquals($job->status, Job::STATUS_ERROR);
         return $job;
+    }
+
+    /** TEST FAST-JOB PROGRESS */
+
+    /**
+     * @depends createFastWidevineDRMJob
+     */
+    public function testUpdateFastWidevineDRMJob(Job $job)
+    {
+        return $this->updateJob($job);
+    }
+
+    /**
+     * @depends createFastPlayreadyDRMJob
+     */
+    public function testUpdateFastPlayreadyDRMJob(Job $job)
+    {
+        return $this->updateJob($job);
+    }
+
+    /**
+     * @depends createFastCombinedWidevinePlayreadyDRMJob
+     */
+    public function testUpdateFastCombinedWidevinePlayreadyDRMJob(Job $job)
+    {
+        return $this->updateJob($job);
     }
 
     /** TEST JOB PROGRESS*/

@@ -30,9 +30,15 @@ class JobMultiLanguageTest extends AbstractJobTest {
 
     /** TEST JOB CREATION */
 
+    public function __construct() {
+        parent::__construct();
+
+        Bitcodin::setApiToken($this->getApiKey());
+    }
+
     public function testMultiLanguageJob()
     {
-        Bitcodin::setApiToken($this->getApiKey());
+
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $input = Input::create($inputConfig);
@@ -195,8 +201,8 @@ class JobMultiLanguageTest extends AbstractJobTest {
         /* CREATE VIDEO STREAM CONFIG */
         $videoStreamConfig = new VideoStreamConfig();
         $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 480;
-        $videoStreamConfig->width = 202;
+        $videoStreamConfig->height = 202;
+        $videoStreamConfig->width = 480;
 
         /* CREATE AUDIO STREAM CONFIGS */
         $audioStreamConfigSoundHigh = new AudioStreamConfig();

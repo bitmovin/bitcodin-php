@@ -6,6 +6,7 @@
  * Time: 13:57
  */
 
+namespace test;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -19,15 +20,14 @@ class ConcreteApiResource extends \bitcodin\ApiResource
         return self::_postRequest($url, $body, $expectedCode);
     }
 
-    public static function patchRequest($url, $expectedCode)
+    public static function patchRequest($url, $body, $expectedCode)
     {
-        return self::_patchRequest($url, $expectedCode);
+        return self::_patchRequest($url, $body, $expectedCode);
     }
-
 
     public static function deleteRequest($url, $expectedCode)
     {
-        return self::_patchRequest($url, $expectedCode);
+        return self::_patchRequest($url, null, $expectedCode);
     }
 }
 
@@ -37,22 +37,22 @@ class ApiResourceTest extends BitcodinApiTestBaseClass
     public function testErrorPostRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::postRequest('/lkajljow/', '', 201);
+        //$this->setExpectedException('\bitcodin\exceptions\BitcodinResourceNotFoundException');
+        ConcreteApiResource::postRequest('/lkajljow/', '', 400);
     }
 
     public function testErrorDeleteRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::deleteRequest('/lkajljow/', 201);
+        //$this->setExpectedException('\bitcodin\exceptions\BitcodinResourceNotFoundException');
+        ConcreteApiResource::deleteRequest('/lkajljow/', 404);
     }
 
     public function testErrorPatchRequest()
     {
         Bitcodin::setApiToken($this->getApiKey());
-        $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        ConcreteApiResource::patchRequest('/lkajljow/', 201);
+        //$this->setExpectedException('\bitcodin\exceptions\BitcodinResourceNotFoundException');
+        ConcreteApiResource::patchRequest('/lkajljow/', null, 404);
     }
 
 }
