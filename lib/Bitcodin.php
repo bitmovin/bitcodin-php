@@ -16,7 +16,7 @@ use bitcodin\exceptions\BitcodinException;
  */
 class Bitcodin
 {
-    const DEFAULT_BASE_URL = 'http://portalstaging.bitcodin.com/api';
+    const DEFAULT_BASE_URL = 'http://portal.bitcodin.com/api';
     const API_KEY_FIELD_NAME = 'bitcodin-api-key';
 
     /**
