@@ -14,7 +14,12 @@ namespace bitcodin;
  */
 class VideoStreamConfig implements \JsonSerializable
 {
-
+    const PROFILE_BASELINE = 'baseline';
+    const PROFILE_MAIN = 'main';
+    const PROFILE_HIGH = 'high';
+    const PRESET_STANDARD = 'standard';
+    const PRESET_PROFESSIONAL = 'professional';
+    const PRESET_PREMIUM = 'premium';
     /**
      * @var int
      */
