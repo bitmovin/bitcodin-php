@@ -8,7 +8,7 @@ use test\BitcodinApiTestBaseClass;
  * Date: 31.08.15
  * Time: 15:43
  */
-class AbstractStreamTest extends BitcodinApiTestBaseClass
+class AbstractLiveStreamTest extends BitcodinApiTestBaseClass
 {
 
 }

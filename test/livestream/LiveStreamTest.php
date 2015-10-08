@@ -13,7 +13,7 @@ use bitcodin\EncodingProfile;
 use bitcodin\LiveStream;
 use bitcodin\Output;
 
-class LiveStreamTest extends AbstractStreamTest
+class LiveStreamTest extends AbstractLiveStreamTest
 {
     /**
      * @test
