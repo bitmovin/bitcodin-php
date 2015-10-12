@@ -49,7 +49,6 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         }
 
         $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
-        $this->assertInstanceOf('bitcodin\LiveInstance', $liveInstance);
         $this->assertNotNull($liveInstance->id);
 
         $liveInstance = LiveStream::delete($liveInstance->id);
