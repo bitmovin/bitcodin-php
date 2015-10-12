@@ -1,10 +1,11 @@
 <?php
-/*
+
 namespace test\livestream;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\EncodingProfile;
+use bitcodin\GcsOutputConfig;
 use bitcodin\LiveStream;
 use bitcodin\Output;
 use test\BitcodinApiTestBaseClass;
@@ -14,7 +15,7 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
 {
     /**
      * @test
-     *//*
+     */
     public function createAndDeleteLiveInstance()
     {
         Bitcodin::setApiToken($this->getApiKey());
@@ -22,16 +23,16 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $encodingProfiles = EncodingProfile::getListAll();
         $this->assertGreaterThan(0, count($encodingProfiles));
 
-        $outputs = Output::getListAll();
-        $this->assertGreaterThan(0, count($outputs));
+        $gcsOutputConfig = $this::getKey("gcsOutput");
 
-        $output = null;
-        foreach($outputs as $o)
-        {
-            if($o->type == "gcs")
-                $output = $o;
-        }
+        $outputConfig = new GcsOutputConfig();
+        $outputConfig->accessKey = $gcsOutputConfig->accessKey;
+        $outputConfig->secretKey = $gcsOutputConfig->secretKey;
+        $outputConfig->bucket = $gcsOutputConfig->bucket;
+        $outputConfig->prefix = "bitcodin-php";
+        $outputConfig->makePublic = true;
 
+        $output = Output::create($outputConfig);
         $this->assertNotNull($output);
 
         $liveInstance = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
@@ -67,4 +68,4 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
         $this->assertNotNull($liveInstance->terminatedAt);
     }
-}*/
+}
