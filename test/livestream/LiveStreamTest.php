@@ -29,6 +29,7 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $outputConfig->accessKey = $gcsOutputConfig->accessKey;
         $outputConfig->secretKey = $gcsOutputConfig->secretKey;
         $outputConfig->bucket = $gcsOutputConfig->bucket;
+        $outputConfig->name = "bitcodin-php GCS Output";
         $outputConfig->prefix = "bitcodin-php";
         $outputConfig->makePublic = true;
 
