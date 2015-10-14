@@ -56,8 +56,7 @@ class LiveStream extends ApiResource
 
     public static function delete($id)
     {
-        $response = self::_deleteRequest(str_replace('{id}', $id, self::URL_DELETE), 204);
-        return new self(json_decode($response->getBody()->getContents()));
+        self::_deleteRequest(str_replace('{id}', $id, self::URL_DELETE), 204);
     }
 
     public function update()

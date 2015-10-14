@@ -52,7 +52,7 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
         $this->assertNotNull($liveInstance->id);
 
-        $liveInstance = LiveStream::delete($liveInstance->id);
+        LiveStream::delete($liveInstance->id);
 
         echo "Waiting until live stream is TERMINATED...\n";
         while($liveInstance->status != "TERMINATED")
