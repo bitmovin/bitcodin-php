@@ -37,6 +37,7 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $this->assertNotNull($output);
 
         $liveInstance = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
+        $this->assertNotNull($liveInstance->id);
 
         while($liveInstance->status != LiveStream::STATUS_RUNNING)
         {
