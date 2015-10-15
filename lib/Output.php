@@ -73,25 +73,21 @@ class Output extends ApiResource
 
     public function update()
     {
-        self::_copy(self::get($this));
+        self::_copy(self::get($this->outputId));
     }
 
     public function delete()
     {
-        return self::deleteInput($this);
+        self::_deleteRequest(str_replace('{id}', $this->outputId, self::URL_DELETE), 204);
     }
 
     /**
-     * @param $id
      * @return Output
+     * @param $id
      */
     public static function get($id)
     {
-        if ($id instanceof \stdClass)
-            $id = $id->outputId;
-
         $response = self::_getRequest(str_replace('{id}', $id, self::URL_GET), 200);
-
         return new self(json_decode($response->getBody()->getContents()));
     }
 
@@ -131,27 +127,5 @@ class Output extends ApiResource
         }
 
         return $outputs;
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    private static function deleteInput($id)
-    {
-        if ($id instanceof Output)
-            $id = $id->outputId;
-
-        $response = self::_deleteRequest(str_replace('{id}', $id, self::URL_DELETE), 204);
-
-        return json_decode($response->getBody()->getContents());
-    }
-
-    public static function deleteAll()
-    {
-        foreach (self::getListAll() as $output) {
-            //  var_dump($output->outputId);
-            $output->delete();
-        }
     }
 }

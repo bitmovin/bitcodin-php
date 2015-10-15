@@ -88,7 +88,7 @@ class OutputTest extends BitcodinApiTestBaseClass
     {
         $output->delete();
         $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
-        Output::get($output);
+        Output::get($output->outputId);
     }
 
 
@@ -97,29 +97,6 @@ class OutputTest extends BitcodinApiTestBaseClass
         foreach (Output::getListAll() as $output) {
             $this->checkOutput($output);
         }
-    }
-
-    public function testDeleteAll()
-    {
-        $count = 10;
-
-        for ($num = 0; $num < $count; $num++) {
-            Bitcodin::setApiToken($this->getApiKey());
-            $s3Config = $this->getKey('s3output');
-            $outputConfig = new S3OutputConfig();
-            $outputConfig->accessKey = $s3Config->accessKey;
-            $outputConfig->secretKey = $s3Config->secretKey;
-            $outputConfig->name = $s3Config->name;
-            $outputConfig->bucket = $s3Config->bucket;
-            $outputConfig->region = $s3Config->region;
-            $outputConfig->makePublic = false;
-
-            Output::create($outputConfig);
-        }
-
-        Output::deleteAll();
-
-        $this->assertEquals(0, sizeof(Output::getListAll()));
     }
 
     private function checkOutput(Output $output)
