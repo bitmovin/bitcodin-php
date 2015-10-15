@@ -36,37 +36,38 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         $output = Output::create($outputConfig);
         $this->assertNotNull($output);
 
-        $liveInstance = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
-        $this->assertNotNull($liveInstance->id);
+        $liveStream = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
+        $this->assertNotNull($liveStream->id);
 
-        while($liveInstance->status != LiveStream::STATUS_RUNNING)
+        while($liveStream->status != LiveStream::STATUS_RUNNING)
         {
             sleep(2);
-            $liveInstance->update();
-            if($liveInstance->status == LiveStream::STATUS_ERROR)
+            $liveStream->update();
+            if($liveStream->status == LiveStream::STATUS_ERROR)
             {
                 throw new \Exception("Error occurred during Live stream creation");
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
-        $this->assertNotNull($liveInstance->id);
+        $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
+        $this->assertNotNull($liveStream->id);
 
-        LiveStream::delete($liveInstance->id);
+        LiveStream::delete($liveStream->id);
 
         echo "Waiting until live stream is TERMINATED...\n";
-        while($liveInstance->status != "TERMINATED")
+        while($liveStream->status != "TERMINATED")
         {
             sleep(2);
-            $liveInstance->update();
-            if($liveInstance->status == "ERROR")
+            $liveStream->update();
+            if($liveStream->status == "ERROR")
             {
                 echo "ERROR occurred!";
                 throw new \Exception("Error occurred during Live stream deletion");
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
-        $this->assertNotNull($liveInstance->terminatedAt);
+        $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
+        $this->assertEquals($liveStream->status, LiveStream::STATUS_TERMINATED);
+        $this->assertNotNull($liveStream->terminatedAt);
     }
 }
