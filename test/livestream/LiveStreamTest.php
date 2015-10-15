@@ -55,11 +55,11 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
         LiveStream::delete($liveStream->id);
 
         echo "Waiting until live stream is TERMINATED...\n";
-        while($liveStream->status != "TERMINATED")
+        while($liveStream->status != LiveStream::STATUS_TERMINATED)
         {
             sleep(2);
             $liveStream->update();
-            if($liveStream->status == "ERROR")
+            if($liveStream->status == LiveStream::STATUS_ERROR)
             {
                 echo "ERROR occurred!";
                 throw new \Exception("Error occurred during Live stream deletion");
@@ -68,6 +68,5 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
 
         $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
         $this->assertEquals($liveStream->status, LiveStream::STATUS_TERMINATED);
-        $this->assertNotNull($liveStream->terminatedAt);
     }
 }
