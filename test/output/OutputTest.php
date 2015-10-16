@@ -44,7 +44,7 @@ class OutputTest extends BitcodinApiTestBaseClass
         return $output;
     }
 
-    public function testCreateFtpOutput()
+    /*public function testCreateFtpOutput()
     {
         Bitcodin::setApiToken($this->getApiKey());
         $outputConfig = new FtpOutputConfig();
@@ -57,7 +57,7 @@ class OutputTest extends BitcodinApiTestBaseClass
         $this->checkOutput($output);
 
         return $output;
-    }
+    }*/
 
     /**
      * @depends testCreateFtpOutput

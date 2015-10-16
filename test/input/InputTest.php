@@ -39,7 +39,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         return $input;
     }
 
-    public function testCreateFtpInput()
+    /*public function testCreateFtpInput()
     {
         $inputConfig = new FtpInputConfig();
         $inputConfig->url = $this->getKey('ftpServer').self::FTP_FILE;
@@ -49,7 +49,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         $input = Input::create($inputConfig);
         $this->checkInput($input);
         return $input;
-    }
+    }*/
 
     public function testCreateS3Input()
     {
