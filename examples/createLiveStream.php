@@ -12,7 +12,7 @@ use bitcodin\Output;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-Bitcodin::setApiToken('f55b1f2c650398d2beb69a086b9541e4dd3e23ac61105b82b4c14f91b458f688'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('YOURAPIKEY'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $encodingProfiles = EncodingProfile::getListAll();
 $outputs = Output::getListAll();

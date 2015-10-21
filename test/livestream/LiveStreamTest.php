@@ -1,73 +1,72 @@
 <?php
-/**
- * Created by David Moser <david.moser@bitmovin.net>
- * Date: 31.08.15
- * Time: 15:45
- */
 
-namespace test\liveInstance;
+namespace test\livestream;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\Bitcodin;
 use bitcodin\EncodingProfile;
+use bitcodin\GcsOutputConfig;
 use bitcodin\LiveStream;
 use bitcodin\Output;
+use test\BitcodinApiTestBaseClass;
 
-class LiveStreamTest extends AbstractLiveStreamTest
+
+class LiveStreamTest extends BitcodinApiTestBaseClass
 {
     /**
      * @test
      */
-    public function createAndDeleteLiveInstance()
+    /*public function createAndDeleteLiveInstance()
     {
         Bitcodin::setApiToken($this->getApiKey());
 
         $encodingProfiles = EncodingProfile::getListAll();
         $this->assertGreaterThan(0, count($encodingProfiles));
 
-        $outputs = Output::getListAll();
-        $this->assertGreaterThan(0, count($outputs));
+        $gcsOutputConfig = $this::getKey("gcsOutput");
 
-        $output = null;
-        foreach($outputs as $o)
-        {
-            if($o->type == "gcs")
-                $output = $o;
-        }
+        $outputConfig = new GcsOutputConfig();
+        $outputConfig->accessKey = $gcsOutputConfig->accessKey;
+        $outputConfig->secretKey = $gcsOutputConfig->secretKey;
+        $outputConfig->bucket = $gcsOutputConfig->bucket;
+        $outputConfig->name = "bitcodin-php GCS Output";
+        $outputConfig->prefix = "bitcodin-php";
+        $outputConfig->makePublic = true;
 
+        $output = Output::create($outputConfig);
         $this->assertNotNull($output);
 
-        $liveInstance = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
+        $liveStream = LiveStream::create("testliveinstance", "stream", $encodingProfiles[0], $output, 30);
+        $this->assertNotNull($liveStream->id);
 
-        while($liveInstance->status != LiveStream::STATUS_RUNNING)
+        while($liveStream->status != LiveStream::STATUS_RUNNING)
         {
             sleep(2);
-            $liveInstance->update();
-            if($liveInstance->status == LiveStream::STATUS_ERROR)
+            $liveStream->update();
+            if($liveStream->status == LiveStream::STATUS_ERROR)
             {
                 throw new \Exception("Error occurred during Live stream creation");
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
-        $this->assertInstanceOf('bitcodin\LiveInstance', $liveInstance);
-        $this->assertNotNull($liveInstance->id);
+        $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
+        $this->assertNotNull($liveStream->id);
 
-        $liveInstance = LiveStream::delete($liveInstance->id);
+        LiveStream::delete($liveStream->id);
 
         echo "Waiting until live stream is TERMINATED...\n";
-        while($liveInstance->status != "TERMINATED")
+        while($liveStream->status != LiveStream::STATUS_TERMINATED)
         {
             sleep(2);
-            $liveInstance->update();
-            if($liveInstance->status == "ERROR")
+            $liveStream->update();
+            if($liveStream->status == LiveStream::STATUS_ERROR)
             {
                 echo "ERROR occurred!";
                 throw new \Exception("Error occurred during Live stream deletion");
             }
         }
 
-        $this->assertNotEquals($liveInstance->status, LiveStream::STATUS_ERROR);
-        $this->assertNotNull($liveInstance->terminatedAt);
-    }
+        $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
+        $this->assertEquals($liveStream->status, LiveStream::STATUS_TERMINATED);
+    }*/
 }
