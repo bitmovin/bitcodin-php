@@ -16,7 +16,7 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
     /**
      * @test
      */
-    /*public function createAndDeleteLiveInstance()
+    public function createAndDeleteLiveInstance()
     {
         Bitcodin::setApiToken($this->getApiKey());
 
@@ -68,5 +68,5 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
 
         $this->assertNotEquals($liveStream->status, LiveStream::STATUS_ERROR);
         $this->assertEquals($liveStream->status, LiveStream::STATUS_TERMINATED);
-    }*/
+    }
 }
