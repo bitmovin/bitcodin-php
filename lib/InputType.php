@@ -18,4 +18,5 @@ class InputType
     const FTP = 'ftp';
     const S3 = 's3';
     const ABS = 'abs';
+    const ASPERA = 'aspera';
 }
