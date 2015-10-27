@@ -1,6 +1,7 @@
 <?php
 
 namespace test\livestream;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use bitcodin\Bitcodin;
@@ -18,6 +19,8 @@ class LiveStreamTest extends BitcodinApiTestBaseClass
      */
     public function createAndDeleteLiveInstance()
     {
+        $this->markTestSkipped("Skipped due to updates");
+
         Bitcodin::setApiToken($this->getApiKey());
 
         $encodingProfiles = EncodingProfile::getListAll();
