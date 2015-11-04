@@ -18,8 +18,8 @@ use bitcodin\FtpOutputConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-/* CONFIGURATION */
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+///* CONFIGURATION */
+Bitcodin::setApiToken('YOUR API KEY'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
@@ -77,3 +77,4 @@ $vttMpdConfig->jobId = $job->jobId;
 $vttMpdConfig->subtitles = $subtitles;
 
 $mpdRes = VttMpd::create($vttMpdConfig);
+echo "URL OF VTT MPD: ".$mpdRes->mpdUrl."\n";

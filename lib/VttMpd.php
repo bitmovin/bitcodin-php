@@ -18,7 +18,7 @@ class VttMpd extends ApiResource
      */
     static function create($vttMpdConfig)
     {
-        $response = self::_postRequest(self::URL_CREATE, $vttMpdConfig->getRequestBody(), 201);
+        $response = self::_postRequest(self::URL_CREATE, $vttMpdConfig->getRequestBody(), 200);
         return new self(json_decode($response->getBody()->getContents()));
     }
 }
