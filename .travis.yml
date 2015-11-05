@@ -1,7 +1,6 @@
 language: php
 notifications:
   email:
-  - guenther.cwioro@bitmovin.net
   - bitcodin-php@bitmovin.net
   - dominic.miglar@bitmovin.net
 
