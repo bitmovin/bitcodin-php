@@ -43,6 +43,11 @@ class VideoStreamConfig implements \JsonSerializable
     /**
      * @var string
      */
+    public $codec = null;
+
+    /**
+     * @var string
+     */
     public $profile = 'Main';
 
     /**
@@ -60,6 +65,8 @@ class VideoStreamConfig implements \JsonSerializable
         $array = get_object_vars($this);
         if($array['rate'] == null)
             unset($array['rate']);
+        if($array['codec'] == null)
+            unset($array['codec']);
 
         return $array;
     }
