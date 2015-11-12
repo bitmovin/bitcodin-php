@@ -19,7 +19,7 @@ use test\BitcodinApiTestBaseClass;
 
 class InputTest extends BitcodinApiTestBaseClass {
 
-    const FTP_FILE      = '/content/input_test/Homepage_Summer_v10.webm';
+    const FTP_FILE      = '/input_test/Homepage_Summer_v10.webm';
     const URL_FILE      = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
     const S3_FILE       = 'Sintel-original-short.mkv';
 
@@ -39,7 +39,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         return $input;
     }
 
-    /*public function testCreateFtpInput()
+    public function testCreateFtpInput()
     {
         $inputConfig = new FtpInputConfig();
         $inputConfig->url = $this->getKey('ftpServer').self::FTP_FILE;
@@ -49,7 +49,7 @@ class InputTest extends BitcodinApiTestBaseClass {
         $input = Input::create($inputConfig);
         $this->checkInput($input);
         return $input;
-    }*/
+    }
 
     public function testCreateS3Input()
     {
@@ -68,7 +68,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testCreateUrlInput
+     * @depends testCreateUrlInput
      */
     public function testUpdateUrlInput(Input $input)
     {
@@ -78,7 +78,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testCreateFtpInput
+     * @depends testCreateFtpInput
      */
     public function testUpdateFtpInput(Input $input)
     {
@@ -88,7 +88,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testCreateS3Input
+     * @depends testCreateS3Input
      */
     public function testUpdateS3Input(Input $input)
     {
@@ -98,7 +98,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testUpdateUrlInput
+     * @depends testUpdateUrlInput
      */
     public function testGetUrlInput(Input $input)
     {
@@ -109,7 +109,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testUpdateFtpInput
+     * @depends testUpdateFtpInput
      */
     public function testGetFtpInput(Input $input)
     {
@@ -120,7 +120,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testUpdateS3Input
+     * @depends testUpdateS3Input
      */
     public function testGetS3Input(Input $input)
     {
@@ -131,7 +131,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testGetUrlInput
+     * @depends testGetUrlInput
      */
     public function testAnalyzeUrlInput(Input $input)
     {
@@ -142,7 +142,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testGetFtpInput
+     * @depends testGetFtpInput
      */
     public function testAnalyzeFtpInput(Input $input)
     {
@@ -153,7 +153,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testGetS3Input
+     * @depends testGetS3Input
      */
     public function testAnalyzeS3Input(Input $input)
     {
@@ -164,7 +164,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testAnalyzeUrlInput
+     * @depends testAnalyzeUrlInput
      */
     public function testDeleteUrlInput(Input $input)
     {
@@ -174,7 +174,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testAnalyzeFtpInput
+     * @depends testAnalyzeFtpInput
      */
     public function testDeleteFtpInput(Input $input)
     {
@@ -184,7 +184,7 @@ class InputTest extends BitcodinApiTestBaseClass {
     }
 
     /**
-     * @depends InputTest::testAnalyzeS3Input
+     * @depends testAnalyzeS3Input
      */
     public function testDeleteS3Input(Input $input)
     {
