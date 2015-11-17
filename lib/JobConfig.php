@@ -72,6 +72,11 @@ class JobConfig
     public $location = null;
 
     /**
+     * @var boolean
+     */
+    public $deinterlace = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()
@@ -107,6 +112,9 @@ class JobConfig
 
         if(!is_null($this->location))
             $array['location'] = $this->location;
+
+        if(!is_null($this->deinterlace))
+            $array['deinterlace'] = $this->deinterlace;
 
         return json_encode($array);
     }

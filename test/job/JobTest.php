@@ -523,6 +523,54 @@ class JobTest extends AbstractJobTest {
         return $job;
     }
 
+    /**
+     * @param string $speed
+     * @return Job
+     * @test
+     */
+    public function createDeinterlacingJobTest($speed = JobSpeedTypes::STANDARD)
+    {
+        Bitcodin::setApiToken($this->getApiKey());
+        $inputConfig = new HttpInputConfig();
+        $inputConfig->url = self::URL_FILE;
+        $input = Input::create($inputConfig);
+
+        /* CREATE VIDEO STREAM CONFIG */
+        $videoStreamConfig = new VideoStreamConfig();
+        $videoStreamConfig->bitrate = 1024000;
+        $videoStreamConfig->width = 480;
+        $videoStreamConfig->height = 202;
+
+        /* CREATE AUDIO STREAM CONFIGS */
+        $audioStreamConfig = new AudioStreamConfig();
+        $audioStreamConfig->bitrate = 256000;
+
+        $encodingProfileConfig = new EncodingProfileConfig();
+        $encodingProfileConfig->name = 'DeinterlacingEncodingProfile';
+        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+        /* CREATE ENCODING PROFILE */
+        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+        $jobConfig = new JobConfig();
+        $jobConfig->encodingProfile = $encodingProfile;
+        $jobConfig->input = $input;
+        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+        $jobConfig->speed = $speed;
+
+        /* CREATE JOB */
+        $job = Job::create($jobConfig);
+
+        $this->assertInstanceOf('bitcodin\Job', $job);
+        $this->assertNotNull($job->jobId);
+        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+        $this->assertEquals($job->deinterlace, $jobConfig->deinterlace);
+
+        return $job;
+    }
+
+
     /** TEST FAST-JOB PROGRESS */
 
     /**
