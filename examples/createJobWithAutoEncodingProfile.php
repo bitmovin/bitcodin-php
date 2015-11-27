@@ -47,8 +47,8 @@ if (is_null($inputVideoMediaConfiguration))
     throw new \Exception("No video media configuration found!");
 }
 
-$inputWidth                   = $inputVideoMediaConfiguration->width;
-$inputHeight                  = $inputVideoMediaConfiguration->height;
+$inputWidth                   = $inputVideoMediaConfiguration->displayAspectRatioNum;
+$inputHeight                  = $inputVideoMediaConfiguration->displayAspectRatioDen;
 $aspectRatio                  = $inputWidth / $inputHeight;
 
 // Predefined widths
