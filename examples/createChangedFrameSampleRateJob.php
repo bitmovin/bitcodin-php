@@ -50,6 +50,7 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $jobConfig = new JobConfig();
+$jobConfig->speed = JobSpeedTypes::STANDARD;
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
