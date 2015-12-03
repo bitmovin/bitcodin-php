@@ -50,6 +50,7 @@ $encodingProfileConfig->rotation = 45; //Rotates the video 45 degrees clockwise
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $jobConfig = new JobConfig();
+$jobConfig->speed = JobSpeedTypes::STANDARD;
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
