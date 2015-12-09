@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 01.07.15
- * Time: 15:31
- */
-
 
 use bitcodin\AudioMetaData;
 use bitcodin\Bitcodin;
@@ -19,8 +12,6 @@ use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
-use bitcodin\Output;
-use bitcodin\FtpOutputConfig;
 use bitcodin\MergeAudioChannelConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -82,7 +73,6 @@ $jobConfig->audioMetaData[] = $audioMetaData34;
 $jobConfig->mergeAudioChannelConfigs[] = $mergeAudioChannelConfig12;
 $jobConfig->mergeAudioChannelConfigs[] = $mergeAudioChannelConfig34;
 
-
 /* CREATE JOB */
 $job = Job::create($jobConfig);
 
@@ -91,10 +81,3 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
-
-
-/* HELPER FUNCTION */
-function getKey($key)
-{
-    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
-}
