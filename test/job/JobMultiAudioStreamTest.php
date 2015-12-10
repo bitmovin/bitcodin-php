@@ -116,42 +116,6 @@ class JobMultiLanguageTest extends AbstractJobTest {
         return $job;
     }
 
-    /**
-     * @return Job
-     */
-    public function testMultiLanguageJobWithWrongSpeedParameter()
-    {
-        Bitcodin::setApiToken($this->getApiKey());
-        $inputConfig = new HttpInputConfig();
-        $inputConfig->url = self::URL_FILE;
-        $input = Input::create($inputConfig);
-
-        $encodingProfile = $this->getMultiLanguageEncodingProfile();
-
-        $audioMetaDataJustSound = new AudioMetaData();
-        $audioMetaDataJustSound->defaultStreamId = 0;
-        $audioMetaDataJustSound->label = 'Just Sound';
-        $audioMetaDataJustSound->language = 'de';
-
-        $audioMetaDataSoundAndVoice = new AudioMetaData();
-        $audioMetaDataSoundAndVoice->defaultStreamId = 1;
-        $audioMetaDataSoundAndVoice->label = 'Sound and Voice';
-        $audioMetaDataSoundAndVoice->language = 'en';
-
-        $jobConfig = new JobConfig();
-        $jobConfig->encodingProfile = $encodingProfile;
-        $jobConfig->input = $input;
-        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
-        $jobConfig->speed = JobSpeedTypes::PREMIUM;
-        $jobConfig->audioMetaData[] = $audioMetaDataJustSound;
-        $jobConfig->audioMetaData[] = $audioMetaDataSoundAndVoice;
-
-        $this->setExpectedException('bitcodin\exceptions\BitcodinException');
-        $job = Job::create($jobConfig);
-
-        return $job;
-    }
-
     public function testMultiLanguageJobWithMissingAudioMetaDataFields()
     {
         Bitcodin::setApiToken($this->getApiKey());
