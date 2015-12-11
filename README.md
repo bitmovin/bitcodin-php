@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/bitmovin/bitcodin-php.svg?branch=master)](https://travis-ci.org/bitmovin/bitcodin-php)
 [![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-php/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-php?branch=master)
 
-The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
+The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just a few minutes.
 
 Installation
 ------------
