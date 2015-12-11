@@ -24,7 +24,7 @@ use bitcodin\MergeAudioChannelConfig;
 use test\job\AbstractJobTest;
 use bitcodin\VideoStreamConfig;
 
-class JobAudioOnlyTest extends AbstractJobTest {
+class JobMergeAudioChannelsTest extends AbstractJobTest {
 
     public function __construct() {
         parent::__construct();
