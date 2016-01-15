@@ -6,6 +6,7 @@
  * Time: 13:57
  */
 
+    namespace test\job;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
