@@ -56,6 +56,7 @@ class S3InputConfig extends AbstractInputConfig
     {
         $inputObj = array();
         $inputObj['type'] = $this->type;
+        $configObj['skipAnalysis'] = $this->skipAnalysis;
         $inputObj['accessKey'] = $this->accessKey;
         $inputObj['secretKey'] = $this->secretKey;
 

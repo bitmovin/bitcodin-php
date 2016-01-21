@@ -41,6 +41,7 @@ class HttpInputConfig extends AbstractInputConfig
     {
         $configObj = array();
         $configObj['type'] = $this->type;
+        $configObj['skipAnalysis'] = $this->skipAnalysis;
 
         if (strpos($this->url, 'dropbox') !== false)
             $configObj['url'] = str_replace('?dl=0', '?dl=1', $this->url);
