@@ -2,7 +2,6 @@ language: php
 notifications:
   email:
   - bitcodin-php@bitmovin.net
-  - dominic.miglar@bitmovin.net
 
 branches:
   only:
