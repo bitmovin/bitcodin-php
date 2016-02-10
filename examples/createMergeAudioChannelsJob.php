@@ -7,7 +7,9 @@
  */
 
 
+use bitcodin\AudioMetaData;
 use bitcodin\Bitcodin;
+use bitcodin\JobSpeedTypes;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
@@ -17,9 +19,9 @@ use bitcodin\HttpInputConfig;
 use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
+use bitcodin\MergeAudioChannelConfig;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-use bitcodin\WatermarkConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -27,33 +29,38 @@ require_once __DIR__.'/../vendor/autoload.php';
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
-$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+$inputConfig->url = 'http://bitbucketireland.s3.amazonaws.com/at_test/mono_streams.mkv';
 $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->bitrate = 512000;
 $videoStreamConfig->height = 202;
 $videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
 $audioStreamConfig->bitrate = 256000;
+$audioStreamConfig->defaultStreamId = 0;
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'Merge Audio Channels Config Profile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-$encodingProfileConfig->rotation = 45; //Rotates the video 45 degrees clockwise
 
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
+$mergeAudioChannelConfig = new MergeAudioChannelConfig();
+$mergeAudioChannelConfig->audioChannels = array(1, 2, 3, 4, 5, 6);
+
 $jobConfig = new JobConfig();
-$jobConfig->speed = JobSpeedTypes::STANDARD;
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
+$jobConfig->speed = JobSpeedTypes::STANDARD;
+$jobConfig->mergeAudioChannelConfigs[] = $mergeAudioChannelConfig;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -64,17 +71,6 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
-
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
-$outputConfig->username = getKey('ftpUser');
-$outputConfig->password = getKey('ftpPassword');
-
-$output = Output::create($outputConfig);
-
-/* TRANSFER JOB OUTPUT */
-$job->transfer($output);
 
 /* HELPER FUNCTION */
 function getKey($key)

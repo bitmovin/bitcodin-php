@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 01.07.15
- * Time: 15:31
- */
-
 
 use bitcodin\AudioMetaData;
 use bitcodin\VideoMetaData;

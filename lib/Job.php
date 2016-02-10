@@ -19,6 +19,7 @@ class Job extends ApiResource
     const URL_GET_LIST = '/jobs/{page}';
     const URL_TRANSFER = '/job/transfer';
     const URL_TRANSFER_GET = '/job/{id}/transfers';
+    const URL_MANIFESTINFO_GET = '/job/{id}/manifest-info';
 
     const STATUS_ENQUEUED = 'Enqueued';
     const STATUS_IN_PROGRESS = 'In Progress';
@@ -104,6 +105,20 @@ class Job extends ApiResource
         $response = self::_getRequest(str_replace('{id}', $id, self::URL_GET), 200);
 
         return new self(json_decode($response->getBody()->getContents()));
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public static function getManifestInfo($id)
+    {
+        if ($id instanceof \stdClass)
+            $id = $id->jobId;
+
+        $response = self::_getRequest(str_replace('{id}', $id, self::URL_MANIFESTINFO_GET), 200);
+
+        return json_decode($response->getBody()->getContents());
     }
 
     /**

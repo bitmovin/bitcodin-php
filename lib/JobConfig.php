@@ -77,6 +77,11 @@ class JobConfig
     public $deinterlace = null;
 
     /**
+     * @var MergeAudioChannelConfig[]
+     */
+    public $mergeAudioChannelConfigs = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()

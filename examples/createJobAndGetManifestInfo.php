@@ -1,13 +1,13 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: cwioro
- * Date: 01.07.15
- * Time: 15:31
+ * User: doweinberger
+ * Date: 11.12.15
+ * Time: 15:50
  */
 
-
 use bitcodin\Bitcodin;
+use bitcodin\JobSpeedTypes;
 use bitcodin\VideoStreamConfig;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Job;
@@ -19,7 +19,6 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
-use bitcodin\WatermarkConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -32,28 +31,28 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 1024000;
+$videoStreamConfig->bitrate = 512000;
 $videoStreamConfig->height = 202;
 $videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 256000;
+$audioStreamConfig->bitrate = 128000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
 $encodingProfileConfig->name = 'MyApiTestEncodingProfile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-$encodingProfileConfig->rotation = 45; //Rotates the video 45 degrees clockwise
 
 /* CREATE ENCODING PROFILE */
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $jobConfig = new JobConfig();
-$jobConfig->speed = JobSpeedTypes::STANDARD;
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
+$jobConfig->speed = JobSpeedTypes::STANDARD;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -63,6 +62,9 @@ do{
     $job->update();
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
+
+$manifestInfo = Job::getManifestInfo($job->jobId);
+var_dump($manifestInfo);
 
 
 $outputConfig = new FtpOutputConfig();

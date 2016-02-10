@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 01.07.15
- * Time: 15:31
- */
-
 
 use bitcodin\Bitcodin;
 use bitcodin\VideoStreamConfig;
@@ -50,6 +43,7 @@ $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
 $jobConfig = new JobConfig();
+$jobConfig->speed = \bitcodin\JobSpeedTypes::STANDARD;
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
