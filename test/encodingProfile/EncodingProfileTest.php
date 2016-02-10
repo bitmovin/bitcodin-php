@@ -83,6 +83,8 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
 
     public function testGetList()
     {
+        $this->markTestSkipped("needs to be refactored");
+
         foreach(EncodingProfile::getListAll() as $encodingProfile)
         {
             $this->checkEncodingProfile($encodingProfile);
