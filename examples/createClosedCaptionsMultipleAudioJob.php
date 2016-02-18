@@ -25,35 +25,37 @@ $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://path/to/your/closed/captions/file.mp4';
 $input = Input::create($inputConfig);
 
+$encodingProfileConfig = new EncodingProfileConfig();
+$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+
 /* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
 $videoStreamConfig1->bitrate = 4800000;
 $videoStreamConfig1->height = 1080;
 $videoStreamConfig1->width = 1920;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
 
 $videoStreamConfig2 = new VideoStreamConfig();
 $videoStreamConfig2->bitrate = 2400000;
 $videoStreamConfig2->height = 720;
 $videoStreamConfig2->width = 1280;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
 
 $videoStreamConfig3 = new VideoStreamConfig();
 $videoStreamConfig3->bitrate = 1200000;
 $videoStreamConfig3->height = 480;
 $videoStreamConfig3->width = 854;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig3;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $spanishAudio = new AudioStreamConfig();
 $spanishAudio->bitrate = 128000;
 $spanishAudio->defaultStreamId = 0;
+$encodingProfileConfig->audioStreamConfigs[] = $spanishAudio;
 
 $englishAudio = new AudioStreamConfig();
 $englishAudio->bitrate = 128000;
 $englishAudio->defaultStreamId= 1;
-
-$encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'Multi Audio Closed Captions Profile';
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-$encodingProfileConfig->audioStreamConfigs[] = $spanishAudio;
 $encodingProfileConfig->audioStreamConfigs[] = $englishAudio;
 
 /* CREATE ENCODING PROFILE */

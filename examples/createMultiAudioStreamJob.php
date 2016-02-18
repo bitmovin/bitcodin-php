@@ -31,21 +31,27 @@ $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-short.mkv';
 $input = Input::create($inputConfig);
 
+$encodingProfileConfig = new EncodingProfileConfig();
+$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+
 /* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
 $videoStreamConfig1->bitrate = 4800000;
 $videoStreamConfig1->height = 1080;
 $videoStreamConfig1->width = 1920;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
 
 $videoStreamConfig2 = new VideoStreamConfig();
 $videoStreamConfig2->bitrate = 2400000;
 $videoStreamConfig2->height = 720;
 $videoStreamConfig2->width = 1280;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
 
 $videoStreamConfig3 = new VideoStreamConfig();
 $videoStreamConfig3->bitrate = 1200000;
 $videoStreamConfig3->height = 480;
 $videoStreamConfig3->width = 854;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig3;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfigSoundHigh = new AudioStreamConfig();
@@ -64,9 +70,6 @@ $audioStreamConfigSoundAndVoiceLow = new AudioStreamConfig();
 $audioStreamConfigSoundAndVoiceLow->bitrate = 128000;
 $audioStreamConfigSoundAndVoiceLow->defaultStreamId = 1;
 
-$encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'Multi Audio Stream Profile';
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceHigh;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundAndVoiceLow;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfigSoundHigh;

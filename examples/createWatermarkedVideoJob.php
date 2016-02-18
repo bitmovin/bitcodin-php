@@ -32,37 +32,39 @@ $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv'
 
 $input = Input::create($inputConfig);
 
+$encodingProfileConfig = new EncodingProfileConfig();
+$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+
 /* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
 $videoStreamConfig1->bitrate = 4800000;
 $videoStreamConfig1->height = 1080;
 $videoStreamConfig1->width = 1920;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
 
 $videoStreamConfig2 = new VideoStreamConfig();
 $videoStreamConfig2->bitrate = 2400000;
 $videoStreamConfig2->height = 720;
 $videoStreamConfig2->width = 1280;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
 
 $videoStreamConfig3 = new VideoStreamConfig();
 $videoStreamConfig3->bitrate = 1200000;
 $videoStreamConfig3->height = 480;
 $videoStreamConfig3->width = 854;
+$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig3;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
 $audioStreamConfig->bitrate = 156000;
 $audioStreamConfig->defaultStreamId = 0;
+$encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
 /* CREATE WATERMARK */
 $watermarkConfig = new WatermarkConfig();
 $watermarkConfig->bottom = 200; // Watermark will be placed with a distance of 200 pixel to the bottom of the input video
 $watermarkConfig->right = 100;  // Watermark will be placed with a distance of 100 pixel to the right of the input video
 $watermarkConfig->image = 'http://bitdash-a.akamaihd.net/webpages/bitcodin/images/bitcodin-bitmovin-logo-small.png';
-
-$encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-$encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 $encodingProfileConfig->watermarkConfig = $watermarkConfig;
 
 /* CREATE ENCODING PROFILE */
