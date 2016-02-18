@@ -673,8 +673,11 @@ class JobTest extends AbstractJobTest {
         Job::get(0);
     }
 
+
     public function testListAllJobs()
     {
+        $this->markTestSkipped("needs to be refactored");
+
         /* GET LIST OF JOBS */
         foreach(Job::getListAll() as $job)
         {
