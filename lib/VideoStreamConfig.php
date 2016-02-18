@@ -48,12 +48,12 @@ class VideoStreamConfig implements \JsonSerializable
     /**
      * @var string
      */
-    public $profile = 'Main';
+    public $profile = VideoStreamConfig::PROFILE_MAIN;
 
     /**
      * @var string
      */
-    public $preset = 'Standard';
+    public $preset = VideoStreamConfig::PRESET_PREMIUM;
 
     /**
      * @var float

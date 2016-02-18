@@ -34,11 +34,21 @@ $inputConfig->objectKey = 'path/to/your/fileonbucket.mp4';
 $inputConfig->host      = 's3-eu-west-1.amazonaws.com';      // OPTIONAL
 $input = Input::create($inputConfig);
 
-/* CREATE VIDEO STREAM CONFIG */
-$videoStreamConfig = new VideoStreamConfig();
-$videoStreamConfig->bitrate = 512000;
-$videoStreamConfig->height = 202;
-$videoStreamConfig->width = 480;
+/* CREATE VIDEO STREAM CONFIGS */
+$videoStreamConfig1 = new VideoStreamConfig();
+$videoStreamConfig1->bitrate = 4800000;
+$videoStreamConfig1->height = 1080;
+$videoStreamConfig1->width = 1920;
+
+$videoStreamConfig2 = new VideoStreamConfig();
+$videoStreamConfig2->bitrate = 2400000;
+$videoStreamConfig2->height = 720;
+$videoStreamConfig2->width = 1280;
+
+$videoStreamConfig3 = new VideoStreamConfig();
+$videoStreamConfig3->bitrate = 1200000;
+$videoStreamConfig3->height = 480;
+$videoStreamConfig3->width = 854;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();

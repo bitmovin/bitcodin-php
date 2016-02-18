@@ -31,26 +31,21 @@ $input = Input::create($inputConfig);
 echo "Input successfully created! \n";
 echo json_encode($input) . "\n";
 
-/* CREATE VIDEO STREAM CONFIG */
+/* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
-$videoStreamConfig1->bitrate = 400000;
-$videoStreamConfig1->height = 240;
-$videoStreamConfig1->width = 426;
+$videoStreamConfig1->bitrate = 4800000;
+$videoStreamConfig1->height = 1080;
+$videoStreamConfig1->width = 1920;
 
 $videoStreamConfig2 = new VideoStreamConfig();
-$videoStreamConfig2->bitrate = 800000;
-$videoStreamConfig2->height = 360;
-$videoStreamConfig2->width = 640;
+$videoStreamConfig2->bitrate = 2400000;
+$videoStreamConfig2->height = 720;
+$videoStreamConfig2->width = 1280;
 
 $videoStreamConfig3 = new VideoStreamConfig();
 $videoStreamConfig3->bitrate = 1200000;
 $videoStreamConfig3->height = 480;
 $videoStreamConfig3->width = 854;
-
-$videoStreamConfig4 = new VideoStreamConfig();
-$videoStreamConfig4->bitrate = 2400000;
-$videoStreamConfig4->height = 720;
-$videoStreamConfig4->width = 1280;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
