@@ -19,5 +19,13 @@ abstract class AbstractInputConfig
      */
     public $type;
 
+    /**
+     * @var boolean
+     */
+    public $skipAnalysis = false;
+
+    /**
+     * @return mixed
+     */
     public abstract function toRequestJson();
 }

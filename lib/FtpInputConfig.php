@@ -40,7 +40,7 @@ class FtpInputConfig extends AbstractInputConfig
     public function toRequestJson()
     {
         $configObj = array();
-
+        $configObj['skipAnalysis'] = $this->skipAnalysis;
         $configObj['type'] = $this->type;
         $configObj['url'] = $this->url;
 
