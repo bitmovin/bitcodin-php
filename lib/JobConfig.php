@@ -82,6 +82,11 @@ class JobConfig
     public $mergeAudioChannelConfigs = null;
 
     /**
+     * @var integer
+     */
+    public $startTime = null;
+
+    /**
      * @return string
      */
     public function getRequestBody()
@@ -120,6 +125,9 @@ class JobConfig
 
         if(!is_null($this->deinterlace))
             $array['deinterlace'] = $this->deinterlace;
+
+        if(!is_null($this->startTime))
+            $array['startTime'] = $this->startTime;
 
         return json_encode($array);
     }
