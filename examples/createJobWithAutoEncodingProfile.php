@@ -25,7 +25,7 @@ function getHeight($width, $aspectRatio)
 }
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('insertYourBitcodinApiKeyHere'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('Insert Your Api Key here'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig                  = new HttpInputConfig();
 $inputConfig->url             = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
@@ -77,7 +77,7 @@ $audioStreamConfig = new AudioStreamConfig();
 $audioStreamConfig->bitrate = 128000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'API TEST PROFILE DELETE';
 $encodingProfileConfig->videoStreamConfigs = $videoStreamConfigurations;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -90,3 +90,5 @@ $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
 $jobConfig->manifestTypes[] = ManifestTypes::MPD;
 
 $job = Job::create($jobConfig);
+
+EncodingProfile::delete($encodingProfile->encodingProfileId);
