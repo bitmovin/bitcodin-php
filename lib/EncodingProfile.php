@@ -54,6 +54,14 @@ class EncodingProfile extends ApiResource
 
     /**
      * @param $id
+     */
+    public static function delete($id)
+    {
+        self::_deleteRequest(str_replace('{id}', $id, self::URL_GET), 204);
+    }
+
+    /**
+     * @param $id
      * @return EncodingProfile
      */
     public static function get($id)
