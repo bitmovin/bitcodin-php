@@ -1,6 +1,6 @@
 {
   "name": "bitmovin/bitcodin-php",
-  "version": "v1.8.9",
+  "version": "v1.9.0",
   "description": "Bitcodin PHP Library",
   "keywords": [
     "bitmovin",
@@ -8,17 +8,16 @@
     "api"
   ],
   "homepage": "https://bitcodin.com/",
-
   "require": {
     "php": ">=5.5.3",
     "guzzlehttp/guzzle": "~5.2",
     "phpunit/phpunit": "4.7.*",
     "satooshi/php-coveralls": "~0.6@stable"
-
   },
-
   "autoload": {
-    "psr-4": { "bitcodin\\" : "lib/", "test\\" : "test/" }
+    "psr-4": {
+      "bitcodin\\": "lib/",
+      "test\\": "test/"
+    }
   }
-
 }
