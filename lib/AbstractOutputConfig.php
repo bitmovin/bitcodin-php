@@ -14,6 +14,6 @@ class AbstractOutputConfig {
     public $name;
     public $type;
     public $host;
-    public $createSubDirectory;
+    public $createSubDirectory = true;
 
 }
