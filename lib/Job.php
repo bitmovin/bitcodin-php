@@ -154,4 +154,10 @@ class Job extends ApiResource
 
         return $jobs;
     }
+
+    public static function delete($jobId)
+    {
+        self::_deleteRequest(str_replace('{id}', $jobId, self::URL_GET), 204);
+        return true;
+    }
 }
