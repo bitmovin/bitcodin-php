@@ -4,7 +4,7 @@
 
 The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just a few minutes.
 
-Installation
+Installation 
 ------------
 
 ### Composer ###
