@@ -52,7 +52,7 @@ class Webhook extends ApiResource
      */
     public function listSubscriptions()
     {
-        return WebhookSubscription::listSubscriptions($this);
+        return WebhookSubscription::listSubscriptions($this->name);
     }
 
     /**

@@ -13,7 +13,7 @@ class WebhookSubscription extends ApiResource
 {
 
     const URL_SUBSCRIPTION = '/notifications/webhook/{webhook}/subscription';
-    const URL_EVENT_TRIGGER = '/notifications/webhook/{webhook}/subscription/{subscription}/invocation';
+    const URL_EVENT_TRIGGER = '/notifications/webhook/{webhook}/subscription/{subscription}/event';
 
     /**
      * @var Webhook the associated webhook for this event
@@ -30,10 +30,15 @@ class WebhookSubscription extends ApiResource
      */
     public $url;
 
-    public static function find($id)
+    /**
+     * @param $webhookName
+     * @param $susbcriptionId
+     * @return WebhookSubscription
+     */
+    public static function find($webhookName, $susbcriptionId)
     {
-        $url = str_replace("{webhook}", "", self::URL_SUBSCRIPTION);
-        $url = $url . "/" . $id;
+        $url = str_replace("{webhook}", $webhookName, self::URL_SUBSCRIPTION);
+        $url = $url . "/" . $susbcriptionId;
         $response = self::_getRequest($url, 200);
         return new self(json_decode($response->getBody()->getContents()));
     }
@@ -45,7 +50,7 @@ class WebhookSubscription extends ApiResource
      */
     public static function create($webhook, $callbackUrl) {
         $url = str_replace("{webhook}", $webhook->name, self::URL_SUBSCRIPTION);
-        $response = self::_postRequest($url, self::createRequestBody($webhook->name, $callbackUrl), 201);
+        $response = self::_postRequest($url, self::createRequestBody($callbackUrl), 201);
         return new self(json_decode($response->getBody()->getContents()));
     }
 
@@ -55,6 +60,7 @@ class WebhookSubscription extends ApiResource
     public function unsubscribe()
     {
         $url = str_replace("{webhook}", $this->webhook->name, self::URL_SUBSCRIPTION);
+        $url = $url . '/' . $this->id;
         self::_deleteRequest($url, 200);
     }
 
@@ -85,16 +91,15 @@ class WebhookSubscription extends ApiResource
     }
 
     /**
-     * @param string $webhookName
      * @param string $callbackURL
      * @return array
+     * @internal param string $webhookName
      */
-    private static function createRequestBody($webhookName, $callbackURL)
+    private static function createRequestBody($callbackURL)
     {
         $requestValues = array();
-        $requestValues['event'] = $webhookName;
         $requestValues['url'] = $callbackURL;
-        return $requestValues;
+        return json_encode($requestValues);
     }
 
 
