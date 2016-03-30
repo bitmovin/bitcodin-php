@@ -30,8 +30,8 @@ class AzureOutputTest extends BitcodinApiTestBaseClass
         $outputConfig = new AzureOutputConfig();
         $outputConfig->accountName =  $this->getKey('azure')->accountName;
         $outputConfig->accountKey = $this->getKey('azure')->accountKey;
-        $outputConfig->container = 'php-api-wrapper';
-        $outputConfig->prefix = 'output';
+        $outputConfig->container = $this->getKey('azure')->container;
+        $outputConfig->prefix = $this->getKey('azure')->prefix;
         $outputConfig->name = 'azure test';
         $output = Output::create($outputConfig);
         $this->checkOutput($output);
