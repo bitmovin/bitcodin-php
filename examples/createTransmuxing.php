@@ -11,7 +11,7 @@ use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\TransmuxConfig;
-use bitcodin\TransmuxJob;
+use bitcodin\Transmuxing;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -23,7 +23,7 @@ $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv'
 $input = Input::create($inputConfig);
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'ApiExampleProfile';
 
 /* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
@@ -67,17 +67,18 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
-$tranmuxConfig = new TransmuxConfig();
-$tranmuxConfig->jobId = $job->jobId;
+$transmuxConfig = new TransmuxConfig($job->jobId);
 
-$transmuxJob = TransmuxJob::create($tranmuxConfig);
+$transmuxing = Transmuxing::create($transmuxConfig);
+$videoRepresentationId = $encodingProfile->videoStreamConfigs[0]->representationId;
+$audioRepresentationId = $encodingProfile->audioStreamConfigs[0]->representationId;
 
 do{
-    $transmuxJob->update();
+    $transmuxing->update();
     sleep(5);
-} while($transmuxJob->status != TransmuxJob::STATUS_FINISHED && $tranmuxConfig->status != TransmuxJob::STATUS_ERROR);
+} while($transmuxing->getStatus() != Transmuxing::STATUS_FINISHED && $transmuxConfig->status != Transmuxing::STATUS_ERROR);
 
 echo "Transmuxing succeeded!";
 echo "URLs to output files: ";
-foreach($transmuxJob->files as $url)
+foreach($transmuxing->files as $url)
     echo $url . "\n";
