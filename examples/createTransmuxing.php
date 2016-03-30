@@ -81,5 +81,3 @@ do{
 
 echo "Transmuxing succeeded!";
 echo "URL to output files: " . $transmuxing->outputUrl;
-
-var_dump($transmuxing);
