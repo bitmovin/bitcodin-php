@@ -5,10 +5,10 @@ namespace bitcodin;
 
 class TransmuxConfig
 {
-    private $jobId;
-    private $filename;
-    private $videoRepresentationId;
-    private $audioRepresentationIds;
+    public $jobId;
+    public $filename;
+    public $videoRepresentationId;
+    public $audioRepresentationIds;
 
     /**
      * TransmuxConfig constructor.

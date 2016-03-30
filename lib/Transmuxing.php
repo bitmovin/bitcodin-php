@@ -14,12 +14,12 @@ class Transmuxing extends ApiResource
     /**
      * @var string
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      */
-    private $status;
+    public $status;
 
     /**
      * @param TransmuxConfig $transmuxConfig
@@ -28,7 +28,7 @@ class Transmuxing extends ApiResource
      */
     static function create($transmuxConfig)
     {
-        $response = self::_postRequest(self::URL_CREATE, $transmuxConfig->getRequestBody(), 200);
+        $response = self::_postRequest(self::URL_CREATE, $transmuxConfig->getRequestBody(), 201);
         return new self(json_decode($response->getBody()->getContents()));
     }
 

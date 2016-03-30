@@ -16,7 +16,7 @@ use bitcodin\Transmuxing;
 require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('INSERT YOUR API KEY HERE'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
@@ -67,18 +67,19 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
-$transmuxConfig = new TransmuxConfig($job->jobId);
 
+$videoRepresentationId = $job->encodingProfiles[0]->videoStreamConfigs[0]->representationId;
+$audioRepresentationIds = array($job->encodingProfiles[0]->audioStreamConfigs[0]->representationId);
+
+$transmuxConfig = new TransmuxConfig($job->jobId, $videoRepresentationId, $audioRepresentationIds, "transmuxed_video.mp4");
 $transmuxing = Transmuxing::create($transmuxConfig);
-$videoRepresentationId = $encodingProfile->videoStreamConfigs[0]->representationId;
-$audioRepresentationId = $encodingProfile->audioStreamConfigs[0]->representationId;
 
 do{
     $transmuxing->update();
     sleep(5);
-} while($transmuxing->getStatus() != Transmuxing::STATUS_FINISHED && $transmuxConfig->status != Transmuxing::STATUS_ERROR);
+} while($transmuxing->getStatus() != Transmuxing::STATUS_FINISHED && $transmuxing->getStatus() != Transmuxing::STATUS_ERROR);
 
 echo "Transmuxing succeeded!";
-echo "URLs to output files: ";
-foreach($transmuxing->files as $url)
-    echo $url . "\n";
+echo "URL to output files: " . $transmuxing->outputUrl;
+
+var_dump($transmuxing);
