@@ -26,6 +26,8 @@ class AzureOutputTest extends BitcodinApiTestBaseClass
 
     public function testCreateAzureOutput()
     {
+        $this->markTestSkipped();
+
         Bitcodin::setApiToken($this->getApiKey());
         $outputConfig = new AzureOutputConfig();
         $outputConfig->accountName =  $this->getKey('azure')->accountName;
