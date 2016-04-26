@@ -14,7 +14,6 @@ namespace bitcodin;
  */
 class EncodingProfile extends ApiResource
 {
-
     const URL_CREATE = '/encoding-profile/create';
     const URL_GET = '/encoding-profile/{id}';
     const URL_GET_LIST = '/encoding-profiles/{page}';
@@ -88,8 +87,7 @@ class EncodingProfile extends ApiResource
 
         return $responseDecode;
     }
-
-
+    
     /**
      * @return array(EncodingProfile)
      */

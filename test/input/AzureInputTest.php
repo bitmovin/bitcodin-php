@@ -17,7 +17,7 @@ use test\BitcodinApiTestBaseClass;
 
 class AzureInputTest extends BitcodinApiTestBaseClass {
 
-    const AZURE_FILE    = 'http://bitblobstorage.blob.core.windows.net/php-api-wrapper/Sintel-original-short.mkv';
+    const AZURE_FILE    = 'https://appstagingbitmovin.blob.core.windows.net/bitcodin-ci-inputs/Sintel-original-short.mkv';
 
     public function __construct() {
         parent::__construct();
@@ -27,12 +27,13 @@ class AzureInputTest extends BitcodinApiTestBaseClass {
 
     public function testCreateAzureInput()
     {
+        $this->markTestSkipped();
 
         $inputConfig = new AzureBlobStorageInputConfig();
         $inputConfig->url = self::AZURE_FILE;
         $inputConfig->accountName =  $this->getKey('azure')->accountName;
         $inputConfig->accountKey = $this->getKey('azure')->accountKey;
-        $inputConfig->container = 'php-api-wrapper';
+        $inputConfig->container = $this->getKey('azure')->container;
 
         $input = Input::create($inputConfig);
         $this->checkInput($input);

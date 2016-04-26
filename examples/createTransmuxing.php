@@ -11,19 +11,19 @@ use bitcodin\EncodingProfile;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\TransmuxConfig;
-use bitcodin\TransmuxJob;
+use bitcodin\Transmuxing;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+Bitcodin::setApiToken('INSERT YOUR API KEY HERE'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
 $inputConfig = new HttpInputConfig();
 $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 $input = Input::create($inputConfig);
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'ApiExampleProfile';
 
 /* CREATE VIDEO STREAM CONFIGS */
 $videoStreamConfig1 = new VideoStreamConfig();
@@ -67,17 +67,17 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
 
-$tranmuxConfig = new TransmuxConfig();
-$tranmuxConfig->jobId = $job->jobId;
 
-$transmuxJob = TransmuxJob::create($tranmuxConfig);
+$videoRepresentationId = $job->encodingProfiles[0]->videoStreamConfigs[0]->representationId;
+$audioRepresentationIds = array($job->encodingProfiles[0]->audioStreamConfigs[0]->representationId);
+
+$transmuxConfig = new TransmuxConfig($job->jobId, $videoRepresentationId, $audioRepresentationIds, "transmuxed_video.mp4");
+$transmuxing = Transmuxing::create($transmuxConfig);
 
 do{
-    $transmuxJob->update();
+    $transmuxing->update();
     sleep(5);
-} while($transmuxJob->status != TransmuxJob::STATUS_FINISHED && $tranmuxConfig->status != TransmuxJob::STATUS_ERROR);
+} while($transmuxing->getStatus() != Transmuxing::STATUS_FINISHED && $transmuxing->getStatus() != Transmuxing::STATUS_ERROR);
 
 echo "Transmuxing succeeded!";
-echo "URLs to output files: ";
-foreach($transmuxJob->files as $url)
-    echo $url . "\n";
+echo "URL to output files: " . $transmuxing->outputUrl;
