@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by David Moser <david.moser@bitmovin.net>
- * Date: 13.11.15
- * Time: 10:06
- */
 
 namespace bitcodin;
 
 
-class ThumbnailConfig
+class SpriteConfig
 {
     /**
      * @var int
@@ -23,12 +18,12 @@ class ThumbnailConfig
     /**
      * @var int
      */
-    public $position;
+    public $width;
 
     /**
-     * @var string
+     * @var int
      */
-    public $filename;
+    public $distance;
 
     /**
      * @var bool
@@ -40,13 +35,12 @@ class ThumbnailConfig
         $array = array(
             "jobId" => $this->jobId,
             "height" => $this->height,
-            "position" => $this->position
+            "width" => $this->width,
+            "distance" => $this->distance
         );
 
-        if(isset($this->filename))
-            $array["filename"] = $this->filename;
         if(isset($this->async))
-            $array["async"] = $this->async;
+            $array["async"] = $this->async;        
 
         return json_encode($array);
     }
