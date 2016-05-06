@@ -16,11 +16,11 @@ To install with composer add the following to your `composer.json` file:
 "repositories": 
   [{
     "type": "git",
-    "url": "https://github.com/bitmovin/bitcodin-php.git"
+    "url": "https://github.com/ultrasimplified/bitcodin-php.git"
   }],
 "require": 
   {
-    "bitmovin/bitcodin-php": "dev-master"
+    "ultrasimplified/bitcodin-php": "dev-master"
   }
 }
 ```
