@@ -60,13 +60,56 @@ class VideoStreamConfig implements \JsonSerializable
      */
     public $rate = null;
 
+    /**
+     * @var integer
+     */
+    public $bFrames = null;
+
+    /**
+     * @var integer
+     */
+   public $qpMin = null;
+
+    /**
+     * @var integer
+     */
+    public $qpMax = null;
+
+    /**
+     * @var string
+     */
+    public $mvPredictionMode  = null;
+
+    /**
+     * @var integer
+     */
+    public $mvSearchRangeMax = null;
+
+    /**
+     * @var boolean
+     */
+    public $noCabac = null;
+
     public function jsonSerialize()
     {
         $array = get_object_vars($this);
+        
         if($array['rate'] == null)
             unset($array['rate']);
         if($array['codec'] == null)
             unset($array['codec']);
+        if(!is_numeric($array['bFrames']))
+            unset($array['bFrames']);
+        if(!is_numeric($array['qpMin']))
+            unset($array['qpMin']);
+        if(!is_numeric($array['qpMax']))
+            unset($array['qpMax']);
+        if($array['mvPredictionMode'] == null)
+            unset($array['mvPredictionMode']);
+        if(!is_numeric($array['mvSearchRangeMax']))
+            unset($array['mvSearchRangeMax']);
+        if(!is_bool($array['noCabac']))
+            unset($array['noCabac']);
 
         return $array;
     }
