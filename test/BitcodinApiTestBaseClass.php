@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 22.06.15
- * Time: 13:57
- */
 
 namespace test;
 
@@ -40,8 +34,14 @@ class BitcodinApiTestBaseClass extends \PHPUnit_Framework_TestCase {
         parent::__construct();
 
         $baseUrl = $this->getApiBaseUrl();
+        $apiKey = $this->getApiKey();
 
-        if(!is_null($baseUrl))
+        if(!is_null($baseUrl)) {
             Bitcodin::setBaseUrl($baseUrl);
+        }
+
+        if(!is_null($apiKey)) {
+            Bitcodin::setApiToken($this->getApiKey());
+        }
     }
 }

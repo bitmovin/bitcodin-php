@@ -1,19 +1,13 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: cwioro
-     * Date: 22.06.15
-     * Time: 13:57
-     */
 
     namespace test\output;
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AzureOutputConfig;
+    use bitcodin\FtpOutputConfig;
     use bitcodin\Output;
 
-    class AzureOutputTest extends AbstractOutputTest
+    class FtpOutputTest extends AbstractOutputTest
     {
 
         public function __construct()
@@ -27,13 +21,11 @@
          */
         public function create()
         {
-
-            $outputConfig = new AzureOutputConfig();
-            $outputConfig->accountName = $this->getKey('azure')->accountName;
-            $outputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $outputConfig->container = $this->getKey('azure')->container;
-            $outputConfig->prefix = $this->getKey('azure')->prefix;
-            $outputConfig->name = 'azure test';
+            $outputConfig = new FtpOutputConfig();
+            $outputConfig->name = "TestFtpOutput";
+            $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer')) . '/content';
+            $outputConfig->username = $this->getKey('ftpUser');
+            $outputConfig->password = $this->getKey('ftpPassword');
 
             $output = Output::create($outputConfig);
             $this->checkOutput($output);
@@ -45,7 +37,6 @@
          * @depends create
          *
          * @param Output $output
-         *
          * @return Output
          */
         public function update(Output $output)
