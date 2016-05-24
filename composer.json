@@ -1,7 +1,7 @@
 {
   "name": "bitmovin/bitcodin-php",
   "version": "v1.10.1",
-  "description": "Bitcodin PHP Library",
+  "description": "Bitcodin PHP API Client Library",
   "keywords": [
     "bitmovin",
     "bitcodin",
