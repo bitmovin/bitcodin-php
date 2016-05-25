@@ -24,7 +24,7 @@
         /**
          * @test
          * @dataProvider encodingProfileProvider
-         * @expectedException               \bitcodin\exceptions\BitcodinException
+         * @expectedException \bitcodin\exceptions\BitcodinException
          */
         public function createEncodingProfileWithInvalidCroppingConfig(EncodingProfileConfig $encodingProfileConfig)
         {
