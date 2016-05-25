@@ -1,10 +1,4 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: cwioro
-     * Date: 22.06.15
-     * Time: 13:57
-     */
 
     namespace test\output;
 
