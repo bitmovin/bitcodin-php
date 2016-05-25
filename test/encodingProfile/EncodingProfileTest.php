@@ -30,9 +30,9 @@ class EncodingProfileTest extends BitcodinApiTestBaseClass {
         Bitcodin::setApiToken($this->getApiKey());
     }
 
-    protected function setUp()
+    public function setUp()
     {
-        Bitcodin::setApiToken($this->getApiKey());
+        parent::setUp();
     }
 
     public function testCreateEncodingProfile()
