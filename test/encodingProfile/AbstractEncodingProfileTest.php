@@ -66,7 +66,6 @@
 
             $encodingProfileConfig = new EncodingProfileConfig();
             $encodingProfileConfig->name = $customName . ' EncodingProfile';
-            print($encodingProfileConfig->name . "\n");
             $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
             $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
