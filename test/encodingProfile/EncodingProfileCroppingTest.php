@@ -3,17 +3,13 @@
     namespace test\encodingprofile;
 
     require_once __DIR__ . '/../../vendor/autoload.php';
-
-
-    use bitcodin\AudioStreamConfig;
+    
     use bitcodin\CroppingConfig;
     use bitcodin\EncodingProfile;
     use bitcodin\EncodingProfileConfig;
-    use bitcodin\VideoStreamConfig;
-    use test\BitcodinApiTestBaseClass;
+    use test\input\AbstractEncodingProfileTest;
 
-
-    class EncodingProfileCroppingTest extends BitcodinApiTestBaseClass
+    class EncodingProfileCroppingTest extends AbstractEncodingProfileTest
     {
 
         public function setUp()
@@ -23,15 +19,17 @@
 
         /**
          * @test
-         * @dataProvider encodingProfileProvider
+         * @dataProvider encodingProfileWithCroppingConfigProvider
          * @expectedException \bitcodin\exceptions\BitcodinException
+         *
+         * @param EncodingProfileConfig $encodingProfileConfig
          */
         public function createEncodingProfileWithInvalidCroppingConfig(EncodingProfileConfig $encodingProfileConfig)
         {
             EncodingProfile::create($encodingProfileConfig);
         }
 
-        public function encodingProfileProvider()
+        public function encodingProfileWithCroppingConfigProvider()
         {
             $encodingProfileConfigs = array();
             $croppingConfigs = array(
@@ -41,7 +39,7 @@
             );
 
             foreach ($croppingConfigs as $name => $croppingConfig) {
-                $encodingProfileConfig = $this->getEncodingProfileConfig();
+                $encodingProfileConfig = $this->encodingProfileProvider()[0]['defaultEncodingProfileConfig'];
                 $encodingProfileConfig->croppingConfig = $croppingConfig;
 
                 $encodingProfileConfigs[$name] = array( $encodingProfileConfig );
@@ -49,26 +47,4 @@
 
             return $encodingProfileConfigs;
         }
-
-        private function getEncodingProfileConfig()
-        {
-            /* CREATE VIDEO STREAM CONFIG */
-            $videoStreamConfig = new VideoStreamConfig();
-            $videoStreamConfig->bitrate = 1024000;
-            $videoStreamConfig->height = 202;
-            $videoStreamConfig->width = 480;
-
-            /* CREATE AUDIO STREAM CONFIGS */
-            $audioStreamConfig = new AudioStreamConfig();
-            $audioStreamConfig->bitrate = 256000;
-
-            $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
-            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-
-            return $encodingProfileConfig;
-        }
-
-
     }
