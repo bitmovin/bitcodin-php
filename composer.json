@@ -1,6 +1,7 @@
 {
   "name": "bitmovin/bitcodin-php",
   "version": "v1.11.0",
+  "license": "Unlicense",
   "description": "Bitcodin PHP API Client Library",
   "keywords": ["bitmovin", "bitcodin", "api", "encoding", "mpeg-dash", "hls", "dash", "MPD", "M3U8" ],
   "homepage": "https://bitmovin.com/support",
@@ -19,3 +20,4 @@
     }
   }
 }
+
