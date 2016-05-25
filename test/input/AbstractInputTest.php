@@ -4,7 +4,6 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\Bitcodin;
     use bitcodin\exceptions\BitcodinResourceNotFoundException;
     use bitcodin\Input;
     use test\BitcodinApiTestBaseClass;
@@ -12,11 +11,9 @@
     abstract class AbstractInputTest extends BitcodinApiTestBaseClass
     {
 
-        public function __construct()
+        public function setUp()
         {
-            parent::__construct();
-
-            Bitcodin::setApiToken($this->getApiKey());
+            parent::setUp();
         }
 
         protected function getInput(Input $input)
