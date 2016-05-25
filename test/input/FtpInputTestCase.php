@@ -21,7 +21,8 @@
          * @test
          * @return mixed
          */
-        public function provideInput() {
+        public function provideInput()
+        {
             $data = self::$createdInputs;
             $this->assertEquals(4, count($data[0]));
 
@@ -41,14 +42,13 @@
             $input = Input::create($ftpInputConfig);
             $this->checkInput($input);
 
-            self::$createdInputs[] = array($input);
+            self::$createdInputs[] = array( $input );
 
             return $input;
         }
 
         /**
          * @test
-         *
          * @dataProvider inputProvider
          *
          * @param Input $input
@@ -57,8 +57,9 @@
          */
         public function update($input = NULL)
         {
-            if(!($input instanceof Input))
+            if (!($input instanceof Input)) {
                 $this->markTestSkipped("no input available");
+            }
 
             $input->update();
             $this->checkInput($input);
@@ -109,7 +110,8 @@
         }
 
 
-        public function inputProvider() {
+        public function inputProvider()
+        {
             return self::$createdInputs;
         }
 

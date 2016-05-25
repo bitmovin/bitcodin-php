@@ -55,6 +55,7 @@
          * @depends create
          *
          * @param Input $input
+         *
          * @return Input
          */
         public function update(Input $input)
