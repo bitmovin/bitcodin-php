@@ -25,11 +25,9 @@
 
         /** TEST JOB CREATION */
 
-        public function __construct()
+        public function setUp()
         {
-            parent::__construct();
-
-            Bitcodin::setApiToken($this->getApiKey());
+            parent::setUp();
         }
 
         public function testMultiLanguageJob()

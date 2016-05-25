@@ -7,7 +7,6 @@
 
 namespace test\job;
 
-
 use bitcodin\AudioMetaData;
 use bitcodin\AudioStreamConfig;
 use bitcodin\Bitcodin;
@@ -25,11 +24,9 @@ class JobSkippedAnalysisTest extends AbstractJobTest
 {
     const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
-
-        Bitcodin::setApiToken($this->getApiKey());
+        parent::setUp();
     }
 
     public function testMultiLanguageJob()

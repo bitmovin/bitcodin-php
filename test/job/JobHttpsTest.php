@@ -1,83 +1,84 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dmoser
- * Date: 23.05.2016
- * Time: 13:12
- */
-
-namespace test\job;
-
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-
-use bitcodin\Bitcodin;
-use bitcodin\Input;
-use bitcodin\VideoStreamConfig;
-use bitcodin\AudioStreamConfig;
-use bitcodin\EncodingProfile;
-use bitcodin\ManifestTypes;
-use bitcodin\Job;
-use bitcodin\HttpInputConfig;
-use bitcodin\EncodingProfileConfig;
-use bitcodin\JobConfig;
-
-
-class JobHttpsTest extends AbstractJobTest {
-
-    const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
-
-    public function __construct() {
-        parent::__construct();
-
-        Bitcodin::setApiToken($this->getApiKey());
-    }
-
-    /** TEST FAST-JOB CREATION */
-
     /**
-     * @test
-     * @return Job
+     * Created by PhpStorm.
+     * User: dmoser
+     * Date: 23.05.2016
+     * Time: 13:12
      */
-    public function createJob()
+
+    namespace test\job;
+
+    require_once __DIR__ . '/../../vendor/autoload.php';
+
+
+    use bitcodin\AudioStreamConfig;
+    use bitcodin\Bitcodin;
+    use bitcodin\EncodingProfile;
+    use bitcodin\EncodingProfileConfig;
+    use bitcodin\HttpInputConfig;
+    use bitcodin\Input;
+    use bitcodin\Job;
+    use bitcodin\JobConfig;
+    use bitcodin\ManifestTypes;
+    use bitcodin\VideoStreamConfig;
+
+
+    class JobHttpsTest extends AbstractJobTest
     {
-        Bitcodin::setApiToken($this->getApiKey());
-        Bitcodin::enableHttps();
 
-        $inputConfig = new HttpInputConfig();
-        $inputConfig->url = self::URL_FILE;
-        $input = Input::create($inputConfig);
+        const URL_FILE = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
 
-        /* CREATE VIDEO STREAM CONFIG */
-        $videoStreamConfig = new VideoStreamConfig();
-        $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 202;
-        $videoStreamConfig->width = 480;
+        public function setUp()
+        {
+            parent::setUp();
+        }
 
-        /* CREATE AUDIO STREAM CONFIGS */
-        $audioStreamConfig = new AudioStreamConfig();
-        $audioStreamConfig->bitrate = 256000;
+        /** TEST FAST-JOB CREATION */
 
-        $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
-        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+        /**
+         * @test
+         * @return Job
+         */
+        public function createJob()
+        {
+            Bitcodin::setApiToken($this->getApiKey());
+            Bitcodin::enableHttps();
 
-        /* CREATE ENCODING PROFILE */
-        $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+            $inputConfig = new HttpInputConfig();
+            $inputConfig->url = self::URL_FILE;
+            $input = Input::create($inputConfig);
 
-        $jobConfig = new JobConfig();
-        $jobConfig->encodingProfile = $encodingProfile;
-        $jobConfig->input = $input;
-        $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
-        $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+            /* CREATE VIDEO STREAM CONFIG */
+            $videoStreamConfig = new VideoStreamConfig();
+            $videoStreamConfig->bitrate = 1024000;
+            $videoStreamConfig->height = 202;
+            $videoStreamConfig->width = 480;
 
-        /* CREATE JOB */
-        $job = Job::create($jobConfig);
+            /* CREATE AUDIO STREAM CONFIGS */
+            $audioStreamConfig = new AudioStreamConfig();
+            $audioStreamConfig->bitrate = 256000;
 
-        $this->assertInstanceOf('bitcodin\Job', $job);
-        $this->assertNotNull($job->jobId);
-        $this->assertNotEquals($job->status, Job::STATUS_ERROR);
-        return $job;
+            $encodingProfileConfig = new EncodingProfileConfig();
+            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
+            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+            /* CREATE ENCODING PROFILE */
+            $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+            $jobConfig = new JobConfig();
+            $jobConfig->encodingProfile = $encodingProfile;
+            $jobConfig->input = $input;
+            $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+            $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+
+            /* CREATE JOB */
+            $job = Job::create($jobConfig);
+
+            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertNotNull($job->jobId);
+            $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+
+            return $job;
+        }
     }
-}
