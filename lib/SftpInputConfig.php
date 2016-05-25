@@ -12,7 +12,7 @@ namespace bitcodin;
  * Class FtpInputConfig
  * @package bitcodin
  */
-class FtpInputConfig extends AbstractInputConfig
+class SftpInputConfig extends AbstractInputConfig
 {
     /**
      * @var string

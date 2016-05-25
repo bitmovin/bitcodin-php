@@ -13,17 +13,17 @@
     use bitcodin\Job;
     use bitcodin\JobConfig;
     use bitcodin\ManifestTypes;
+    use bitcodin\SftpInputConfig;
     use bitcodin\VideoStreamConfig;
     use DateTime;
 
-    class FtpInputJobTest extends AbstractInputTest
+    class SftpInputJobTest extends AbstractInputTest
     {
 
-        const USER1_FTP_FILE_1 = '/content/sintel![](){}<>?*&$,-short.mkv';
-        const USER1_FTP_FILE_2 = '/content/sintel&short.mkv';
-        const USER1_FTP_FILE_3 = '/content/sintel-short.mkv';
-
-        const USER2_FTP_FILE_1 = '/content/sintel-original-short.mkv';
+        const USER1_SFTP_FILE_1 = '/content/sintel![](){}<>?*&$,-short.mkv';
+        const USER1_SFTP_FILE_2 = '/content/sintel&short.mkv';
+        const USER1_SFTP_FILE_3 = '/content/sintel-short.mkv';
+        const USER2_SFTP_FILE_1 = '/content/sintel-original-short.mkv';
 
         public function setUp()
         {
@@ -36,12 +36,12 @@
          * @test
          * @return Input
          */
-        public function createFtpInput_File1()
+        public function createSftpInput_File1()
         {
             $ftpConfig1 = $this->getKey('ftpSpecialChar1');
 
-            $inputConfig = new FtpInputConfig();
-            $inputConfig->url = $ftpConfig1->server . self::USER1_FTP_FILE_1;
+            $inputConfig = new SftpInputConfig();
+            $inputConfig->url = $ftpConfig1->server . self::USER1_SFTP_FILE_1;
             $inputConfig->username = $ftpConfig1->user;
             $inputConfig->password = $ftpConfig1->password;
 
@@ -55,12 +55,12 @@
          * @test
          * @return Input
          */
-        public function createFtpInput_File2()
+        public function createSftpInput_File2()
         {
             $ftpConfig1 = $this->getKey('ftpSpecialChar1');
 
             $inputConfig = new FtpInputConfig();
-            $inputConfig->url = $ftpConfig1->server . self::USER1_FTP_FILE_2;
+            $inputConfig->url = $ftpConfig1->server . self::USER1_SFTP_FILE_2;
             $inputConfig->username = $ftpConfig1->user;
             $inputConfig->password = $ftpConfig1->password;
 
@@ -74,12 +74,12 @@
          * @test
          * @return Input
          */
-        public function createFtpInput_File3()
+        public function createSftpInput_File3()
         {
             $ftpConfig1 = $this->getKey('ftpSpecialChar1');
 
             $inputConfig = new FtpInputConfig();
-            $inputConfig->url = $ftpConfig1->server . self::USER1_FTP_FILE_3;
+            $inputConfig->url = $ftpConfig1->server . self::USER1_SFTP_FILE_3;
             $inputConfig->username = $ftpConfig1->user;
             $inputConfig->password = $ftpConfig1->password;
 
@@ -93,12 +93,12 @@
          * @test
          * @return Input
          */
-        public function createFtpInput_File4()
+        public function createSftpInput_File4()
         {
             $ftpConfig2 = $this->getKey('ftpSpecialChar2');
 
             $inputConfig = new FtpInputConfig();
-            $inputConfig->url = $ftpConfig2->server . self::USER2_FTP_FILE_1;
+            $inputConfig->url = $ftpConfig2->server . self::USER2_SFTP_FILE_1;
             $inputConfig->username = $ftpConfig2->user;
             $inputConfig->password = $ftpConfig2->password;
 
@@ -112,9 +112,9 @@
 
         /**
          * @test
-         * @depends createFtpInput_File1
+         * @depends createSftpInput_File1
          */
-        public function updateFtpInput_File1(Input $input)
+        public function updateSftpInput_File1(Input $input)
         {
             $input->update();
             $this->checkInput($input);
@@ -124,9 +124,9 @@
 
         /**
          * @test
-         * @depends createFtpInput_File2
+         * @depends createSftpInput_File2
          */
-        public function updateFtpInput_File2(Input $input)
+        public function updateSftpInput_File2(Input $input)
         {
             $input->update();
             $this->checkInput($input);
@@ -136,9 +136,9 @@
 
         /**
          * @test
-         * @depends createFtpInput_File3
+         * @depends createSftpInput_File3
          */
-        public function updateFtpInput_File3(Input $input)
+        public function updateSftpInput_File3(Input $input)
         {
             $input->update();
             $this->checkInput($input);
@@ -148,9 +148,9 @@
 
         /**
          * @test
-         * @depends createFtpInput_File4
+         * @depends createSftpInput_File4
          */
-        public function updateFtpInput_File4(Input $input)
+        public function updateSftpInput_File4(Input $input)
         {
             $input->update();
             $this->checkInput($input);
@@ -162,9 +162,9 @@
 
         /**
          * @test
-         * @depends updateFtpInput_File1
+         * @depends updateSftpInput_File1
          */
-        public function getFtpInput_File1(Input $input)
+        public function getSftpInput_File1(Input $input)
         {
             $inputGot = Input::get($input->inputId);
             $this->checkInput($inputGot);
@@ -174,9 +174,9 @@
 
         /**
          * @test
-         * @depends updateFtpInput_File2
+         * @depends updateSftpInput_File2
          */
-        public function getFtpInput_File2(Input $input)
+        public function getSftpInput_File2(Input $input)
         {
             $inputGot = Input::get($input->inputId);
             $this->checkInput($inputGot);
@@ -186,9 +186,9 @@
 
         /**
          * @test
-         * @depends updateFtpInput_File3
+         * @depends updateSftpInput_File3
          */
-        public function getFtpInput_File3(Input $input)
+        public function getSftpInput_File3(Input $input)
         {
             $inputGot = Input::get($input->inputId);
             $this->checkInput($inputGot);
@@ -198,9 +198,9 @@
 
         /**
          * @test
-         * @depends updateFtpInput_File4
+         * @depends updateSftpInput_File4
          */
-        public function getFtpInput_File4(Input $input)
+        public function getSftpInput_File4(Input $input)
         {
             $inputGot = Input::get($input->inputId);
             $this->checkInput($inputGot);
@@ -212,9 +212,9 @@
 
         /**
          * @test
-         * @depends getFtpInput_File1
+         * @depends getSftpInput_File1
          */
-        public function analyzeFtpInput_File1(Input $input)
+        public function analyzeSftpInput_File1(Input $input)
         {
             $input->analyze();
             $this->checkInput($input);
@@ -224,9 +224,9 @@
 
         /**
          * @test
-         * @depends getFtpInput_File2
+         * @depends getSftpInput_File2
          */
-        public function analyzeFtpInput_File2(Input $input)
+        public function analyzeSftpInput_File2(Input $input)
         {
             $input->analyze();
             $this->checkInput($input);
@@ -236,9 +236,9 @@
 
         /**
          * @test
-         * @depends getFtpInput_File3
+         * @depends getSftpInput_File3
          */
-        public function analyzeFtpInput_File3(Input $input)
+        public function analyzeSftpInput_File3(Input $input)
         {
             $input->analyze();
             $this->checkInput($input);
@@ -248,9 +248,9 @@
 
         /**
          * @test
-         * @depends getFtpInput_File4
+         * @depends getSftpInput_File4
          */
-        public function analyzeFtpInput_File4(Input $input)
+        public function analyzeSftpInput_File4(Input $input)
         {
             $input->analyze();
             $this->checkInput($input);
@@ -261,9 +261,9 @@
         // ==== ENCODING ====
 
         /**
-         * @depends analyzeFtpInput_File1
+         * @depends analyzeSftpInput_File1
          */
-        public function testCreateFtpInputJob_File1(Input $input)
+        public function testCreateSftpInputJob_File1(Input $input)
         {
             /* CREATE VIDEO STREAM CONFIG */
             $videoStreamConfig = new VideoStreamConfig();
@@ -302,9 +302,9 @@
         }
 
         /**
-         * @depends analyzeFtpInput_File2
+         * @depends analyzeSftpInput_File2
          */
-        public function testCreateFtpInputJob_File2(Input $input)
+        public function testCreateSftpInputJob_File2(Input $input)
         {
             /* CREATE VIDEO STREAM CONFIG */
             $videoStreamConfig = new VideoStreamConfig();
@@ -341,9 +341,9 @@
         }
 
         /**
-         * @depends analyzeFtpInput_File3
+         * @depends analyzeSftpInput_File3
          */
-        public function testCreateFtpInputJob_File3(Input $input)
+        public function testCreateSftpInputJob_File3(Input $input)
         {
             /* CREATE VIDEO STREAM CONFIG */
             $videoStreamConfig = new VideoStreamConfig();
@@ -380,9 +380,9 @@
         }
 
         /**
-         * @depends analyzeFtpInput_File4
+         * @depends analyzeSftpInput_File4
          */
-        public function testCreateFtpInputJob_File4(Input $input)
+        public function testCreateSftpInputJob_File4(Input $input)
         {
             /* CREATE VIDEO STREAM CONFIG */
             $videoStreamConfig = new VideoStreamConfig();
@@ -421,34 +421,34 @@
         // ==== WAIT FOR ENCODING TO BE FINISHED ====
 
         /**
-         * @depends testCreateFtpInputJob_File1
+         * @depends testCreateSftpInputJob_File1
          */
-        public function testUpdateFtpInputJob_File1(Job $job)
+        public function testUpdateSftpInputJob_File1(Job $job)
         {
             $this->markTestIncomplete("Escaping isn't final for such filenames");
             $this->updateJob($job);
         }
 
         /**
-         * @depends testCreateFtpInputJob_File2
+         * @depends testCreateSftpInputJob_File2
          */
-        public function testUpdateFtpInputJob_File2(Job $job)
+        public function testUpdateSftpInputJob_File2(Job $job)
         {
             $this->updateJob($job);
         }
 
         /**
-         * @depends testCreateFtpInputJob_File3
+         * @depends testCreateSftpInputJob_File3
          */
-        public function testUpdateFtpInputJob_File3(Job $job)
+        public function testUpdateSftpInputJob_File3(Job $job)
         {
             $this->updateJob($job);
         }
 
         /**
-         * @depends testCreateFtpInputJob_File4
+         * @depends testCreateSftpInputJob_File4
          */
-        public function testUpdateFtpInputJob_File4(Job $job)
+        public function testUpdateSftpInputJob_File4(Job $job)
         {
             $this->updateJob($job);
         }
