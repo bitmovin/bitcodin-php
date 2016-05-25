@@ -39,7 +39,7 @@
             );
 
             foreach ($croppingConfigs as $name => $croppingConfig) {
-                $encodingProfileConfig = $this->encodingProfileProvider()['defaultEncodingProfileConfig'][0];
+                $encodingProfileConfig = self::encodingProfileProvider($name)['defaultEncodingProfileConfig'][0];
                 $encodingProfileConfig->croppingConfig = $croppingConfig;
 
                 $encodingProfileConfigs[$name] = array( $encodingProfileConfig );

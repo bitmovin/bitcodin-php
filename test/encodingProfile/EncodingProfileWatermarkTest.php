@@ -42,7 +42,7 @@
             );
 
             foreach ($croppingConfigs as $name => $watermarkConfig) {
-                $encodingProfileConfig = $this->encodingProfileProvider()['defaultEncodingProfileConfig'][0];
+                $encodingProfileConfig = self::encodingProfileProvider($name)['defaultEncodingProfileConfig'][0];
                 $encodingProfileConfig->watermarkConfig = $watermarkConfig;
 
                 $encodingProfileConfigs[$name] = array( $encodingProfileConfig );

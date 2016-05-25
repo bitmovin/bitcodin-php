@@ -265,20 +265,7 @@
          */
         public function testCreateFtpInputJob_File1(Input $input)
         {
-            /* CREATE VIDEO STREAM CONFIG */
-            $videoStreamConfig = new VideoStreamConfig();
-            $videoStreamConfig->bitrate = 1024000;
-            $videoStreamConfig->height = 202;
-            $videoStreamConfig->width = 480;
-
-            /* CREATE AUDIO STREAM CONFIGS */
-            $audioStreamConfig = new AudioStreamConfig();
-            $audioStreamConfig->bitrate = 256000;
-
-            $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
-            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -294,7 +281,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -306,20 +293,7 @@
          */
         public function testCreateFtpInputJob_File2(Input $input)
         {
-            /* CREATE VIDEO STREAM CONFIG */
-            $videoStreamConfig = new VideoStreamConfig();
-            $videoStreamConfig->bitrate = 1024000;
-            $videoStreamConfig->height = 202;
-            $videoStreamConfig->width = 480;
-
-            /* CREATE AUDIO STREAM CONFIGS */
-            $audioStreamConfig = new AudioStreamConfig();
-            $audioStreamConfig->bitrate = 256000;
-
-            $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
-            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -333,7 +307,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -345,20 +319,7 @@
          */
         public function testCreateFtpInputJob_File3(Input $input)
         {
-            /* CREATE VIDEO STREAM CONFIG */
-            $videoStreamConfig = new VideoStreamConfig();
-            $videoStreamConfig->bitrate = 1024000;
-            $videoStreamConfig->height = 202;
-            $videoStreamConfig->width = 480;
-
-            /* CREATE AUDIO STREAM CONFIGS */
-            $audioStreamConfig = new AudioStreamConfig();
-            $audioStreamConfig->bitrate = 256000;
-
-            $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
-            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -372,7 +333,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -384,20 +345,7 @@
          */
         public function testCreateFtpInputJob_File4(Input $input)
         {
-            /* CREATE VIDEO STREAM CONFIG */
-            $videoStreamConfig = new VideoStreamConfig();
-            $videoStreamConfig->bitrate = 1024000;
-            $videoStreamConfig->height = 202;
-            $videoStreamConfig->width = 480;
-
-            /* CREATE AUDIO STREAM CONFIGS */
-            $audioStreamConfig = new AudioStreamConfig();
-            $audioStreamConfig->bitrate = 256000;
-
-            $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
-            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -411,7 +359,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
