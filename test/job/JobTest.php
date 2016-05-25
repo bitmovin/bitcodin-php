@@ -10,6 +10,7 @@
     use bitcodin\DRMEncryptionMethods;
     use bitcodin\EncodingProfile;
     use bitcodin\EncodingProfileConfig;
+    use bitcodin\exceptions\BitcodinResourceNotFoundException;
     use bitcodin\HLSEncryptionConfig;
     use bitcodin\HLSEncryptionMethods;
     use bitcodin\HttpInputConfig;
@@ -672,7 +673,7 @@
         public function testGetNoneExistingJob()
         {
             Bitcodin::setApiToken($this->getApiKey());
-            $this->setExpectedException('bitcodin\exceptions\BitcodinResourceNotFoundException');
+            $this->setExpectedException(BitcodinResourceNotFoundException::class);
             Job::get(0);
         }
 

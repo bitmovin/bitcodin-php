@@ -75,7 +75,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
