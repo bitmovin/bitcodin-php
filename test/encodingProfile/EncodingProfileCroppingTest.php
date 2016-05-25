@@ -3,7 +3,7 @@
     namespace test\encodingprofile;
 
     require_once __DIR__ . '/../../vendor/autoload.php';
-    
+
     use bitcodin\CroppingConfig;
     use bitcodin\EncodingProfile;
     use bitcodin\EncodingProfileConfig;
@@ -39,7 +39,7 @@
             );
 
             foreach ($croppingConfigs as $name => $croppingConfig) {
-                $encodingProfileConfig = $this->encodingProfileProvider()[0]['defaultEncodingProfileConfig'];
+                $encodingProfileConfig = $this->encodingProfileProvider()['defaultEncodingProfileConfig'][0];
                 $encodingProfileConfig->croppingConfig = $croppingConfig;
 
                 $encodingProfileConfigs[$name] = array( $encodingProfileConfig );

@@ -23,7 +23,7 @@
          */
         public function create()
         {
-            $encodingProfileConfig = $this->encodingProfileProvider()[0]['defaultEncodingProfileConfig'];
+            $encodingProfileConfig = $this->encodingProfileProvider()['defaultEncodingProfileConfig'][0];
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
             $this->checkEncodingProfile($encodingProfile);
 
