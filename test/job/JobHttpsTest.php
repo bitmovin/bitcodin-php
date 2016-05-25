@@ -31,6 +31,7 @@
         public function setUp()
         {
             parent::setUp();
+            Bitcodin::enableHttps();
         }
 
         /** TEST FAST-JOB CREATION */
@@ -41,9 +42,6 @@
          */
         public function createJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
-            Bitcodin::enableHttps();
-
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
