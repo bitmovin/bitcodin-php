@@ -5,6 +5,10 @@
   "description": "Bitcodin PHP API Client Library",
   "keywords": ["bitmovin", "bitcodin", "api", "encoding", "mpeg-dash", "hls", "dash", "MPD", "M3U8" ],
   "homepage": "https://bitmovin.com/support",
+  "support": {
+    "email": "support@bitmovin.com",
+    "docs": "https://bitmovin.com/encoding-documentation/"
+  },
   "require-dev": {
     "phpunit/phpunit": "4.8.*",
     "satooshi/php-coveralls": "~0.6@stable"
