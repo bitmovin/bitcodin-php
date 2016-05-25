@@ -52,7 +52,7 @@
             $this->assertTrue(is_array($encodingProfile->audioStreamConfigs), 'audioStreamConfigs not set');
         }
 
-        public static function encodingProfileProvider()
+        public function encodingProfileProvider()
         {
             /* CREATE VIDEO STREAM CONFIG */
             $videoStreamConfig = new VideoStreamConfig();
@@ -65,7 +65,7 @@
             $audioStreamConfig->bitrate = 128000;
 
             $encodingProfileConfig = new EncodingProfileConfig();
-            $encodingProfileConfig->name = self::getName() . 'EncodingProfile';
+            $encodingProfileConfig->name = $this->getName() . 'EncodingProfile';
             $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
             $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
