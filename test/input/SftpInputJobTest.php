@@ -262,7 +262,7 @@
          */
         public function testCreateSftpInputJob_File1(Input $input)
         {
-            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName())['defaultEncodingProfileConfig'][0];
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -290,7 +290,7 @@
          */
         public function testCreateSftpInputJob_File2(Input $input)
         {
-            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName())['defaultEncodingProfileConfig'][0];
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -316,7 +316,7 @@
          */
         public function testCreateSftpInputJob_File3(Input $input)
         {
-            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName())['defaultEncodingProfileConfig'][0];
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
@@ -341,7 +341,7 @@
          */
         public function testCreateSftpInputJob_File4(Input $input)
         {
-            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName());
+            $encodingProfileConfig = AbstractEncodingProfileTest::encodingProfileProvider($this->getName())['defaultEncodingProfileConfig'][0];
 
             /* CREATE ENCODING PROFILE */
             $encodingProfile = EncodingProfile::create($encodingProfileConfig);
