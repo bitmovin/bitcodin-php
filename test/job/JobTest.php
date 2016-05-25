@@ -5,7 +5,6 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
 
     use bitcodin\AudioStreamConfig;
-    use bitcodin\Bitcodin;
     use bitcodin\CombinedWidevinePlayreadyDRMConfig;
     use bitcodin\DRMEncryptionMethods;
     use bitcodin\EncodingProfile;
