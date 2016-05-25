@@ -20,8 +20,9 @@ use DateTime;
 
 abstract class AbstractJobTest extends BitcodinApiTestBaseClass {
 
-    public function __construct() {
-        parent::__construct();
+    public function setUp()
+    {
+        parent::setUp();
     }
 
     /** HELPER METHODS **/
