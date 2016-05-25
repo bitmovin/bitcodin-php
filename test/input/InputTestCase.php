@@ -17,7 +17,7 @@
     use bitcodin\S3InputConfig;
     use test\BitcodinApiTestBaseClass;
 
-    class InputTest extends BitcodinApiTestBaseClass
+    class InputTestCase extends BitcodinApiTestBaseClass
     {
 
         const FTP_FILE = '/input_test/Homepage_Summer_v10.webm';
