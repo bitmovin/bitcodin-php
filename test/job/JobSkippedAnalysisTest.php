@@ -9,7 +9,6 @@
 
     use bitcodin\AudioMetaData;
     use bitcodin\AudioStreamConfig;
-    use bitcodin\Bitcodin;
     use bitcodin\EncodingProfile;
     use bitcodin\EncodingProfileConfig;
     use bitcodin\HttpInputConfig;

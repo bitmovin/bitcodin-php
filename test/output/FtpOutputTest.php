@@ -37,6 +37,7 @@
          * @depends create
          *
          * @param Output $output
+         *
          * @return Output
          */
         public function update(Output $output)

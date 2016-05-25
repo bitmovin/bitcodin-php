@@ -7,9 +7,7 @@
 
     use bitcodin\Bitcodin;
     use bitcodin\exceptions\BitcodinResourceNotFoundException;
-    use bitcodin\S3OutputConfig;
     use bitcodin\Output;
-    use bitcodin\FtpOutputConfig;
     use test\BitcodinApiTestBaseClass;
 
 

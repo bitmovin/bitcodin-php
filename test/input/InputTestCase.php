@@ -11,10 +11,9 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
 
     use bitcodin\Bitcodin;
-    use bitcodin\Input;
-    use bitcodin\HttpInputConfig;
     use bitcodin\FtpInputConfig;
-    use bitcodin\S3InputConfig;
+    use bitcodin\HttpInputConfig;
+    use bitcodin\Input;
     use test\BitcodinApiTestBaseClass;
 
     class InputTestCase extends BitcodinApiTestBaseClass

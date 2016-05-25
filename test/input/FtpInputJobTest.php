@@ -5,15 +5,12 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AudioStreamConfig;
     use bitcodin\EncodingProfile;
-    use bitcodin\EncodingProfileConfig;
     use bitcodin\FtpInputConfig;
     use bitcodin\Input;
     use bitcodin\Job;
     use bitcodin\JobConfig;
     use bitcodin\ManifestTypes;
-    use bitcodin\VideoStreamConfig;
     use DateTime;
 
     class FtpInputJobTest extends AbstractInputTest

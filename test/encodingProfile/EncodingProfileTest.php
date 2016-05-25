@@ -18,7 +18,6 @@
 
         /**
          * @test
-         *
          * @return EncodingProfile
          */
         public function create()
