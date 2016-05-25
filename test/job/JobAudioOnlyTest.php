@@ -30,7 +30,6 @@
         /** TEST JOB CREATION */
         public function testAudioOnlyJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -59,8 +58,6 @@
 
         public function testMultiAudioStreamAudioOnlyInputJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
-
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE_AUDIO_ONLY;
             $input = Input::create($inputConfig);
@@ -113,8 +110,6 @@
 
         public function testMultiAudioStreamAudioOnlyJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
-
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -168,7 +163,6 @@
 
         public function testVideoOnlyJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);

@@ -31,7 +31,6 @@ class JobSkippedAnalysisTest extends AbstractJobTest
 
     public function testMultiLanguageJob()
     {
-
         $inputConfig = new HttpInputConfig();
         $inputConfig->url = self::URL_FILE;
         $inputConfig->skipAnalysis = true;

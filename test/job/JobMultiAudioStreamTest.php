@@ -32,7 +32,6 @@
 
         public function testMultiLanguageJob()
         {
-
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -71,7 +70,6 @@
 
         public function testMultiAudioStreamJobWrongMetaDataConfig()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -113,7 +111,6 @@
 
         public function testMultiLanguageJobWithMissingAudioMetaDataFields()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);

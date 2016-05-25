@@ -72,7 +72,6 @@
          */
         public function createWidevineDRMJob($speed = JobSpeedTypes::STANDARD)
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -114,7 +113,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -129,7 +128,6 @@
          */
         public function createPlayreadyDRMJob($speed = JobSpeedTypes::STANDARD)
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -170,7 +168,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -185,7 +183,6 @@
          */
         public function createCombinedWidevinePlayreadyDRMJob($speed = JobSpeedTypes::STANDARD)
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -227,7 +224,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -240,7 +237,6 @@
          */
         public function createHLSEncryptionJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -279,7 +275,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -329,7 +325,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -342,7 +338,6 @@
          */
         public function createAES128HLSEncryptionJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -381,7 +376,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -431,7 +426,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -444,7 +439,6 @@
          */
         public function createFramerateJobTest()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -487,7 +481,6 @@
          */
         public function createJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -519,7 +512,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
 
@@ -534,7 +527,6 @@
          */
         public function createDeinterlacingJobTest($speed = JobSpeedTypes::STANDARD)
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -566,7 +558,7 @@
             /* CREATE JOB */
             $job = Job::create($jobConfig);
 
-            $this->assertInstanceOf('bitcodin\Job', $job);
+            $this->assertInstanceOf(Job::class, $job);
             $this->assertNotNull($job->jobId);
             $this->assertNotEquals($job->status, Job::STATUS_ERROR);
             $this->assertEquals($job->deinterlace, $jobConfig->deinterlace);
@@ -672,7 +664,6 @@
 
         public function testGetNoneExistingJob()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $this->setExpectedException(BitcodinResourceNotFoundException::class);
             Job::get(0);
         }
