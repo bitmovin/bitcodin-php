@@ -21,7 +21,6 @@
          */
         public function create()
         {
-
             $outputConfig = new AzureOutputConfig();
             $outputConfig->accountName = $this->getKey('azure')->accountName;
             $outputConfig->accountKey = $this->getKey('azure')->accountKey;
