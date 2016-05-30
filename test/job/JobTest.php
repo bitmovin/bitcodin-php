@@ -61,6 +61,15 @@
             return $this->createCombinedWidevinePlayreadyDRMJob(JobSpeedTypes::PREMIUM);
         }
 
+        /**
+         * @return Job
+         * @test
+         */
+        public function createFastCombinedWidevinePlayreadyHLSEncryptionDRMJob()
+        {
+            return $this->createCombinedWidevinePlayreadyHLSEncryptionDRMJob(JobSpeedTypes::PREMIUM);
+        }
+
         /** TEST JOB CREATION */
 
         /**
@@ -219,6 +228,70 @@
             $jobConfig->manifestTypes[] = ManifestTypes::MPD;
             $jobConfig->speed = $speed;
             $jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
+
+            /* CREATE JOB */
+            $job = Job::create($jobConfig);
+
+            $this->assertInstanceOf(Job::class, $job);
+            $this->assertNotNull($job->jobId);
+            $this->assertNotEquals($job->status, Job::STATUS_ERROR);
+
+            return $job;
+        }
+
+        /**
+         * @param string $speed
+         *
+         * @return Job
+         * @test
+         */
+        public function createCombinedWidevinePlayreadyHLSEncryptionDRMJob($speed = JobSpeedTypes::STANDARD)
+        {
+            $inputConfig = new HttpInputConfig();
+            $inputConfig->url = self::URL_FILE;
+            $input = Input::create($inputConfig);
+
+            /* CREATE VIDEO STREAM CONFIG */
+            $videoStreamConfig = new VideoStreamConfig();
+            $videoStreamConfig->bitrate = 1024000;
+            $videoStreamConfig->height = 202;
+            $videoStreamConfig->width = 480;
+
+
+            /* CREATE AUDIO STREAM CONFIGS */
+            $audioStreamConfig = new AudioStreamConfig();
+            $audioStreamConfig->bitrate = 256000;
+
+            $encodingProfileConfig = new EncodingProfileConfig();
+            $encodingProfileConfig->name = 'CombinedWidevinePlayreadyHLSEncryption';
+            $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
+            $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+
+            /* CREATE ENCODING PROFILE */
+            $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+
+            /* CREATE COMBINED WIDEVINE PLAYREADY DRM CONFIG */
+            $combinedWidevinePlayreadyDRMConfig = new CombinedWidevinePlayreadyDRMConfig();
+            $combinedWidevinePlayreadyDRMConfig->pssh = 'CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=';
+            $combinedWidevinePlayreadyDRMConfig->key = '100b6c20940f779a4589152b57d2dacb';
+            $combinedWidevinePlayreadyDRMConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
+            $combinedWidevinePlayreadyDRMConfig->laUrl = 'http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==';
+            $combinedWidevinePlayreadyDRMConfig->method = DRMEncryptionMethods::MPEG_CENC;
+
+            /* CREATE HLS ENCRYPTION CONFIG */
+            $hlsEncryptionConfig = new HLSEncryptionConfig();
+            $hlsEncryptionConfig->method = HLSEncryptionMethods::SAMPLE_AES;
+            $hlsEncryptionConfig->key = 'cab5b529ae28d5cc5e3e7bc3fd4a544d';  // must be 16 byte hexadecimal
+            $hlsEncryptionConfig->iv = '08eecef4b026deec395234d94218273d';   // must be 16 byte hexadecimal - will be created randomly if missing
+
+            $jobConfig = new JobConfig();
+            $jobConfig->encodingProfile = $encodingProfile;
+            $jobConfig->input = $input;
+            $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+            $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+            $jobConfig->speed = $speed;
+            $jobConfig->drmConfig = $combinedWidevinePlayreadyDRMConfig;
+            $jobConfig->hlsEncryptionConfig = $hlsEncryptionConfig;
 
             /* CREATE JOB */
             $job = Job::create($jobConfig);
