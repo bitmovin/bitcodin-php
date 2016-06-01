@@ -8,7 +8,7 @@ branches:
     - master
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_708304f23d77_key -iv $encrypted_708304f23d77_iv -in ./test/config.json.enc -out ./test/config.json -d
+- openssl aes-256-cbc -K $encrypted_54c581280fe2_key -iv $encrypted_54c581280fe2_iv -in ./test/config.json.enc -out ./test/config.json -d
 
 install:
 - composer update
