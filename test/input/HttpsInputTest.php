@@ -4,13 +4,13 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AzureBlobStorageInputConfig;
+    use bitcodin\HttpInputConfig;
     use bitcodin\Input;
 
-    class AzureInputTest extends AbstractInputTest
+    class HttpsInputTest extends AbstractInputTest
     {
 
-        const AZURE_FILE = 'https://appstagingbitmovin.blob.core.windows.net/bitcodin-ci-inputs/Sintel-original-short.mkv';
+        const URL_FILE = 'https://storage.googleapis.com/eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
 
         public function __construct()
         {
@@ -23,31 +23,13 @@
          */
         public function create()
         {
-            $inputConfig = new AzureBlobStorageInputConfig();
-            $inputConfig->url = self::AZURE_FILE;
-            $inputConfig->accountName = $this->getKey('azure')->accountName;
-            $inputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $inputConfig->container = $this->getKey('azure')->container;
+            $inputConfig = new HttpInputConfig();
+            $inputConfig->url = self::URL_FILE;
 
             $input = Input::create($inputConfig);
             $this->checkInput($input);
 
             return $input;
-        }
-
-        /**
-         * @test
-         * @expectedException bitcodin\exceptions\BitcodinException
-         */
-        public function createWithInvalidSettings()
-        {
-            $inputConfig = new AzureBlobStorageInputConfig();
-            $inputConfig->url = 'www.invalidazureinput.com/invalid/input.mkv';
-            $inputConfig->accountName = $this->getKey('azure')->accountName;
-            $inputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $inputConfig->container = 'php-api-wrapper';
-
-            Input::create($inputConfig);
         }
 
         /**

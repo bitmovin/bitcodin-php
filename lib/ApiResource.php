@@ -43,8 +43,12 @@ abstract class ApiResource extends \stdClass
      */
     protected static function getClient()
     {
-        if (self::$client === NULL)
+        if (self::$client === NULL) {
             self::$client = new Client(['base_uri' => Bitcodin::getBaseUrl()]);
+            if (Bitcodin::isHttpsEnabled()) {
+                self::$client->setDefaultOption('verify', __DIR__ . '/cacert.pem');
+            }
+        }
 
         return self::$client;
     }
