@@ -5,18 +5,16 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
 
     use bitcodin\AudioMetaData;
-    use bitcodin\Bitcodin;
-    use bitcodin\Input;
-    use bitcodin\VideoStreamConfig;
     use bitcodin\AudioStreamConfig;
     use bitcodin\EncodingProfile;
-    use bitcodin\ManifestTypes;
-    use bitcodin\Job;
-    use bitcodin\HttpInputConfig;
     use bitcodin\EncodingProfileConfig;
+    use bitcodin\HttpInputConfig;
+    use bitcodin\Input;
+    use bitcodin\Job;
     use bitcodin\JobConfig;
     use bitcodin\JobSpeedTypes;
-    use test\job\AbstractJobTest;
+    use bitcodin\ManifestTypes;
+    use bitcodin\VideoStreamConfig;
 
     class JobMultiLanguageTest extends AbstractJobTest
     {
@@ -25,16 +23,13 @@
 
         /** TEST JOB CREATION */
 
-        public function __construct()
+        public function setUp()
         {
-            parent::__construct();
-
-            Bitcodin::setApiToken($this->getApiKey());
+            parent::setUp();
         }
 
         public function testMultiLanguageJob()
         {
-
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -73,7 +68,6 @@
 
         public function testMultiAudioStreamJobWrongMetaDataConfig()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);
@@ -115,7 +109,6 @@
 
         public function testMultiLanguageJobWithMissingAudioMetaDataFields()
         {
-            Bitcodin::setApiToken($this->getApiKey());
             $inputConfig = new HttpInputConfig();
             $inputConfig->url = self::URL_FILE;
             $input = Input::create($inputConfig);

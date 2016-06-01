@@ -1,132 +1,50 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cwioro
- * Date: 22.06.15
- * Time: 13:57
- */
 
-namespace test\encodingprofile;
+    namespace test\encodingprofile;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+    require_once __DIR__ . '/../../vendor/autoload.php';
 
+    use bitcodin\CroppingConfig;
+    use bitcodin\EncodingProfile;
+    use bitcodin\EncodingProfileConfig;
+    use test\input\AbstractEncodingProfileTest;
 
-use bitcodin\Bitcodin;
-use bitcodin\EncodingProfile;
-use bitcodin\VideoStreamConfig;
-use bitcodin\AudioStreamConfig;
-use bitcodin\EncodingProfileConfig;
-use bitcodin\CroppingConfig;
-use test\BitcodinApiTestBaseClass;
-
-
-class EncodingCroppingProfileTest extends BitcodinApiTestBaseClass {
-
-    public function __construct() {
-        parent::__construct();
-
-        Bitcodin::setApiToken($this->getApiKey());
-    }
-
-    /**
-     * @test
-     * @expectedException               \bitcodin\exceptions\BitcodinException
-     */
-    public function createCroppingConfigWithNegativeTop()
+    class EncodingProfileCroppingTest extends AbstractEncodingProfileTest
     {
-        Bitcodin::setApiToken($this->getApiKey());
 
-        $croppingConfig = new CroppingConfig();
-        $croppingConfig->top = -10;
-        $croppingConfig->bottom = 2;
-        $croppingConfig->right = 0;
-        $croppingConfig->left = 10;
+        public function setUp()
+        {
+            parent::setUp();
+        }
 
-        $encodingProfileConfig = $this->getEncodingProfileConfigTemplate();
-        $encodingProfileConfig->croppingConfig = $croppingConfig;
+        /**
+         * @test
+         * @dataProvider encodingProfileWithCroppingConfigProvider
+         * @expectedException \bitcodin\exceptions\BitcodinException
+         *
+         * @param EncodingProfileConfig $encodingProfileConfig
+         */
+        public function createEncodingProfileWithInvalidCroppingConfig(EncodingProfileConfig $encodingProfileConfig)
+        {
+            EncodingProfile::create($encodingProfileConfig);
+        }
 
-        EncodingProfile::create($encodingProfileConfig);
+        public function encodingProfileWithCroppingConfigProvider()
+        {
+            $encodingProfileConfigs = array();
+            $croppingConfigs = array(
+                'croppingWithNegativeTop'   => new CroppingConfig(-10, 2, 10, 0),
+                'croppingWithNegativeRight' => new CroppingConfig(10, 2, 10, -1),
+                'croppingWithNegativeLeft'  => new CroppingConfig(10, 2, -10, 1)
+            );
+
+            foreach ($croppingConfigs as $name => $croppingConfig) {
+                $encodingProfileConfig = self::encodingProfileProvider($name)['defaultEncodingProfileConfig'][0];
+                $encodingProfileConfig->croppingConfig = $croppingConfig;
+
+                $encodingProfileConfigs[$name] = array( $encodingProfileConfig );
+            }
+
+            return $encodingProfileConfigs;
+        }
     }
-
-    /**
-     * @test
-     * @expectedException               \bitcodin\exceptions\BitcodinException
-     */
-    public function createCroppingConfigWithNegativeRightValue()
-    {
-        Bitcodin::setApiToken($this->getApiKey());
-
-        $croppingConfig = new CroppingConfig();
-        $croppingConfig->top = 10;
-        $croppingConfig->bottom = 2;
-        $croppingConfig->right = -1;
-        $croppingConfig->left = 10;
-
-        $encodingProfileConfig = $this->getEncodingProfileConfigTemplate();
-        $encodingProfileConfig->croppingConfig = $croppingConfig;
-
-        EncodingProfile::create($encodingProfileConfig);
-    }
-
-    /**
-     * @test
-     * @expectedException               \bitcodin\exceptions\BitcodinException
-     */
-    public function createCroppingConfigWithNegativeLeftValue()
-    {
-        Bitcodin::setApiToken($this->getApiKey());
-
-        $croppingConfig = new CroppingConfig();
-        $croppingConfig->top = 10;
-        $croppingConfig->bottom = 2;
-        $croppingConfig->right = 1;
-        $croppingConfig->left = -10;
-
-        $encodingProfileConfig = $this->getEncodingProfileConfigTemplate();
-        $encodingProfileConfig->croppingConfig = $croppingConfig;
-
-        EncodingProfile::create($encodingProfileConfig);
-    }
-
-    /**
-     * @test
-     * @expectedException               \bitcodin\exceptions\BitcodinException
-     */
-    public function createCroppingConfigWithNegativeBottom()
-    {
-        Bitcodin::setApiToken($this->getApiKey());
-
-        $croppingConfig = new CroppingConfig();
-        $croppingConfig->top = 10;
-        $croppingConfig->bottom = -2;
-        $croppingConfig->right = 1;
-        $croppingConfig->left = 10;
-
-        $encodingProfileConfig = $this->getEncodingProfileConfigTemplate();
-        $encodingProfileConfig->croppingConfig = $croppingConfig;
-
-        EncodingProfile::create($encodingProfileConfig);
-    }
-
-    private function getEncodingProfileConfigTemplate()
-    {
-        /* CREATE VIDEO STREAM CONFIG */
-        $videoStreamConfig = new VideoStreamConfig();
-        $videoStreamConfig->bitrate = 1024000;
-        $videoStreamConfig->height = 202;
-        $videoStreamConfig->width = 480;
-
-        /* CREATE AUDIO STREAM CONFIGS */
-        $audioStreamConfig = new AudioStreamConfig();
-        $audioStreamConfig->bitrate = 256000;
-
-        $encodingProfileConfig = new EncodingProfileConfig();
-        $encodingProfileConfig->name = $this->getName().'EncodingProfile';
-        $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
-        $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
-
-        return $encodingProfileConfig;
-    }
-
-
-}

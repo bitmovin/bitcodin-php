@@ -16,6 +16,7 @@ class InputType
 {
     const HTTP = 'url';
     const FTP = 'ftp';
+    const SFTP = 'sftp';
     const S3 = 's3';
     const ABS = 'abs';
     const ASPERA = 'aspera';

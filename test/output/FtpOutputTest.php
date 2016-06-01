@@ -4,10 +4,10 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AzureOutputConfig;
+    use bitcodin\FtpOutputConfig;
     use bitcodin\Output;
 
-    class AzureOutputTest extends AbstractOutputTest
+    class FtpOutputTest extends AbstractOutputTest
     {
 
         public function __construct()
@@ -21,12 +21,11 @@
          */
         public function create()
         {
-            $outputConfig = new AzureOutputConfig();
-            $outputConfig->accountName = $this->getKey('azure')->accountName;
-            $outputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $outputConfig->container = $this->getKey('azure')->container;
-            $outputConfig->prefix = $this->getKey('azure')->prefix;
-            $outputConfig->name = 'azure test';
+            $outputConfig = new FtpOutputConfig();
+            $outputConfig->name = "TestFtpOutput";
+            $outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer')) . '/content';
+            $outputConfig->username = $this->getKey('ftpUser');
+            $outputConfig->password = $this->getKey('ftpPassword');
 
             $output = Output::create($outputConfig);
             $this->checkOutput($output);

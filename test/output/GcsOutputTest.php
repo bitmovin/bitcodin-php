@@ -4,10 +4,10 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AzureOutputConfig;
+    use bitcodin\GcsOutputConfig;
     use bitcodin\Output;
 
-    class AzureOutputTest extends AbstractOutputTest
+    class GcsOutputTest extends AbstractOutputTest
     {
 
         public function __construct()
@@ -21,14 +21,17 @@
          */
         public function create()
         {
-            $outputConfig = new AzureOutputConfig();
-            $outputConfig->accountName = $this->getKey('azure')->accountName;
-            $outputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $outputConfig->container = $this->getKey('azure')->container;
-            $outputConfig->prefix = $this->getKey('azure')->prefix;
-            $outputConfig->name = 'azure test';
+            $s3Config = $this->getKey('gcs');
+
+            $outputConfig = new GcsOutputConfig();
+            $outputConfig->accessKey = $s3Config->accessKey;
+            $outputConfig->secretKey = $s3Config->secretKey;
+            $outputConfig->name = $s3Config->name;
+            $outputConfig->bucket = $s3Config->bucket;
+            $outputConfig->makePublic = false;
 
             $output = Output::create($outputConfig);
+
             $this->checkOutput($output);
 
             return $output;
@@ -72,5 +75,4 @@
         {
             return $this->deleteOutput($output);
         }
-
     }

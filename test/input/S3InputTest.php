@@ -4,13 +4,13 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use bitcodin\AzureBlobStorageInputConfig;
     use bitcodin\Input;
+    use bitcodin\S3InputConfig;
 
-    class AzureInputTest extends AbstractInputTest
+    class S3InputTest extends AbstractInputTest
     {
 
-        const AZURE_FILE = 'https://appstagingbitmovin.blob.core.windows.net/bitcodin-ci-inputs/Sintel-original-short.mkv';
+        const S3_FILE = 'Sintel-original-short.mkv';
 
         public function __construct()
         {
@@ -23,31 +23,19 @@
          */
         public function create()
         {
-            $inputConfig = new AzureBlobStorageInputConfig();
-            $inputConfig->url = self::AZURE_FILE;
-            $inputConfig->accountName = $this->getKey('azure')->accountName;
-            $inputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $inputConfig->container = $this->getKey('azure')->container;
+            $s3Config = $this->getKey('s3input');
+
+            $inputConfig = new S3InputConfig();
+            $inputConfig->accessKey = $s3Config->accessKey;
+            $inputConfig->secretKey = $s3Config->secretKey;;
+            $inputConfig->region = $s3Config->region;
+            $inputConfig->bucket = $s3Config->bucket;
+            $inputConfig->objectKey = self::S3_FILE;
 
             $input = Input::create($inputConfig);
             $this->checkInput($input);
 
             return $input;
-        }
-
-        /**
-         * @test
-         * @expectedException bitcodin\exceptions\BitcodinException
-         */
-        public function createWithInvalidSettings()
-        {
-            $inputConfig = new AzureBlobStorageInputConfig();
-            $inputConfig->url = 'www.invalidazureinput.com/invalid/input.mkv';
-            $inputConfig->accountName = $this->getKey('azure')->accountName;
-            $inputConfig->accountKey = $this->getKey('azure')->accountKey;
-            $inputConfig->container = 'php-api-wrapper';
-
-            Input::create($inputConfig);
         }
 
         /**
