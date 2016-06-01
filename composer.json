@@ -1,7 +1,7 @@
 {
   "name": "bitmovin/bitcodin-php",
-  "version": "v1.11.0",
-  "time": "2016-04-27",
+  "version": "v1.11.1",
+  "time": "2016-06-01",
   "homepage": "https://bitmovin.com/support",
   "license": "Unlicense",
   "description": "Bitcodin PHP API Client Library",
