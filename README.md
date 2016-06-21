@@ -104,12 +104,12 @@ do{
 } while($job->status != Job::STATUS_FINISHED);
 
 $outputConfig = new S3OutputConfig();
-$outputConfig->name         = "TestS3Output";
+$outputConfig->name         = "My first S3 Output";
 $outputConfig->accessKey    = "yourAWSAccessKey";
 $outputConfig->secretKey    = "yourAWSSecretKey";
 $outputConfig->bucket       = "yourBucketName";
 $outputConfig->region       = AwsRegion::EU_WEST_1;
-$outputConfig->prefix       = "path/to/your/outputDirectory";
+$outputConfig->prefix       = "path/to/your/output/destination";
 $outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
 
 $output = Output::create($outputConfig);
