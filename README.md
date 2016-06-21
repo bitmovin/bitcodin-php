@@ -10,21 +10,20 @@ Installation
 ### Composer ###
  
   
-To install with composer add the following to your `composer.json` file:  
+To install the api-client with composer, add the following to your `composer.json` file:  
 ```js
 {
-"repositories": 
-  [{
-    "type": "git",
-    "url": "https://github.com/bitmovin/bitcodin-php.git"
-  }],
 "require": 
   {
-    "bitmovin/bitcodin-php": "dev-master"
+    "bitmovin/bitcodin-php": "*"
   }
 }
 ```
 Then run `php composer.phar install`
+
+OR
+
+run the following command: `php composer.phar require bitmovin/bitcodin-php:*`
 
 Usage
 -----
