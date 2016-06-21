@@ -10,21 +10,20 @@ Installation
 ### Composer ###
  
   
-To install with composer add the following to your `composer.json` file:  
+To install the api-client with composer, add the following to your `composer.json` file:  
 ```js
 {
-"repositories": 
-  [{
-    "type": "git",
-    "url": "https://github.com/bitmovin/bitcodin-php.git"
-  }],
 "require": 
   {
-    "bitmovin/bitcodin-php": "dev-master"
+    "bitmovin/bitcodin-php": "*"
   }
 }
 ```
 Then run `php composer.phar install`
+
+OR
+
+run the following command: `php composer.phar require bitmovin/bitcodin-php:*`
 
 Usage
 -----
@@ -61,6 +60,7 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
+
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
@@ -72,16 +72,16 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
+//$videoStreamConfig->height = 720; //if you omit either width or height, our service will use the aspect ratio of your input-file
+$videoStreamConfig->width = 1280;
 $videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 204;
-$videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
 $audioStreamConfig->bitrate = 256000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'My first Encoding Profile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -92,6 +92,7 @@ $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -102,12 +103,14 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED);
 
-
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer'));
-$outputConfig->username = $this->getKey('ftpUser');
-$outputConfig->password = $this->getKey('ftpPassword');
+$outputConfig = new S3OutputConfig();
+$outputConfig->name         = "My first S3 Output";
+$outputConfig->accessKey    = "yourAWSAccessKey";
+$outputConfig->secretKey    = "yourAWSSecretKey";
+$outputConfig->bucket       = "yourBucketName";
+$outputConfig->region       = AwsRegion::EU_WEST_1;
+$outputConfig->prefix       = "path/to/your/output/destination";
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
 
 $output = Output::create($outputConfig);
 
