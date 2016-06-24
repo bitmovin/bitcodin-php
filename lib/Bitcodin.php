@@ -38,6 +38,36 @@ class Bitcodin
     }
 
     /**
+     * Enables secure connection to API server
+     * @throws BitcodinException
+     */
+    public static function enableHttps()
+    {
+        if (self::$baseUrl === NULL)
+            throw new BitcodinException('Base url is not set!');
+        self::$baseUrl = str_ireplace('http://', 'https://', self::$baseUrl);
+    }
+
+    /**
+     * Disables secure connection to API server
+     * @throws BitcodinException
+     */
+    public static function disableHttps()
+    {
+        if (self::$baseUrl === NULL)
+            throw new BitcodinException('Base url is not set!');
+        self::$baseUrl = str_ireplace('https://', 'http://', self::$baseUrl);
+    }
+
+    /**
+     * @return bool True, if secure connection to server is enabled
+     */
+    public static function isHttpsEnabled()
+    {
+        return stripos(self::$baseUrl, 'https://') === 0;
+    }
+
+    /**
      * @return null|string
      * @throws BitcodinException
      */

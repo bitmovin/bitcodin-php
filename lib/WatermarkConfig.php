@@ -36,4 +36,19 @@ class WatermarkConfig
      */
     public $right = NULL;
 
+    /**
+     * WatermarkConfig constructor.
+     *
+     * @param int $top
+     * @param int $bottom
+     * @param int $left
+     * @param int $right
+     */
+    public function __construct($top = NULL, $bottom = NULL, $left = NULL, $right = NULL)
+    {
+        $this->top = $top;
+        $this->bottom = $bottom;
+        $this->left = $left;
+        $this->right = $right;
+    }
 }

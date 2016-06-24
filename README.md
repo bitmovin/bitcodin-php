@@ -1,8 +1,8 @@
-# [![bitcodin](http://www.bitcodin.com/wp-content/uploads/2014/10/bitcodin-small.gif)](http://www.bitcodin.com)
+# [![bitmovin](https://cloudfront-prod.bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/logo3.png)](http://www.bitmovin.com)
 [![Build Status](https://travis-ci.org/bitmovin/bitcodin-php.svg?branch=master)](https://travis-ci.org/bitmovin/bitcodin-php)
 [![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-php/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-php?branch=master)
 
-The bitcodin API for PHP is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just a few minutes.
+The bitmovin API for PHP is a seamless integration with the [bitmovin cloud transcoding system](http://www.bitmovin.com). It enables the generation of MPEG-DASH and HLS content in just a few minutes.
 
 Installation 
 ------------
@@ -10,28 +10,29 @@ Installation
 ### Composer ###
  
   
-To install with composer add the following to your `composer.json` file:  
+To install the api-client with composer, add the following to your `composer.json` file:  
 ```js
 {
-"repositories": 
-  [{
-    "type": "git",
-    "url": "https://github.com/bitmovin/bitcodin-php.git"
-  }],
 "require": 
   {
-    "bitmovin/bitcodin-php": "dev-master"
+    "bitmovin/bitcodin-php": "*"
   }
 }
 ```
 Then run `php composer.phar install`
 
+OR
+
+run the following command: `php composer.phar require bitmovin/bitcodin-php:*`
+
 Usage
 -----
 
-Before you can start using the api you need to set your API key in the Bitcodin class. Your API key can be found in the settings of your bitcodin user account, as shown in the figure below.
+Before you can start using the api you need to **set your API key.**
 
-![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)
+Your API key can be found in the **settings of your bitmovin user account**, as shown in the figure below.
+
+![APIKey](https://cloudfront-prod.bitmovin.com/wp-content/uploads/2016/04/api-key.png)
 
 An example how you can set the bitcodin API is shown in the following:
 
@@ -59,6 +60,7 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\FtpOutputConfig;
+
 require_once __DIR__.'/vendor/autoload.php';
 
 /* CONFIGURATION */
@@ -70,16 +72,16 @@ $input = Input::create($inputConfig);
 
 /* CREATE VIDEO STREAM CONFIG */
 $videoStreamConfig = new VideoStreamConfig();
+//$videoStreamConfig->height = 720; //if you omit either width or height, our service will use the aspect ratio of your input-file
+$videoStreamConfig->width = 1280;
 $videoStreamConfig->bitrate = 1024000;
-$videoStreamConfig->height = 204;
-$videoStreamConfig->width = 480;
 
 /* CREATE AUDIO STREAM CONFIGS */
 $audioStreamConfig = new AudioStreamConfig();
 $audioStreamConfig->bitrate = 256000;
 
 $encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+$encodingProfileConfig->name = 'My first Encoding Profile';
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
 $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
@@ -90,6 +92,7 @@ $jobConfig = new JobConfig();
 $jobConfig->encodingProfile = $encodingProfile;
 $jobConfig->input = $input;
 $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+$jobConfig->manifestTypes[] = ManifestTypes::MPD;
 
 /* CREATE JOB */
 $job = Job::create($jobConfig);
@@ -100,12 +103,14 @@ do{
     sleep(1);
 } while($job->status != Job::STATUS_FINISHED);
 
-
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', $this->getKey('ftpServer'));
-$outputConfig->username = $this->getKey('ftpUser');
-$outputConfig->password = $this->getKey('ftpPassword');
+$outputConfig = new S3OutputConfig();
+$outputConfig->name         = "My first S3 Output";
+$outputConfig->accessKey    = "yourAWSAccessKey";
+$outputConfig->secretKey    = "yourAWSSecretKey";
+$outputConfig->bucket       = "yourBucketName";
+$outputConfig->region       = AwsRegion::EU_WEST_1;
+$outputConfig->prefix       = "path/to/your/output/destination";
+$outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
 
 $output = Output::create($outputConfig);
 
