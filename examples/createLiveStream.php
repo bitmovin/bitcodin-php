@@ -9,8 +9,6 @@ use bitcodin\AudioStreamConfig;
 use bitcodin\Bitcodin;
 use bitcodin\EncodingProfileConfig;
 use bitcodin\GcsOutputConfig;
-use bitcodin\HttpInputConfig;
-use bitcodin\Input;
 use bitcodin\LiveStream;
 use bitcodin\EncodingProfile;
 use bitcodin\Output;
@@ -19,10 +17,6 @@ use bitcodin\VideoStreamConfig;
 require_once __DIR__.'/../vendor/autoload.php';
 
 Bitcodin::setApiToken('YOUR API KEY'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
-
-$inputConfig = new HttpInputConfig();
-$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
-$input = Input::create($inputConfig);
 
 /* CREATE ENCODING PROFILE FOR YOUR LIVE STREAM */
 $encodingProfileConfig = new EncodingProfileConfig();
