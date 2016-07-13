@@ -9,7 +9,7 @@
     namespace bitcodin;
 
 
-    class TransmuxEncryptionConfig
+    class TransmuxEncryptionConfig implements \JsonSerializable
     {
         /** @var  string 128-bit key in hex (32 characters). Example: 123456789ABCDEF123456789ABCDEF12 */
         private $keyAscii;
@@ -79,5 +79,21 @@
         public function setSaltKey($saltKey)
         {
             $this->saltKey = $saltKey;
+        }
+
+        function jsonSerialize()
+        {
+            return $this->toArray();
+        }
+
+        public function toArray()
+        {
+            $array = array(
+                "keyAscii" => $this->getKeyAscii(),
+                "kid" => $this->getKid(),
+                "saltKey" => $this->getSaltKey()
+            );
+
+            return $array;
         }
     }
