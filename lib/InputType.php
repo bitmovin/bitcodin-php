@@ -20,4 +20,5 @@ class InputType
     const S3 = 's3';
     const ABS = 'abs';
     const ASPERA = 'aspera';
+    const GCS = 'gcs';
 }

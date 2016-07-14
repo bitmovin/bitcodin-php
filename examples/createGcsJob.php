@@ -11,15 +11,18 @@ use bitcodin\EncodingProfileConfig;
 use bitcodin\ManifestTypes;
 use bitcodin\Output;
 use bitcodin\GcsOutputConfig;
-use bitcodin\HttpInputConfig;
+use bitcodin\GCSInputConfig;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 /* CONFIGURATION */
 Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
-$inputConfig = new HttpInputConfig();
-$inputConfig->url = "http://eu-storage.bitcodin.com/inputs/Sample-Input-Video.mkv";
+$inputConfig = new GCSInputConfig();
+$inputConfig->accessKey = 'yourGCSAccessKey';
+$inputConfig->secretKey = 'yourGCSSecretKey';
+$inputConfig->bucket    = 'yourBucketName';
+$inputConfig->objectKey = 'path/to/your/fileonbucket.mp4';
 $input = Input::create($inputConfig);
 
 /* CREATE OUTPUT CONFIG  */
