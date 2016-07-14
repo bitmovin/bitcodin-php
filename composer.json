@@ -1,11 +1,11 @@
 {
   "name": "bitmovin/bitcodin-php",
-  "version": "v1.11.4",
-  "time": "2016-07-05",
+  "version": "v1.12.0",
+  "time": "2016-07-14",
   "homepage": "https://bitmovin.com/support",
   "license": "Unlicense",
   "description": "Bitcodin PHP API Client Library",
-  "keywords": ["bitmovin", "bitcodin", "api", "encoding", "mpeg-dash", "hls", "dash", "MPD", "M3U8" ],
+  "keywords": ["bitmovin", "bitcodin", "api", "encoding", "mpeg-dash", "hls", "dash", "MPD", "M3U8", "mp4" ],
   "support": {
     "email": "support@bitmovin.com",
     "docs": "https://bitmovin.com/encoding-documentation/"
