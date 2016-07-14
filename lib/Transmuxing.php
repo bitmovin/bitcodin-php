@@ -26,7 +26,7 @@ class Transmuxing extends ApiResource
      *
 *@return Transmuxing
      */
-    static function create($transmuxConfig)
+    static function create(TransmuxConfig $transmuxConfig)
     {
         $response = self::_postRequest(self::URL_CREATE, $transmuxConfig->getRequestBody(), 201);
         return new self(json_decode($response->getBody()->getContents()));

@@ -20,8 +20,7 @@ class VideoMetaData
      * @var string
      */
     public $language;
-
-
+    
     /**
      * @var string
      */
