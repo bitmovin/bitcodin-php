@@ -15,8 +15,14 @@
     $videoRepresentationId = $job->encodingProfiles[0]->videoStreamConfigs[0]->representationId;
     $audioRepresentationIds = array( $job->encodingProfiles[0]->audioStreamConfigs[0]->representationId );
 
+    /**
+     * Please see for more details about transmuxing:
+     * https://bitmovin.com/encoding-documentation/encoder-api-reference-documentation/#/reference/transmux-*beta*
+     */
     $outputFilename = "transmuxed_and_encrypted_video.mp4";
-    $encryptionConfig = new \bitcodin\TransmuxEncryptionConfig("YOUR KEY", "YOUR KID");
+    $key = "YOUR_KEY";
+    $kid = "YOUR_KID";
+    $encryptionConfig = new \bitcodin\TransmuxEncryptionConfig($key, $kid);
     $transmuxConfig = new bitcodin\TransmuxConfig($jobId, $videoRepresentationId, $audioRepresentationIds, $outputFilename, $encryptionConfig);
     $transmuxing = bitcodin\Transmuxing::create($transmuxConfig);
 
