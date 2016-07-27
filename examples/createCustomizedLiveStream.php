@@ -52,7 +52,7 @@
     $livestreamName = "livestream-test-" . $namingPostfix;
     $livestreamStreamKey = "livestreamtestone";
     $timeShift = 30;
-    $liveEdgeOffset = 10;
+    $liveEdgeOffset = 10; // Defines the offset in seconds to the time the first segment of your livestream was available. Value range: 1 to 3600
     $liveInstance = \bitcodin\LiveStream::create($livestreamName, $livestreamStreamKey, $encodingProfile, $output, $timeShift, $liveEdgeOffset);
 
     echo "Waiting until live stream is RUNNING...\n";
