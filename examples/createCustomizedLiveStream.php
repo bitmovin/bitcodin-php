@@ -1,49 +1,41 @@
 <?php
 
-    use bitcodin\AudioStreamConfig;
-    use bitcodin\Bitcodin;
-    use bitcodin\EncodingProfile;
-    use bitcodin\EncodingProfileConfig;
-    use bitcodin\LiveStream;
-    use bitcodin\Output;
-    use bitcodin\VideoStreamConfig;
-
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    Bitcodin::setApiToken('YOUR API KEY'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+    \bitcodin\Bitcodin::setApiToken('YOUR API KEY'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
 
     $namingPostfix = date("YmdHis");
 
     /* CREATE ENCODING PROFILE FOR YOUR LIVE STREAM */
-    $encodingProfileConfig = new EncodingProfileConfig();
-    $encodingProfileConfig->name = 'FullHD+HD+SD Live Stream SL1 ';
-
+    $encodingProfileConfig = new \bitcodin\EncodingProfileConfig();
+    $encodingProfileConfig->name = 'FullHD+HD+SD Live Stream SL1';
     $encodingProfileConfig->segmentLength = 1; //Custom segment length in seconds
 
     /* CREATE VIDEO STREAM CONFIGS */
-    $videoStreamConfig = new VideoStreamConfig();
+    $videoStreamConfig = new \bitcodin\VideoStreamConfig();
     $videoStreamConfig->bitrate = 4800000;
     $videoStreamConfig->width = 1920;
     $videoStreamConfig->height = 1080;
-    $videoStreamConfig = new VideoStreamConfig();
+
+    $videoStreamConfig = new \bitcodin\VideoStreamConfig();
     $videoStreamConfig->bitrate = 2400000;
     $videoStreamConfig->width = 1280;
     $videoStreamConfig->height = 720;
 
-    $videoStreamConfig = new VideoStreamConfig();
+    $videoStreamConfig = new \bitcodin\VideoStreamConfig();
     $videoStreamConfig->bitrate = 1200000;
     $videoStreamConfig->width = 854;
     $videoStreamConfig->height = 480;
 
     /* CREATE AUDIO STREAM CONFIGS */
-    $audio = new AudioStreamConfig();
+    $audio = new \bitcodin\AudioStreamConfig();
     $audio->bitrate = 128000;
 
     $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig;
     $encodingProfileConfig->audioStreamConfigs[] = $audio;
 
     /* CREATE ENCODING PROFILE */
-    $encodingProfile = EncodingProfile::create($encodingProfileConfig);
+    $encodingProfile = \bitcodin\EncodingProfile::create($encodingProfileConfig);
 
     /* CREATE OUTPUT */
     $outputConfig = new \bitcodin\S3OutputConfig();
@@ -54,14 +46,14 @@
     $outputConfig->prefix = "livestream" . $namingPostfix;
     $outputConfig->makePublic = true;
 
-    $output = Output::create($outputConfig);
+    $output = \bitcodin\Output::create($outputConfig);
 
     /* CREATE LIVE STREAM */
     $livestreamName = "livestream-test-" . $namingPostfix;
     $livestreamStreamKey = "livestreamtestone";
     $timeShift = 30;
     $liveEdgeOffset = 10;
-    $liveInstance = LiveStream::create($livestreamName, $livestreamStreamKey, $encodingProfile, $output, $timeShift, $liveEdgeOffset);
+    $liveInstance = \bitcodin\LiveStream::create($livestreamName, $livestreamStreamKey, $encodingProfile, $output, $timeShift, $liveEdgeOffset);
 
     echo "Waiting until live stream is RUNNING...\n";
     while ($liveInstance->status != $liveInstance::STATUS_RUNNING) {
