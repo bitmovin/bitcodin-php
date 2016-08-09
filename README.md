@@ -23,7 +23,7 @@ Then run `php composer.phar install`
 
 OR
 
-run the following command: `php composer.phar require bitmovin/bitcodin-php:*`
+run the following command: `php composer.phar require bitmovin/bitcodin-php:1.14.*`
 
 Usage
 -----
