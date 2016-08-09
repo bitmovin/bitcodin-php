@@ -17,4 +17,5 @@ class DRMTypes
     const WIDEVINE                      = 'widevine';
     const PLAYREADY                     = 'playready';
     const COMBINED_WIDEVINE_PLAYREADY   = 'widevine_playready';
+    const CLEARKEY                      = 'clearkey';
 }
