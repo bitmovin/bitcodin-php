@@ -15,7 +15,7 @@ To install the api-client with composer, add the following to your `composer.jso
 {
 "require": 
   {
-    "bitmovin/bitcodin-php": "*"
+    "bitmovin/bitcodin-php": "1.14.*"
   }
 }
 ```
@@ -23,7 +23,7 @@ Then run `php composer.phar install`
 
 OR
 
-run the following command: `php composer.phar require bitmovin/bitcodin-php:*`
+run the following command: `php composer.phar require bitmovin/bitcodin-php:1.14.*`
 
 Usage
 -----
