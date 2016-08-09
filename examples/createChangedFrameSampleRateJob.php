@@ -30,18 +30,21 @@ $videoStreamConfig1 = new VideoStreamConfig();
 $videoStreamConfig1->bitrate = 4800000;
 $videoStreamConfig1->height = 1080;
 $videoStreamConfig1->width = 1920;
+$videoStreamConfig1->rate = 25;
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
 
 $videoStreamConfig2 = new VideoStreamConfig();
 $videoStreamConfig2->bitrate = 2400000;
 $videoStreamConfig2->height = 720;
 $videoStreamConfig2->width = 1280;
+$videoStreamConfig2->rate = 25;
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
 
 $videoStreamConfig3 = new VideoStreamConfig();
 $videoStreamConfig3->bitrate = 1200000;
 $videoStreamConfig3->height = 480;
 $videoStreamConfig3->width = 854;
+$videoStreamConfig3->rate = 25;
 $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig3;
 
 /* CREATE AUDIO STREAM CONFIGS */
