@@ -1,96 +1,72 @@
 <?php
 
-use bitcodin\Bitcodin;
-use bitcodin\VideoStreamConfig;
-use bitcodin\AudioStreamConfig;
-use bitcodin\Job;
-use bitcodin\JobConfig;
-use bitcodin\Input;
-use bitcodin\HttpInputConfig;
-use bitcodin\EncodingProfile;
-use bitcodin\EncodingProfileConfig;
-use bitcodin\ManifestTypes;
-use bitcodin\Output;
-use bitcodin\FtpOutputConfig;
-use bitcodin\ClearKeyEncryptionConfig;
-use bitcodin\JobSpeedTypes;
-use bitcodin\DRMEncryptionMethods;
+    require_once __DIR__ . '/../vendor/autoload.php';
 
+    use bitcodin\AudioStreamConfig;
+    use bitcodin\Bitcodin;
+    use bitcodin\ClearKeyEncryptionConfig;
+    use bitcodin\DRMEncryptionMethods;
+    use bitcodin\EncodingProfile;
+    use bitcodin\EncodingProfileConfig;
+    use bitcodin\HttpInputConfig;
+    use bitcodin\Input;
+    use bitcodin\Job;
+    use bitcodin\JobConfig;
+    use bitcodin\JobSpeedTypes;
+    use bitcodin\ManifestTypes;
+    use bitcodin\VideoStreamConfig;
 
-require_once __DIR__.'/../vendor/autoload.php';
+    /* CONFIGURATION */
+    // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+    Bitcodin::setApiToken('INSERTYOURAPIKEY');
 
-/* CONFIGURATION */
-Bitcodin::setApiToken('insertYourApiKey'); // Your can find your api key in the settings menu. Your account (right corner) -> Settings -> API
+    $inputConfig = new HttpInputConfig();
+    $inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+    $input = Input::create($inputConfig);
 
-$inputConfig = new HttpInputConfig();
-$inputConfig->url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
-$input = Input::create($inputConfig);
+    $encodingProfileConfig = new EncodingProfileConfig();
+    $encodingProfileConfig->name = 'FullHD + HD Example Profile';
 
-$encodingProfileConfig = new EncodingProfileConfig();
-$encodingProfileConfig->name = 'MyApiTestEncodingProfile';
+    /* CREATE VIDEO STREAM CONFIGS */
+    $videoStreamConfig1 = new VideoStreamConfig();
+    $videoStreamConfig1->bitrate = 4800000;
+    $videoStreamConfig1->width = 1920;
+    $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
 
-/* CREATE VIDEO STREAM CONFIGS */
-$videoStreamConfig1 = new VideoStreamConfig();
-$videoStreamConfig1->bitrate = 4800000;
-$videoStreamConfig1->height = 1080;
-$videoStreamConfig1->width = 1920;
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig1;
+    $videoStreamConfig2 = new VideoStreamConfig();
+    $videoStreamConfig2->bitrate = 2400000;
+    $videoStreamConfig2->width = 1280;
+    $encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
 
-$videoStreamConfig2 = new VideoStreamConfig();
-$videoStreamConfig2->bitrate = 2400000;
-$videoStreamConfig2->height = 720;
-$videoStreamConfig2->width = 1280;
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig2;
+    /* CREATE AUDIO STREAM CONFIGS */
+    $audioStreamConfig = new AudioStreamConfig();
+    $audioStreamConfig->bitrate = 128000;
+    $encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
 
-$videoStreamConfig3 = new VideoStreamConfig();
-$videoStreamConfig3->bitrate = 400000;
-$videoStreamConfig3->height = 360;
-$encodingProfileConfig->videoStreamConfigs[] = $videoStreamConfig3;
+    /* CREATE ENCODING PROFILE */
+    $encodingProfile = EncodingProfile::create($encodingProfileConfig);
 
-/* CREATE AUDIO STREAM CONFIGS */
-$audioStreamConfig = new AudioStreamConfig();
-$audioStreamConfig->bitrate = 128000;
-$encodingProfileConfig->audioStreamConfigs[] = $audioStreamConfig;
+    /* CREATE CLEARKEY CONFIG */
+    $clearKeyEncryptionConfig = new ClearKeyEncryptionConfig();
+    $clearKeyEncryptionConfig->key = '100b6c20940f779a4589152b57d2dacb';
+    $clearKeyEncryptionConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
+    $clearKeyEncryptionConfig->method = DRMEncryptionMethods::MPEG_CENC;
 
-/* CREATE ENCODING PROFILE */
-$encodingProfile = EncodingProfile::create($encodingProfileConfig);
+    $jobConfig = new JobConfig();
+    $jobConfig->encodingProfile = $encodingProfile;
+    $jobConfig->input = $input;
+    $jobConfig->manifestTypes[] = ManifestTypes::MPD;
+    $jobConfig->manifestTypes[] = ManifestTypes::M3U8;
+    $jobConfig->speed = JobSpeedTypes::PREMIUM;
+    $jobConfig->duration = 60;
+    $jobConfig->drmConfig = $clearKeyEncryptionConfig;
 
-/* CREATE CLEARKEY CONFIG */
-$clearKeyEncryptionConfig = new ClearKeyEncryptionConfig();
-$clearKeyEncryptionConfig->key = '100b6c20940f779a4589152b57d2dacb';
-$clearKeyEncryptionConfig->kid = 'eb676abbcb345e96bbcf616630f1a3da';
-$clearKeyEncryptionConfig->method =  DRMEncryptionMethods::MPEG_CENC;
+    /* CREATE JOB */
+    $job = Job::create($jobConfig);
 
-$jobConfig = new JobConfig();
-$jobConfig->encodingProfile = $encodingProfile;
-$jobConfig->input = $input;
-$jobConfig->manifestTypes[] = ManifestTypes::MPD;
-$jobConfig->manifestTypes[] = ManifestTypes::M3U8;
-$jobConfig->speed = JobSpeedTypes::PREMIUM;
-$jobConfig->drmConfig = $clearKeyEncryptionConfig;
-
-/* CREATE JOB */
-$job = Job::create($jobConfig);
-
-/* WAIT TIL JOB IS FINISHED */
-do{
-    $job->update();
-    sleep(1);
-} while($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
-
-$outputConfig = new FtpOutputConfig();
-$outputConfig->name = "TestS3Output";
-$outputConfig->host = str_replace('ftp://', '', getKey('ftpServer'));
-$outputConfig->username = getKey('ftpUser');
-$outputConfig->password = getKey('ftpPassword');
-
-$output = Output::create($outputConfig);
-
-/* TRANSFER JOB OUTPUT */
-$job->transfer($output);
-
-/* HELPER FUNCTION */
-function getKey($key)
-{
-    return json_decode(file_get_contents(__DIR__.'/../test/config.json'))->{$key};
-}
+    /* WAIT TIL JOB IS FINISHED */
+    do {
+        $job->update();
+        echo date_create()->format("d.m.Y H:i:s") . " Encoding Status: " . $job->status . "\n";
+        sleep(5);
+    } while ($job->status != Job::STATUS_FINISHED && $job->status != Job::STATUS_ERROR);
