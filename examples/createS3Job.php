@@ -31,7 +31,6 @@ $inputConfig->secretKey = 'yourAWSSecretKey';
 $inputConfig->bucket    = 'yourBucketName';
 $inputConfig->region    = AwsRegion::EU_WEST_1;             // bucket region
 $inputConfig->objectKey = 'path/to/your/fileonbucket.mp4';
-$inputConfig->host      = 's3-eu-west-1.amazonaws.com';      // OPTIONAL
 $input = Input::create($inputConfig);
 
 $encodingProfileConfig = new EncodingProfileConfig();
