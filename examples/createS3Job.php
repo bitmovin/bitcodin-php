@@ -87,7 +87,6 @@ $outputConfig->bucket       = "yourBucketName";
 $outputConfig->region       = AwsRegion::EU_WEST_1;
 $outputConfig->prefix       = "path/to/your/outputDirectory";
 $outputConfig->makePublic   = false;                            // This flag determines whether the files put on S3 will be publicly accessible via HTTP Url or not
-$outputConfig->host         = "s3-eu-west-1.amazonaws.com";     // OPTIONAL
 
 $output = Output::create($outputConfig);
 
